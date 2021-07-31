@@ -6,27 +6,26 @@ typealias Pc = Int
 let STOP_PC: Pc = -1
 
 typealias Register = Int
+typealias TypeId = UInt
+typealias ScopeId = UInt
+typealias EnvId = UInt
+typealias FuncId = UInt
+
+typealias Stack = [Slot]
 
 class Env: Hashable {
-    static let nextId = ManagedAtomic<Int>(1)
+    static let nextId = ManagedAtomic<EnvId>(1)
 
     static func == (lhs: Env, rhs: Env) -> Bool {
         return lhs._id == rhs._id
     }
     
-    public var coreLib: CoreLib? { _coreLib }
+    var coreLib: CoreLib? { _coreLib }
     var pc: Pc { _ops.count }
-    public var scope: Scope? { _scope }
+    var scope: Scope? { _scope }
+    var stack: Stack { _stack }
     
-    let _id = nextId.loadThenWrappingIncrement(ordering: AtomicUpdateOrdering.relaxed)
-    var _nextTypeId = 1
-    var _nextScopeId = 1
-    var _coreLib: CoreLib?
-    var _ops: [Op] = []
-    var _scope: Scope?
-    var _stack: [Slot] = []
-    var _registers: [Slot?] = []
-    
+    @discardableResult
     func beginScope() -> Scope {
         _scope = Scope(env: self, outer: _scope)
         return _scope!
@@ -52,14 +51,20 @@ class Env: Hashable {
             _coreLib = CoreLib(env: self, pos: pos)
         }
     }
-    
-    func nextTypeId() -> Int {
+
+    func nextFuncId() -> FuncId {
+        let id = _nextFuncId
+        _nextFuncId += 1
+        return id
+    }
+
+    func nextTypeId() -> TypeId {
         let id = _nextTypeId
         _nextTypeId += 1
         return id
     }
     
-    func nextScopeId() -> Int {
+    func nextScopeId() -> ScopeId {
         let id = _nextScopeId
         _nextScopeId += 1
         return id
@@ -89,11 +94,21 @@ class Env: Hashable {
         _registers[i] = slot
     }
     
-    func eval(pc: Pc) {
+    func eval(pc: Pc) throws {
         var nextPc = pc
         
         while nextPc != STOP_PC {
-            nextPc = _ops[nextPc].eval()
+            nextPc = try _ops[nextPc].eval()
         }
     }
+    
+    let _id = nextId.loadThenWrappingIncrement(ordering: AtomicUpdateOrdering.relaxed)
+    var _nextFuncId: FuncId = 1
+    var _nextTypeId: TypeId = 1
+    var _nextScopeId: ScopeId = 1
+    var _coreLib: CoreLib?
+    var _ops: [Op] = []
+    var _scope: Scope?
+    var _stack: Stack = []
+    var _registers: [Slot?] = []
 }

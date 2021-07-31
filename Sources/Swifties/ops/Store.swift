@@ -11,7 +11,7 @@ struct Store: Op {
         _index = index
     }
         
-    func eval() -> Pc {
+    func eval() throws -> Pc {
         _env.store(index: _index, slot: _env.pop()!)
         return _pc+1
     }

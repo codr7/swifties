@@ -11,7 +11,7 @@ struct Push: Op {
         _slot = slot
     }
         
-    func eval() -> Pc {
+    func eval() throws -> Pc {
         env.push(_slot)
         return _pc+1
     }

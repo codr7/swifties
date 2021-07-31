@@ -30,15 +30,16 @@ class Scope: Equatable {
             return _bindings[id]
     }
     
-    func nextRegister() -> Register {
+    func nextRegister(pos: Pos, id: String) throws -> Register {
         let i = _nextRegister
+        try bind(pos: pos, id: id, type: _env.coreLib!.registerType, value: i)
         _nextRegister += 1
         return i
     }
     
     let _env: Env
     let _outer: Scope?
-    let _id: Int
+    let _id: ScopeId
     var _bindings: [String: Slot] = [:]
     var _nextRegister = 0
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 struct Stop: Op {
-    func eval() -> Pc {
+    func eval() throws -> Pc {
         return STOP_PC
     }
 }

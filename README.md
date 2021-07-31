@@ -1,5 +1,10 @@
 # Swifties
-## a Swift scripting language construction kit 
+### a Swift scripting language construction kit 
 
 ### todo
-#### add Func
+- finish Func.isApplicable
+- add AnyType.isa
+    - add parent types to type constructors
+    - build type hierarchy in core lib
+    - add any type
+- add Multi

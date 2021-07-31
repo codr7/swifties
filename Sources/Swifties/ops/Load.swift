@@ -11,7 +11,7 @@ struct Load: Op {
         _index = index
     }
         
-    func eval() -> Pc {
+    func eval() throws -> Pc {
         _env.push(_env.load(index: _index)!)
         return _pc+1
     }

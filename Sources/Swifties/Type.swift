@@ -1,5 +1,6 @@
 import Foundation
 
+typealias CallValue = (_ target: Any, _ pos: Pos, _ check: Bool) throws -> Pc?
 typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
 
 class AnyType: Hashable {
@@ -23,11 +24,12 @@ class AnyType: Hashable {
         hasher.combine(_id)
      }
 
-    var equalValues: EqualValues? = nil
+    var callValue: CallValue?
+    var equalValues: EqualValues?
 
     let _env: Env
     let _pos: Pos
-    let _id: Int
+    let _id: TypeId
     let _name: String
     let _parentTypes: Set<AnyType> = []
 }
