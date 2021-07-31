@@ -2,14 +2,21 @@ import XCTest
 @testable import swifu
 
 final class swifuTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(swifu().text, "Hello, World!")
+    func testPush() {
+        let p = Pos(source: "testPush", line: -1, column: -1)
+        let c = Context()
+        
+        c.initCoreLib(p)
+        XCTAssertEqual("Int", c.coreLib!.intType.name)
+        
+        c.emit(Push(pc: c.pc, pos: p, slot: Slot(c.coreLib!.intType, 42)))
+        c.eval(pc: 0)
+        let s = c.pop()!
+        XCTAssertEqual(c.coreLib!.intType, s.type)
+        XCTAssertEqual(42, s.value as! Int)
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testPush", testPush),
     ]
 }
