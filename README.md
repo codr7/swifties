@@ -2,7 +2,7 @@
 ### a Swift scripting language construction kit 
 
 ### intro
-[gofu](https://github.com/codr7/swifties) aims to provide a flexible toolkit for creating custom scripting languages in Swift.
+[Swifties](https://github.com/codr7/swifties) aims to provide a flexible toolkit for creating custom scripting languages in Swift.
 
 ### functions
 Functions have a name, an argument list, a result list and a body.
