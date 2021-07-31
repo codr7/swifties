@@ -1,12 +1,17 @@
 import Foundation
 
-class Scope {
+class Scope: Equatable {
+    static func == (lhs: Scope, rhs: Scope) -> Bool {
+        return lhs._id == rhs._id
+    }
+
     public var outer: Scope? { _outer }
-    public var registerCount: Int { _registerCount }
+    public var registerCount: Int { _nextRegister }
 
     init(env: Env, outer: Scope?) {
         _env = env
         _outer = outer
+        _id = env.getNextScopeId()
     }
     
     func bind(pos: Pos, id: String, slot: Slot) throws {
@@ -25,9 +30,16 @@ class Scope {
             return _bindings[id]
     }
     
+    func getNextRegister() -> Register {
+        let i = _nextRegister
+        _nextRegister += 1
+        return i
+    }
+    
     let _env: Env
     let _outer: Scope?
+    let _id: Int
     var _bindings: [String: Slot] = [:]
-    var _registerCount = 0
+    var _nextRegister = 0
 }
 

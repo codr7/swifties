@@ -5,6 +5,8 @@ typealias Pc = Int
 
 let STOP_PC: Pc = -1
 
+typealias Register = Int
+
 class Env: Hashable {
     static let nextId = ManagedAtomic<Int>(1)
 
@@ -18,6 +20,7 @@ class Env: Hashable {
     
     let _id = nextId.loadThenWrappingIncrement(ordering: AtomicUpdateOrdering.relaxed)
     var _nextTypeId = 1
+    var _nextScopeId = 1
     var _coreLib: CoreLib?
     var _ops: [Op] = []
     var _scope: Scope?
@@ -56,6 +59,12 @@ class Env: Hashable {
         return id
     }
     
+    func getNextScopeId() -> Int {
+        let id = _nextScopeId
+        _nextScopeId += 1
+        return id
+    }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(_id)
      }
@@ -72,6 +81,14 @@ class Env: Hashable {
         return _stack.popLast()
     }
 
+    func load(register i: Register) -> Slot? {
+        return _registers[i]
+    }
+    
+    func store(register i: Register, slot: Slot) {
+        _registers[i] = slot
+    }
+    
     func eval(pc: Pc) {
         var nextPc = pc
         
