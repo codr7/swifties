@@ -4,28 +4,28 @@ import XCTest
 final class Tests: XCTestCase {
     func testPush() throws {
         let p = Pos(source: "testPush", line: -1, column: -1)
-        let e = Env()
+        let env = Env()
         
-        try e.initCoreLib(p)
-        XCTAssertEqual("Int", e.coreLib!.intType.name)
+        try env.initCoreLib(p)
+        XCTAssertEqual("Int", env.coreLib!.intType.name)
         
-        let v = Slot(e._coreLib!.intType, 42)
-        e.emit(Push(pc: e.pc, slot: v))
-        e.emit(STOP)
-        e.eval(pc: 0)
-        XCTAssertEqual(v, e.pop()!)
+        let v = Slot(env._coreLib!.intType, 42)
+        env.emit(Push(pc: env.pc, slot: v))
+        env.emit(STOP)
+        env.eval(pc: 0)
+        XCTAssertEqual(v, env.pop()!)
     }
 
     func testStaticBinding() throws {
         let p = Pos(source: "testStaticBinding", line: -1, column: -1)
-        let e = Env()
-        try e.initCoreLib(p)
-        let v = Slot(e._coreLib!.intType, 42)
-        try e.beginScope().bind(pos: p, id: "foo", slot: v)
-        Id(env: e, pos: p, name: "foo").emit()
-        e.emit(STOP)
-        e.eval(pc: 0)
-        XCTAssertEqual(v, e.pop()!)
+        let env = Env()
+        try env.initCoreLib(p)
+        let v = Slot(env._coreLib!.intType, 42)
+        try env.beginScope().bind(pos: p, id: "foo", slot: v)
+        Id(env: env, pos: p, name: "foo").emit()
+        env.emit(STOP)
+        env.eval(pc: 0)
+        XCTAssertEqual(v, env.pop()!)
     }
     
     func testDynamicBinding() throws {
