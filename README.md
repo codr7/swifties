@@ -1,5 +1,5 @@
 # Swifties
-### a Swift scripting language construction kit 
+### a Swift language construction kit 
 
 ### intro
 [Swifties](https://github.com/codr7/swifties) aims to provide a flexible toolkit for creating custom scripting languages in Swift.
@@ -19,8 +19,16 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
 ### todo
+- add Form.slot(Scope) -> Slot? = nil
+    - implement for Literal/Id
 - add macros
     - inout forms
     - add reset/d macros/ops
 - add repl
+- add parser
+    - id parser
+    - (foo x y z) for calls
+        - add call form
+    - [x y z] for lists
+- add branch op
 - add multi
