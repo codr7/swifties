@@ -9,25 +9,23 @@ final class Tests: XCTestCase {
         try e.initCoreLib(p)
         XCTAssertEqual("Int", e.coreLib!.intType.name)
         
-        e.emit(Push(pc: e.pc, slot: Slot(e.coreLib!.intType, 42)))
+        let s = Slot(e._coreLib!.intType, 42)
+        e.emit(Push(pc: e.pc, slot: s))
         e.emit(STOP)
         e.eval(pc: 0)
-        let s = e.pop()!
-        XCTAssertEqual(e.coreLib!.intType, s.type)
-        XCTAssertEqual(42, s.value as! Int)
+        XCTAssertEqual(s, e.pop()!)
     }
 
     func testStaticBinding() throws {
-        let p = Pos(source: "testBinding", line: -1, column: -1)
+        let p = Pos(source: "testStaticBinding", line: -1, column: -1)
         let e = Env()
         try e.initCoreLib(p)
-        try e.beginScope().bind(pos: p, id: "foo", type: e._coreLib!.intType, value: 42)
+        let s = Slot(e._coreLib!.intType, 42)
+        try e.beginScope().bind(pos: p, id: "foo", slot: s)
         Id(env: e, pos: p, name: "foo").emit()
         e.emit(STOP)
         e.eval(pc: 0)
-        let s = e.pop()!
-        XCTAssertEqual(e.coreLib!.intType, s.type)
-        XCTAssertEqual(42, s.value as! Int)
+        XCTAssertEqual(s, e.pop()!)
     }
     
     static var allTests = [

@@ -1,6 +1,10 @@
 import Foundation
 
-struct Slot {
+struct Slot: Equatable {
+    static func == (lhs: Slot, rhs: Slot) -> Bool {
+        return lhs._type == rhs._type && lhs._type.equalValues!(lhs.value, rhs.value)
+    }
+    
     let _type: AnyType
     let _value: Any
     
