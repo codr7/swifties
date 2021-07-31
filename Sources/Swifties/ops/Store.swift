@@ -12,7 +12,7 @@ struct Store: Op {
     }
         
     func eval() -> Pc {
-        _env.store(register: _index, slot: _env.pop()!)
+        _env.store(index: _index, slot: _env.pop()!)
         return _pc+1
     }
 }

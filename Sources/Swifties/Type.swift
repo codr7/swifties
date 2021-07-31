@@ -14,7 +14,7 @@ class AnyType: Hashable {
     init(env: Env, pos: Pos, name: String) {
         _env = env
         _pos = pos
-        _id = env.getNextTypeId()
+        _id = env.nextTypeId()
         _name = name
     }
     

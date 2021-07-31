@@ -12,7 +12,7 @@ struct Load: Op {
     }
         
     func eval() -> Pc {
-        _env.push(_env.load(register: _index)!)
+        _env.push(_env.load(index: _index)!)
         return _pc+1
     }
 }

@@ -53,13 +53,13 @@ class Env: Hashable {
         }
     }
     
-    func getNextTypeId() -> Int {
+    func nextTypeId() -> Int {
         let id = _nextTypeId
         _nextTypeId += 1
         return id
     }
     
-    func getNextScopeId() -> Int {
+    func nextScopeId() -> Int {
         let id = _nextScopeId
         _nextScopeId += 1
         return id
@@ -81,11 +81,11 @@ class Env: Hashable {
         return _stack.popLast()
     }
 
-    func load(register i: Register) -> Slot? {
+    func load(index i: Register) -> Slot? {
         return _registers[i]
     }
     
-    func store(register i: Register, slot: Slot) {
+    func store(index i: Register, slot: Slot) {
         _registers[i] = slot
     }
     

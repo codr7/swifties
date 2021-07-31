@@ -11,7 +11,7 @@ class Scope: Equatable {
     init(env: Env, outer: Scope?) {
         _env = env
         _outer = outer
-        _id = env.getNextScopeId()
+        _id = env.nextScopeId()
     }
     
     func bind(pos: Pos, id: String, slot: Slot) throws {
@@ -30,7 +30,7 @@ class Scope: Equatable {
             return _bindings[id]
     }
     
-    func getNextRegister() -> Register {
+    func nextRegister() -> Register {
         let i = _nextRegister
         _nextRegister += 1
         return i

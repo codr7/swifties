@@ -34,7 +34,7 @@ final class Tests: XCTestCase {
         try env.initCoreLib(p)
         let scope = env.beginScope()
         let v = Slot(env._coreLib!.intType, 42)
-        let i = scope.getNextRegister()
+        let i = scope.nextRegister()
         env.emit(Push(pc: env.pc, slot: v))
         env.emit(Store(env: env, pc: env.pc, index: i))
         env.emit(Load(env: env, pc: env.pc, index: i))
