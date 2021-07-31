@@ -44,7 +44,6 @@ class Env: Hashable {
     func initCoreLib(_ pos: Pos) throws {
         if _coreLib == nil {
             _coreLib = CoreLib(env: self, pos: pos)
-            try _coreLib!.bind()
         }
     }
     

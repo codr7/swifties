@@ -1,6 +1,6 @@
 import Foundation
 
-struct DuplicateBinding: Error {
+struct DupBinding: Error {
     let _pos: Pos
     let _id: String
     

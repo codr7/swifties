@@ -1,6 +1,6 @@
 import Foundation
 
-class AnyType: Def, Hashable {
+class AnyType: Hashable {
     static func == (lhs: AnyType, rhs: AnyType) -> Bool {
         return lhs._id == rhs._id
     }
@@ -8,7 +8,6 @@ class AnyType: Def, Hashable {
     var env: Env { _env }
     var pos: Pos { _pos }
     var name: String { _name }
-    var slot: Slot { Slot(_env.coreLib!.metaType, self) }
 
     init(env: Env, pos: Pos, name: String) {
         _env = env

@@ -11,7 +11,7 @@ class Scope {
     
     func bind(pos: Pos, id: String, slot: Slot) throws {
         if _bindings.keys.contains(id) {
-            throw DuplicateBinding(pos: pos, id: id)
+            throw DupBinding(pos: pos, id: id)
         }
         
         _bindings[id] = slot

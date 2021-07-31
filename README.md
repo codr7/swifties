@@ -1,4 +1,4 @@
 # swifu
 
 ## todo
-### finish testPush
+### add Func
