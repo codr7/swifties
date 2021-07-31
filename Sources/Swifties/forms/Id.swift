@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Andreas Nilsson on 2021-07-31.
-//
-
 import Foundation
 
 class Id: BaseForm, Form {

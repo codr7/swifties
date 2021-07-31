@@ -7,7 +7,7 @@ class Func: Equatable {
         return lhs === rhs
     }
 
-    init(env: Env, name: String, args: [AnyType], rets: [AnyType], body: @escaping Body) {
+    init(env: Env, name: String, args: [AnyType], rets: [AnyType], _ body: @escaping Body) {
         _env = env
         _name = name
         _args = args

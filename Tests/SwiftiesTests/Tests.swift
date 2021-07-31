@@ -50,7 +50,7 @@ final class Tests: XCTestCase {
         try env.initCoreLib(p)
         env.beginScope()
 
-        let f = Func(env: env, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType], body: {(pos: Pos) -> Pc? in
+        let f = Func(env: env, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType], {(pos: Pos) -> Pc? in
             env.push(env.coreLib!.intType, env.pop()!.value as! Int + 7)
             return nil
         })
