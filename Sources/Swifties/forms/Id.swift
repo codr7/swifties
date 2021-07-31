@@ -16,5 +16,15 @@ class Id: BaseForm, Form {
         }
     }
     
+    override func slot() -> Slot? {
+        if let found = env.scope!.find(self._name) {
+            if found.type != env.coreLib!.registerType {
+                return found
+            }
+        }
+
+        return nil
+    }
+
     let _name: String
 }

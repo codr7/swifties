@@ -3,7 +3,9 @@ import Foundation
 protocol Form {
     var env: Env { get }
     var pos: Pos { get }
+    
     func emit()
+    func slot() -> Slot?
 }
 
 class BaseForm {
@@ -14,7 +16,9 @@ class BaseForm {
         _env = env
         _pos = pos
     }
-    
+
+    func slot() -> Slot? { nil }
+
     let _env: Env
     let _pos: Pos
 }

@@ -19,8 +19,6 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
 ### todo
-- add Form.slot(Scope) -> Slot? = nil
-    - implement for Literal/Id
 - add macros
     - inout forms
     - add reset/d macros/ops

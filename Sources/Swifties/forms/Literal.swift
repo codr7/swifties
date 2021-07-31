@@ -10,5 +10,9 @@ class Literal: BaseForm, Form {
         env.emit(Push(pc: env.pc, _slot))
     }
     
+    override func slot() -> Slot? {
+        return _slot
+    }
+    
     let _slot: Slot
 }
