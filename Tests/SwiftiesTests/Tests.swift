@@ -51,7 +51,7 @@ final class Tests: XCTestCase {
         env.beginScope()
         let v = Slot(env._coreLib!.intType, 42)
 
-        let f = Func(env: env, name: "foo", args: [], rets: [], body: {(pos: Pos) -> Pc? in
+        let f = Func(env: env, name: "foo", args: [], rets: [env.coreLib!.intType], body: {(pos: Pos) -> Pc? in
             env.push(v)
             return nil
         })
