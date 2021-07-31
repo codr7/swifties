@@ -13,12 +13,15 @@ let f = Func(env: env, name: "foo", args: [], rets: [env.coreLib!.intType], body
     env.push(type: env.coreLib!.intType, 42)
     return nil
 })
+
+env.beginScope().bind(pos: pos, id: "foo", type: env.coreLib!.funcType, f)
 ```
 
 ### todo
 - finish Func.isApplicable
-- add AnyType.isa
-    - add parent types to type constructors
-    - build type hierarchy in core lib
-    - add any type
+    - add AnyType.isa
+        - add parent types to type constructors
+        - build type hierarchy in core lib
+        - add any type
 - add Multi
+- add Literal form

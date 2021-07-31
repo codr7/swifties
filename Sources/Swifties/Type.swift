@@ -3,9 +3,9 @@ import Foundation
 typealias CallValue = (_ target: Any, _ pos: Pos, _ check: Bool) throws -> Pc?
 typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
 
-class AnyType: Hashable {
+class AnyType: Equatable {
     static func == (lhs: AnyType, rhs: AnyType) -> Bool {
-        return lhs._id == rhs._id
+        return lhs === rhs
     }
 
     var env: Env { _env }
@@ -18,11 +18,6 @@ class AnyType: Hashable {
         _id = env.nextTypeId()
         _name = name
     }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(_env)
-        hasher.combine(_id)
-     }
 
     var callValue: CallValue?
     var equalValues: EqualValues?
@@ -31,7 +26,7 @@ class AnyType: Hashable {
     let _pos: Pos
     let _id: TypeId
     let _name: String
-    let _parentTypes: Set<AnyType> = []
+    let _parentTypes: Set<TypeId> = []
 }
 
 class Type<T: Equatable>: AnyType {

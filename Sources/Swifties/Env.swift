@@ -1,4 +1,3 @@
-import Atomics
 import Foundation
 
 typealias Pc = Int
@@ -7,17 +6,12 @@ let STOP_PC: Pc = -1
 
 typealias Register = Int
 typealias TypeId = UInt
-typealias ScopeId = UInt
-typealias EnvId = UInt
-typealias FuncId = UInt
 
 typealias Stack = [Slot]
 
-class Env: Hashable {
-    static let nextId = ManagedAtomic<EnvId>(1)
-
+class Env {
     static func == (lhs: Env, rhs: Env) -> Bool {
-        return lhs._id == rhs._id
+        return lhs === rhs
     }
     
     var coreLib: CoreLib? { _coreLib }
@@ -52,27 +46,11 @@ class Env: Hashable {
         }
     }
 
-    func nextFuncId() -> FuncId {
-        let id = _nextFuncId
-        _nextFuncId += 1
-        return id
-    }
-
     func nextTypeId() -> TypeId {
         let id = _nextTypeId
         _nextTypeId += 1
         return id
     }
-    
-    func nextScopeId() -> ScopeId {
-        let id = _nextScopeId
-        _nextScopeId += 1
-        return id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(_id)
-     }
     
     func emit(_ op: Op) {
         _ops.append(op)
@@ -102,10 +80,7 @@ class Env: Hashable {
         }
     }
     
-    let _id = nextId.loadThenWrappingIncrement(ordering: AtomicUpdateOrdering.relaxed)
-    var _nextFuncId: FuncId = 1
     var _nextTypeId: TypeId = 1
-    var _nextScopeId: ScopeId = 1
     var _coreLib: CoreLib?
     var _ops: [Op] = []
     var _scope: Scope?

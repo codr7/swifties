@@ -2,7 +2,7 @@ import Foundation
 
 class Scope: Equatable {
     static func == (lhs: Scope, rhs: Scope) -> Bool {
-        return lhs._id == rhs._id
+        return lhs === rhs
     }
 
     public var outer: Scope? { _outer }
@@ -11,7 +11,6 @@ class Scope: Equatable {
     init(env: Env, outer: Scope?) {
         _env = env
         _outer = outer
-        _id = env.nextScopeId()
     }
     
     func bind(pos: Pos, id: String, slot: Slot) throws {
@@ -39,7 +38,6 @@ class Scope: Equatable {
     
     let _env: Env
     let _outer: Scope?
-    let _id: ScopeId
     var _bindings: [String: Slot] = [:]
     var _nextRegister = 0
 }
