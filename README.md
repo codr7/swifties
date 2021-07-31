@@ -2,7 +2,7 @@
 ### a Swift language construction kit 
 
 ### intro
-[Swifties](https://github.com/codr7/swifties) aims to provide a flexible toolkit for creating custom scripting languages in Swift.
+[Swifties](https://github.com/codr7/swifties) aims to provide a flexible toolkit for creating custom languages in Swift.
 
 ### functions
 Functions have a name, an argument list, a result list and a body.
