@@ -1,7 +1,7 @@
 import XCTest
-@testable import swifu
+@testable import Swifties
 
-final class swifuTests: XCTestCase {
+final class Tests: XCTestCase {
     func testPush() throws {
         let p = Pos(source: "testPush", line: -1, column: -1)
         let c = Env()

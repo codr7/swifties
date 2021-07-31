@@ -1,4 +1,4 @@
-# swifu
+# Swifties
 
 ## todo
 ### add Func
