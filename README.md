@@ -10,11 +10,12 @@ Functions have a name, an argument list, a result list and a body.
 
 ```swift
 let f = Func(env: env, name: "foo", args: [], rets: [env.coreLib!.intType], body: {(pos: Pos) -> Pc? in
-    env.push(type: env.coreLib!.intType, 42)
+    env.push(env.coreLib!.intType, 42)
     return nil
 })
 
-env.beginScope().bind(pos: pos, id: "foo", type: env.coreLib!.funcType, f)
+let pos = Pos(source: "test", line: -1, column: -1)
+env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
 ### todo

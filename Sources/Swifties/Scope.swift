@@ -21,7 +21,7 @@ class Scope: Equatable {
         _bindings[id] = slot
     }
 
-    func bind<T>(pos: Pos, id: String, type: Type<T>, value: T) throws {
+    func bind<T>(pos: Pos, id: String, _ type: Type<T>, _ value: T) throws {
         try bind(pos: pos, id: id, slot: Slot(type, value))
     }
     
@@ -31,7 +31,7 @@ class Scope: Equatable {
     
     func nextRegister(pos: Pos, id: String) throws -> Register {
         let i = _nextRegister
-        try bind(pos: pos, id: id, type: _env.coreLib!.registerType, value: i)
+        try bind(pos: pos, id: id, _env.coreLib!.registerType, i)
         _nextRegister += 1
         return i
     }
