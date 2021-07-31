@@ -22,3 +22,4 @@ class Scope {
     var _bindings: [String: Slot] = [:]
     var _registerCount = 0
 }
+

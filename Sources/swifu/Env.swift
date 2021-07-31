@@ -3,6 +3,8 @@ import Foundation
 
 typealias Pc = Int
 
+let STOP_PC: Pc = -1
+
 class Env: Hashable {
     static let nextId = ManagedAtomic<Int>(1)
 
@@ -70,10 +72,10 @@ class Env: Hashable {
     }
 
     func eval(pc: Pc) {
-        var i = pc
+        var nextPc = pc
         
-        while (i < _ops.count) {
-            i = _ops[i].eval()
+        while (nextPc != STOP_PC) {
+            nextPc = _ops[nextPc].eval()
         }
     }
 }

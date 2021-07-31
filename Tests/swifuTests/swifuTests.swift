@@ -9,7 +9,8 @@ final class swifuTests: XCTestCase {
         try c.initCoreLib(p)
         XCTAssertEqual("Int", c.coreLib!.intType.name)
         
-        c.emit(Push(pc: c.pc, pos: p, slot: Slot(c.coreLib!.intType, 42)))
+        c.emit(Push(pc: c.pc, slot: Slot(c.coreLib!.intType, 42)))
+        c.emit(STOP)
         c.eval(pc: 0)
         let s = c.pop()!
         XCTAssertEqual(c.coreLib!.intType, s.type)
