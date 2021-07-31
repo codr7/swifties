@@ -18,7 +18,7 @@ class Id: BaseForm, Form {
             if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pc: env.pc, index: found.value as! Int))
             } else {
-                env.emit(Push(pc: env.pc, slot: found))
+                env.emit(Push(pc: env.pc, found))
             }
         }
     }

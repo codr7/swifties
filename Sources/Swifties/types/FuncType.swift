@@ -1,8 +1,8 @@
 import Foundation
 
 class FuncType: Type<Func> {
-    override init(env: Env, pos: Pos, name: String) {
-        super.init(env: env, pos: pos, name: name)
+    override init(env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
+        super.init(env: env, pos: pos, name: name, parentTypes: parentTypes)
         
         callValue = {(target: Any, pos: Pos, check: Bool) -> Pc? in
             let f = target as! Func

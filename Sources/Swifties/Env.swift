@@ -59,6 +59,22 @@ class Env {
     func push(_ slot: Slot) {
         _stack.append(slot)
     }
+
+    func push<T>(_ type: Type<T>, _ value: T) {
+        push(Slot(type, value))
+    }
+
+    func peek(offset: Int = 0) -> Slot? {
+        if offset >= _stack.count {
+            return nil
+        }
+        
+        if offset == 0 {
+            return _stack.last
+        }
+        
+        return _stack[_stack.count - offset - 1]
+    }
     
     func pop() -> Slot? {
         return _stack.popLast()

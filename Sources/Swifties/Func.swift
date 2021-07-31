@@ -16,6 +16,12 @@ class Func: Equatable {
     }
     
     func isApplicable() -> Bool {
+        for i in 0..<_args.count {
+            if !_env.peek(offset: _args.count - i - 1)!.type.isa(_args[i]) {
+                return false
+            }
+        }
+        
         return true
     }
 

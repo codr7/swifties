@@ -10,7 +10,7 @@ final class Tests: XCTestCase {
         XCTAssertEqual("Int", env.coreLib!.intType.name)
         
         let v = Slot(env._coreLib!.intType, 42)
-        env.emit(Push(pc: env.pc, slot: v))
+        env.emit(Push(pc: env.pc, v))
         env.emit(STOP)
         try env.eval(pc: 0)
         XCTAssertEqual(v, env.pop()!)
@@ -35,7 +35,7 @@ final class Tests: XCTestCase {
         let scope = env.beginScope()
         let v = Slot(env._coreLib!.intType, 42)
         let i = try scope.nextRegister(pos: p, id: "foo")
-        env.emit(Push(pc: env.pc, slot: v))
+        env.emit(Push(pc: env.pc, v))
         env.emit(Store(env: env, pc: env.pc, index: i))
         env.emit(Load(env: env, pc: env.pc, index: i))
         env.emit(STOP)
@@ -49,17 +49,17 @@ final class Tests: XCTestCase {
         let env = Env()
         try env.initCoreLib(p)
         env.beginScope()
-        let v = Slot(env._coreLib!.intType, 42)
 
-        let f = Func(env: env, name: "foo", args: [], rets: [env.coreLib!.intType], body: {(pos: Pos) -> Pc? in
-            env.push(v)
+        let f = Func(env: env, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType], body: {(pos: Pos) -> Pc? in
+            env.push(env.coreLib!.intType, env.pop()!.value as! Int + 7)
             return nil
         })
         
+        env.emit(Push(pc: env.pc, env.coreLib!.intType, 35))
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)
         try env.eval(pc: 0)
-        XCTAssertEqual(v, env.pop()!)
+        XCTAssertEqual(Slot(env._coreLib!.intType, 42), env.pop()!)
     }
     
     static var allTests = [
