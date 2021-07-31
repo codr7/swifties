@@ -1,6 +1,6 @@
 import Foundation
 
-struct Push: Operation {
+struct Push: Op {
     let _pc: Pc
     let _pos: Pos
     let _slot: Slot
@@ -11,7 +11,7 @@ struct Push: Operation {
         _slot = slot
     }
     
-    var context: Context { _slot.type.context }
+    var context: Env { _slot.type.env }
     var pos: Pos { _pos }
     
     func eval() -> Pc {

@@ -2,11 +2,11 @@ import XCTest
 @testable import swifu
 
 final class swifuTests: XCTestCase {
-    func testPush() {
+    func testPush() throws {
         let p = Pos(source: "testPush", line: -1, column: -1)
-        let c = Context()
+        let c = Env()
         
-        c.initCoreLib(p)
+        try c.initCoreLib(p)
         XCTAssertEqual("Int", c.coreLib!.intType.name)
         
         c.emit(Push(pc: c.pc, pos: p, slot: Slot(c.coreLib!.intType, 42)))

@@ -4,8 +4,8 @@ class Scope {
     public var outer: Scope? { _outer }
     public var registerCount: Int { _registerCount }
 
-    init(context: Context, outer: Scope?) {
-        _context = context
+    init(env: Env, outer: Scope?) {
+        _env = env
         _outer = outer
     }
     
@@ -17,7 +17,7 @@ class Scope {
         _bindings[id] = slot
     }
 
-    let _context: Context
+    let _env: Env
     let _outer: Scope?
     var _bindings: [String: Slot] = [:]
     var _registerCount = 0

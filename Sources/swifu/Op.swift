@@ -1,5 +1,5 @@
 import Foundation
 
-protocol Operation {
+protocol Op {
     func eval() -> Pc
 }

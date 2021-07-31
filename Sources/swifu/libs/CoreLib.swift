@@ -1,11 +1,6 @@
 import Foundation
 
-class CoreLib {
-    let intType: IntType
-    let metaType: MetaType
-
-    init(context: Context, pos: Pos) {
-        intType = IntType(context: context, pos: pos, name: "Int")
-        metaType = MetaType(context: context, pos: pos, name: "Meta")
-    }
+class CoreLib: Lib {
+    lazy var intType: IntType = def(IntType(env: env, pos: pos, name: "Int"))
+    lazy var metaType: MetaType = def(MetaType(env: env, pos: pos, name: "Meta"))
 }

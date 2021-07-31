@@ -3,27 +3,27 @@ import Foundation
 
 typealias Pc = Int
 
-class Context: Hashable {
+class Env: Hashable {
     static let nextId = ManagedAtomic<Int>(1)
 
-    static func == (lhs: Context, rhs: Context) -> Bool {
+    static func == (lhs: Env, rhs: Env) -> Bool {
         return lhs._id == rhs._id
     }
     
     public var coreLib: CoreLib? { _coreLib }
-    var pc: Pc { _operations.count }
+    var pc: Pc { _ops.count }
     public var scope: Scope? { _scope }
     
     let _id = nextId.loadThenWrappingIncrement(ordering: AtomicUpdateOrdering.relaxed)
     var _nextTypeId = 1
     var _coreLib: CoreLib?
-    var _operations: [Operation] = []
+    var _ops: [Op] = []
     var _scope: Scope?
     var _stack: [Slot] = []
     var _registers: [Slot?] = []
     
     func beginScope() -> Scope {
-        _scope = Scope(context: self, outer: _scope)
+        _scope = Scope(env: self, outer: _scope)
         return _scope!
     }
     
@@ -41,11 +41,13 @@ class Context: Hashable {
         return s
     }
 
-    func initCoreLib(_ pos: Pos) {
+    func initCoreLib(_ pos: Pos) throws {
         if _coreLib == nil {
-            _coreLib = CoreLib(context: self, pos: pos)
+            _coreLib = CoreLib(env: self, pos: pos)
+            try _coreLib!.bind()
         }
     }
+    
     func getNextTypeId() -> Int {
         let id = _nextTypeId
         _nextTypeId += 1
@@ -56,8 +58,8 @@ class Context: Hashable {
         hasher.combine(_id)
      }
     
-    func emit(_ operation: Operation) {
-        _operations.append(operation)
+    func emit(_ operation: Op) {
+        _ops.append(operation)
     }
         
     func push(_ slot: Slot) {
@@ -71,8 +73,8 @@ class Context: Hashable {
     func eval(pc: Pc) {
         var i = pc
         
-        while (i < _operations.count) {
-            i = _operations[i].eval()
+        while (i < _ops.count) {
+            i = _ops[i].eval()
         }
     }
 }
