@@ -17,6 +17,14 @@ class Scope {
         _bindings[id] = slot
     }
 
+    func bind<T>(pos: Pos, id: String, type: Type<T>, value: T) throws {
+        try bind(pos: pos, id: id, slot: Slot(type, value))
+    }
+    
+    func find(_ id: String) -> Slot? {
+            return _bindings[id]
+    }
+    
     let _env: Env
     let _outer: Scope?
     var _bindings: [String: Slot] = [:]

@@ -25,7 +25,7 @@ class AnyType: Hashable {
     let _pos: Pos
     let _id: Int
     let _name: String
-    let _parentTypes: [AnyType: AnyType] = [:]
+    let _parentTypes: Set<AnyType> = []
 }
 
 class Type<T>: AnyType {

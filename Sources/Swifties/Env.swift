@@ -33,6 +33,7 @@ class Env: Hashable {
         if _scope == nil {
             throw CompileError(pos, "No open scopes")
         }
+        
         let s = _scope!
         _scope = s.outer
         
@@ -59,8 +60,8 @@ class Env: Hashable {
         hasher.combine(_id)
      }
     
-    func emit(_ operation: Op) {
-        _ops.append(operation)
+    func emit(_ op: Op) {
+        _ops.append(op)
     }
         
     func push(_ slot: Slot) {
@@ -74,7 +75,7 @@ class Env: Hashable {
     func eval(pc: Pc) {
         var nextPc = pc
         
-        while (nextPc != STOP_PC) {
+        while nextPc != STOP_PC {
             nextPc = _ops[nextPc].eval()
         }
     }
