@@ -22,7 +22,7 @@ final class Tests: XCTestCase {
         try env.initCoreLib(p)
         let v = Slot(env._coreLib!.intType, 42)
         try env.beginScope().bind(pos: p, id: "foo", slot: v)
-        Id(env: env, pos: p, name: "foo").emit()
+        try IdForm(env: env, pos: p, name: "foo").emit()
         env.emit(STOP)
         try env.eval(pc: 0)
         XCTAssertEqual(v, env.pop()!)

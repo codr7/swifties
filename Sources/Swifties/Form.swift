@@ -1,14 +1,10 @@
 import Foundation
 
-protocol Form {
-    var env: Env { get }
-    var pos: Pos { get }
+class Form: Equatable {
+    static func == (lhs: Form, rhs: Form) -> Bool {
+        return lhs === rhs
+    }
     
-    func emit()
-    func slot() -> Slot?
-}
-
-class BaseForm {
     var env: Env { _env }
     var pos: Pos { _pos }
     
@@ -17,6 +13,8 @@ class BaseForm {
         _pos = pos
     }
 
+    func emit() throws {}
+    func expand() throws -> Form { self }
     func slot() -> Slot? { nil }
 
     let _env: Env

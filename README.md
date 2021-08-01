@@ -18,15 +18,20 @@ let pos = Pos(source: "test", line: -1, column: -1)
 env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
+```
+(func fib [n:Int] [Int]
+    (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
+```
+
 ### todo
-- add macros
-    - inout forms
-    - add reset/d macros/ops
+- add reset/d prims
 - add repl
 - add parser
     - id parser
     - (foo x y z) for calls
-        - add call form
     - [x y z] for lists
 - add branch op
+    - add AnyType.valueIsTrue
+        - default true
+        - override for Int/Bool/String
 - add multi
