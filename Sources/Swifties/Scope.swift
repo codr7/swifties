@@ -13,7 +13,7 @@ class Scope: Equatable {
         _outer = outer
     }
     
-    func bind(pos: Pos, id: String, slot: Slot) throws {
+    func bind(pos: Pos, id: String, _ slot: Slot) throws {
         if _bindings.keys.contains(id) {
             throw DupBinding(pos: pos, id: id)
         }
@@ -22,7 +22,7 @@ class Scope: Equatable {
     }
 
     func bind<T>(pos: Pos, id: String, _ type: Type<T>, _ value: T) throws {
-        try bind(pos: pos, id: id, slot: Slot(type, value))
+        try bind(pos: pos, id: id, Slot(type, value))
     }
     
     func find(_ id: String) -> Slot? {

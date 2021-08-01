@@ -5,7 +5,7 @@ typealias ParentTypes = Set<TypeId>
 typealias CallValue = (_ target: Any, _ pos: Pos, _ check: Bool) throws -> Pc?
 typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
 
-class AnyType: Equatable {
+class AnyType: Definition, Equatable {
     static func == (lhs: AnyType, rhs: AnyType) -> Bool {
         return lhs === rhs
     }
@@ -13,14 +13,15 @@ class AnyType: Equatable {
     var env: Env { _env }
     var pos: Pos { _pos }
     var name: String { _name }
-
+    var slot: Slot { Slot(_env.coreLib!.metaType, self) }
+    
     var callValue: CallValue?
     var equalValues: EqualValues?
 
-    init(env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
-        _env = env
+    init(_ lib: Lib, pos: Pos, name: String, parentTypes: [AnyType]) {
+        _env = lib.env
         _pos = pos
-        _id = env.nextTypeId()
+        _id = _env.nextTypeId()
         _name = name
         var pts: ParentTypes = []
         
@@ -33,6 +34,7 @@ class AnyType: Equatable {
         }
         
         _parentTypes = pts
+        lib.define(self)
     }
 
     func isa(_ other: AnyType) -> Bool {

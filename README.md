@@ -9,12 +9,13 @@ Functions have a name, an argument list, a result list and a body.
 `pos` indicates the call site; if a `Pc`is returned, execution continues from there.
 
 ```swift
-let f = Func(env: env, name: "foo", args: [], rets: [env.coreLib!.intType], {(pos: Pos) -> Pc? in
+let pos = Pos(source: "test", line: -1, column: -1)
+
+let f = Func(env: env, pos: pos, name: "foo", args: [], rets: [env.coreLib!.intType], {(pos: Pos) -> Pc? in
     env.push(env.coreLib!.intType, 42)
     return nil
 })
 
-let pos = Pos(source: "test", line: -1, column: -1)
 env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
@@ -24,7 +25,8 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
 ### todo
-- add reset/d prims
+- add reset/drop prims
+- add stack type/func
 - add repl
 - add parser
     - id parser

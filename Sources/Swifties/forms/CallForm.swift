@@ -19,7 +19,7 @@ class CallForm: Form {
         }
         
         if newTarget != _target || newArgs != _args {
-            return CallForm(env: env, pos: pos, target: _target, args: newArgs)
+            return try CallForm(env: env, pos: pos, target: _target, args: newArgs).expand()
         }
         
         return self

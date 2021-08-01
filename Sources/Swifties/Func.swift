@@ -1,14 +1,20 @@
 import Foundation
 
-class Func: Equatable {
+class Func: Definition, Equatable {
     typealias Body = (_ pos: Pos) -> Pc?
 
     static func == (lhs: Func, rhs: Func) -> Bool {
         return lhs === rhs
     }
 
-    init(env: Env, name: String, args: [AnyType], rets: [AnyType], _ body: @escaping Body) {
+    var env: Env { _env }
+    var pos: Pos { _pos }
+    var name: String { _name }
+    var slot: Slot { Slot(_env.coreLib!.funcType, self) }
+    
+    init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: @escaping Body) {
         _env = env
+        _pos = pos
         _name = name
         _args = args
         _rets = rets
@@ -29,6 +35,7 @@ class Func: Equatable {
         return _body(pos)
     }
         
+    let _pos: Pos
     let _env: Env
     let _name: String
     let _args, _rets: [AnyType]

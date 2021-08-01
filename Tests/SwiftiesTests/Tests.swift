@@ -21,7 +21,7 @@ final class Tests: XCTestCase {
         let env = Env()
         try env.initCoreLib(p)
         let v = Slot(env._coreLib!.intType, 42)
-        try env.beginScope().bind(pos: p, id: "foo", slot: v)
+        try env.beginScope().bind(pos: p, id: "foo", v)
         try IdForm(env: env, pos: p, name: "foo").emit()
         env.emit(STOP)
         try env.eval(pc: 0)
@@ -50,7 +50,7 @@ final class Tests: XCTestCase {
         try env.initCoreLib(p)
         env.beginScope()
 
-        let f = Func(env: env, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType], {(pos: Pos) -> Pc? in
+        let f = Func(env: env, pos: p, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType], {(pos: Pos) -> Pc? in
             env.push(env.coreLib!.intType, env.pop()!.value as! Int + 7)
             return nil
         })
