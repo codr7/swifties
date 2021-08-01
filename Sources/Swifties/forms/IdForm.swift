@@ -3,6 +3,18 @@ import Foundation
 class IdForm: Form {
     var name: String { _name }
     
+    override var slot: Slot? {
+        get {
+            if let found = env.scope!.find(self._name) {
+                if found.type != env.coreLib!.registerType {
+                    return found
+                }
+            }
+
+            return nil
+        }
+    }
+    
     init(env: Env, pos: Pos, name: String) {
         _name = name
         super.init(env: env, pos: pos)
@@ -28,16 +40,6 @@ class IdForm: Form {
                 env.emit(Push(pc: env.pc, found))
             }
         }
-    }
-        
-    override func slot() -> Slot? {
-        if let found = env.scope!.find(self._name) {
-            if found.type != env.coreLib!.registerType {
-                return found
-            }
-        }
-
-        return nil
     }
 
     let _name: String

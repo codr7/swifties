@@ -5,6 +5,7 @@ class Form: Equatable {
     
     var env: Env { _env }
     var pos: Pos { _pos }
+    var slot: Slot? { nil }
     
     init(env: Env, pos: Pos) {
         _env = env
@@ -13,7 +14,6 @@ class Form: Equatable {
 
     func emit() throws {}
     func expand() throws -> Form { self }
-    func slot() -> Slot? { nil }
 
     let _env: Env
     let _pos: Pos

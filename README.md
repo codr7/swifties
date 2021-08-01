@@ -26,11 +26,16 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 
 ### todo
 - add reset/drop prims
+- add func prim
+    - add StackForm
+        - items []Form
+        - emit as push
+        - implement slot
 - add repl
 - add parser
     - id parser
     - (foo x y z) for calls
-    - [x y z] for lists
+    - [x y z] for stacks
 - add branch op
     - add AnyType.valueIsTrue
         - default true
