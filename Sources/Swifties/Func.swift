@@ -1,7 +1,7 @@
 import Foundation
 
 public class Func: Definition, Equatable {
-    public typealias Body = (_ pos: Pos) -> Pc?
+    public typealias Body = (_ pos: Pos) throws -> Pc?
 
     public static func == (lhs: Func, rhs: Func) -> Bool { lhs === rhs }
 
@@ -29,8 +29,8 @@ public class Func: Definition, Equatable {
         return true
     }
 
-    public func call(pos: Pos) -> Pc? {
-        _body(pos)
+    public func call(pos: Pos) throws -> Pc? {
+        try _body(pos)
     }
         
     private let _pos: Pos

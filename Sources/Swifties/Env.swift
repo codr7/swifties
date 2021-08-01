@@ -78,6 +78,10 @@ public class Env {
         _stack.popLast()
     }
 
+    public func reset() {
+        _stack.removeAll()
+    }
+    
     public func load(index i: Register) -> Slot? {
         _registers[i]
     }

@@ -25,6 +25,15 @@ public class CoreLib: Lib {
         super.init(env: env, pos: pos)
     }
     
+    public func drop(pos: Pos) throws -> Pc? {
+        if env.pop() == nil { throw EvalError(pos, "Nothing to drop") }
+        return nil
+    }
+    
+    public func reset(pos: Pos, args: [Form]) {
+        env.emit(Reset(env: env, pc: env.pc))
+    }
+    
     public func stack(pos: Pos) -> Pc? {
         env.push(env.coreLib!.stackType, env.stack)
         return nil
@@ -33,6 +42,8 @@ public class CoreLib: Lib {
     public override func bind(pos: Pos, _ names: [String]) throws {
         define(anyType, funcType, intType, macroType, metaType, primType, registerType, stackType)
         
+        define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
+        define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Func(env: env, pos: self.pos, name: "stack", args: [], rets: [stackType], self.stack))
         
         try super.bind(pos: pos, names)

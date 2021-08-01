@@ -36,6 +36,8 @@ public class IdForm: Form {
                 env.emit(Load(env: env, pc: env.pc, index: found.value as! Int))
             } else if found.type == env.coreLib!.primType {
                 try (found.value as! Prim).emit(pos: pos, args: [])
+            } else if let _ = found.type.callValue {
+                env.emit(Call(env: env, pos: pos, pc: env.pc, target: found, check: true))
             } else {
                 env.emit(Push(pc: env.pc, found))
             }
