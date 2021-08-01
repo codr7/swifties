@@ -7,7 +7,7 @@
 ### primitives
 Primitives are called at compile time and may take any number (min/max are specified in the constructor) of forms as arguments and emit operations. 
 
-```
+```swift
 let pos = Pos(source: "test", line: -1, column: -1)
 
 let p = Prim(env: env, pos: pos, name: "reset", (0, 0), {pos, args -> Void in
@@ -37,8 +37,14 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
 ### todo
+- add let-prim
+    - first arg is bindings second body
+    - (x 42 y 33)
+    - bind forms with non-nil slots immediately
 - add Bool type
     - bind t/f in core lib
+- add Nil type/Maybe type
+- add types to readme
 - add if prim
     - add branch op
         - add AnyType.valueIsTrue
