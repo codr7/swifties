@@ -3,6 +3,7 @@ import Foundation
 public class CoreLib: Lib {
     public let anyType: AnyType
 
+    public let boolType: BoolType
     public let funcType: FuncType
     public let intType: IntType
     public let macroType: MacroType
@@ -14,6 +15,7 @@ public class CoreLib: Lib {
     public override init(env: Env, pos: Pos) {
         anyType = AnyType(env, pos: pos, name: "Any", parentTypes: [])
 
+        boolType = BoolType(env, pos: pos, name: "Bool", parentTypes: [anyType])
         funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType])
         intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
@@ -26,7 +28,7 @@ public class CoreLib: Lib {
     }
     
     public func drop(pos: Pos) throws -> Pc? {
-        if env.pop() == nil { throw EvalError(pos, "Nothing to drop") }
+        env.pop()
         return nil
     }
     
@@ -41,6 +43,9 @@ public class CoreLib: Lib {
     
     public override func bind(pos: Pos, _ names: [String]) throws {
         define(anyType, funcType, intType, macroType, metaType, primType, registerType, stackType)
+        
+        define("t", boolType, true)
+        define("f", boolType, false)
         
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))

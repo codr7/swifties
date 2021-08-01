@@ -19,16 +19,20 @@ public class Lib {
     
     public func define(_ ds: [Definition]) {
         for d in ds {
-            _definitions[d.name] = d
+            _bindings[d.name] = d.slot
         }
     }
 
+    public func define<T>(_ id: String, _ type: Type<T>, _ value: T) {
+        _bindings[id] = Slot(type, value)
+    }
+    
     public func bind(pos: Pos, _ names: String...) throws { try bind(pos: pos, names) }
 
     public func bind(pos: Pos, _ names: [String]) throws {
         for n in names {
-            if let d = _definitions[n] {
-                try env.scope!.bind(pos: d.pos, id: n, d.slot)
+            if let s = _bindings[n] {
+                try env.scope!.bind(pos: pos, id: n, s)
             } else {
                 throw UnknownId(pos: pos, id: n)
             }
@@ -37,5 +41,5 @@ public class Lib {
 
     private let _env: Env
     private let _pos: Pos
-    private var _definitions: [String: Definition] = [:]
+    private var _bindings: [String: Slot] = [:]
 }

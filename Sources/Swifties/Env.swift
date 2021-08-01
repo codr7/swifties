@@ -67,13 +67,20 @@ public class Env {
             return nil
         }
         
-        if offset == 0 {
-            return _stack.last
-        }
-        
         return _stack[_stack.count - offset - 1]
     }
     
+    @discardableResult
+    public func poke<T>(offset: Int, _ type: Type<T>, _ value: T) -> Bool {
+        if offset >= _stack.count {
+            return false
+        }
+        
+        _stack[_stack.count - offset - 1] = Slot(type, value)
+        return true
+    }
+    
+    @discardableResult
     public func pop() -> Slot? {
         _stack.popLast()
     }

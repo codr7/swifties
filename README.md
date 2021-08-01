@@ -40,9 +40,7 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 - add let-prim
     - first arg is bindings second body
     - (x 42 y 33)
-    - bind forms with non-nil slots immediately
-- add Bool type
-    - bind t/f in core lib
+    - bind forms with non-nil slots immediatel
 - add Nil type/Maybe type
 - add types to readme
 - add if prim
