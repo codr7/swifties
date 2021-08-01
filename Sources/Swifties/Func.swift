@@ -33,9 +33,9 @@ class Func: Definition, Equatable {
         _body(pos)
     }
         
-    let _pos: Pos
-    let _env: Env
-    let _name: String
-    let _args, _rets: [AnyType]
-    let _body: Body
+    private let _pos: Pos
+    private let _env: Env
+    private let _name: String
+    private let _args, _rets: [AnyType]
+    private let _body: Body
 }

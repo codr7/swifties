@@ -29,7 +29,7 @@ class Lib {
         }
     }
 
-    let _env: Env
-    let _pos: Pos
-    var _definitions: [String: Definition] = [:]
+    private let _env: Env
+    private let _pos: Pos
+    private var _definitions: [String: Definition] = [:]
 }

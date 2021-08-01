@@ -9,7 +9,7 @@ final class Tests: XCTestCase {
         try env.initCoreLib(p)
         XCTAssertEqual("Int", env.coreLib!.intType.name)
         
-        let v = Slot(env._coreLib!.intType, 42)
+        let v = Slot(env.coreLib!.intType, 42)
         env.emit(Push(pc: env.pc, v))
         env.emit(STOP)
         try env.eval(pc: 0)
@@ -20,7 +20,7 @@ final class Tests: XCTestCase {
         let p = Pos(source: "testStaticBinding", line: -1, column: -1)
         let env = Env()
         try env.initCoreLib(p)
-        let v = Slot(env._coreLib!.intType, 42)
+        let v = Slot(env.coreLib!.intType, 42)
         try env.beginScope().bind(pos: p, id: "foo", v)
         try IdForm(env: env, pos: p, name: "foo").emit()
         env.emit(STOP)
@@ -33,7 +33,7 @@ final class Tests: XCTestCase {
         let env = Env()
         try env.initCoreLib(p)
         let scope = env.beginScope()
-        let v = Slot(env._coreLib!.intType, 42)
+        let v = Slot(env.coreLib!.intType, 42)
         let i = try scope.nextRegister(pos: p, id: "foo")
         env.emit(Push(pc: env.pc, v))
         env.emit(Store(env: env, pc: env.pc, index: i))
@@ -59,7 +59,7 @@ final class Tests: XCTestCase {
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)
         try env.eval(pc: 0)
-        XCTAssertEqual(Slot(env._coreLib!.intType, 42), env.pop()!)
+        XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
     }
     
     static var allTests = [

@@ -15,7 +15,7 @@ class Prim: Equatable {
         try _body(pos, args)
     }
         
-    let _env: Env
-    let _name: String
-    let _body: Body
+    private let _env: Env
+    private let _name: String
+    private let _body: Body
 }

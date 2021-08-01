@@ -1,9 +1,6 @@
 import Foundation
 
 struct Push: Op {
-    let _pc: Pc
-    let _slot: Slot
-
     var env: Env { _slot.type.env }
 
     init(pc: Pc, _ slot: Slot) {
@@ -19,4 +16,7 @@ struct Push: Op {
         env.push(_slot)
         return _pc+1
     }
+    
+    private let _pc: Pc
+    private let _slot: Slot
 }

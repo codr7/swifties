@@ -94,10 +94,10 @@ class Env {
         }
     }
     
-    var _nextTypeId: TypeId = 1
-    var _coreLib: CoreLib?
-    var _ops: [Op] = []
-    var _scope: Scope?
-    var _stack: Stack = []
-    var _registers: [Slot?] = []
+    private var _nextTypeId: TypeId = 1
+    private var _coreLib: CoreLib?
+    private var _ops: [Op] = []
+    private var _scope: Scope?
+    private var _stack: Stack = []
+    private var _registers: [Slot?] = []
 }

@@ -13,6 +13,6 @@ struct Slot: Equatable {
         self._value = value
     }
     
-    let _type: AnyType
-    let _value: Any
+    private let _type: AnyType
+    private let _value: Any
 }

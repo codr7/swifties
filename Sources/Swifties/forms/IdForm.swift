@@ -42,5 +42,5 @@ class IdForm: Form {
         }
     }
 
-    let _name: String
+    private let _name: String
 }

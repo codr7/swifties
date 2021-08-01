@@ -43,6 +43,6 @@ class CallForm: Form {
         env.emit(Call(env: env, pos: pos, pc: env.pc, target: t, check: true))
     }
 
-    let _target: Form
-    let _args: [Form]
+    private let _target: Form
+    private let _args: [Form]
 }

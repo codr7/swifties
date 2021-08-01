@@ -34,9 +34,9 @@ class Scope: Equatable {
         return i
     }
     
-    let _env: Env
-    let _outer: Scope?
-    var _bindings: [String: Slot] = [:]
-    var _nextRegister = 0
+    private let _env: Env
+    private let _outer: Scope?
+    private var _bindings: [String: Slot] = [:]
+    private var _nextRegister = 0
 }
 

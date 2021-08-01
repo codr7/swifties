@@ -1,10 +1,6 @@
 import Foundation
 
 struct Store: Op {
-    let _env: Env
-    let _pc: Pc
-    let _index: Register
-    
     init(env: Env, pc: Pc, index: Register) {
         _env = env
         _pc = pc
@@ -15,4 +11,8 @@ struct Store: Op {
         _env.store(index: _index, slot: _env.pop()!)
         return _pc+1
     }
+    
+    private let _env: Env
+    private let _pc: Pc
+    private let _index: Register
 }

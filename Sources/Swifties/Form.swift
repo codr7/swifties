@@ -15,6 +15,6 @@ class Form: Equatable {
     func emit() throws {}
     func expand() throws -> Form { self }
 
-    let _env: Env
-    let _pos: Pos
+    private let _env: Env
+    private let _pos: Pos
 }

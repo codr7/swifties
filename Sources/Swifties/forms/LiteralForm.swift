@@ -12,5 +12,5 @@ class LiteralForm: Form {
         env.emit(Push(pc: env.pc, _slot))
     }
         
-    let _slot: Slot
+    private let _slot: Slot
 }

@@ -41,9 +41,9 @@ class AnyType: Definition, Equatable {
         return other == self || _parentTypes.contains(other._id)
     }
     
-    let _env: Env
-    let _pos: Pos
-    let _id: TypeId
-    let _name: String
-    let _parentTypes: ParentTypes
+    private let _env: Env
+    private let _pos: Pos
+    private let _id: TypeId
+    private let _name: String
+    private let _parentTypes: ParentTypes
 }
