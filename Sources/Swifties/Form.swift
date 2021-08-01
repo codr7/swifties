@@ -1,9 +1,7 @@
 import Foundation
 
 class Form: Equatable {
-    static func == (lhs: Form, rhs: Form) -> Bool {
-        return lhs === rhs
-    }
+    static func == (lhs: Form, rhs: Form) -> Bool { lhs === rhs }
     
     var env: Env { _env }
     var pos: Pos { _pos }

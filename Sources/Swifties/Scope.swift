@@ -1,9 +1,7 @@
 import Foundation
 
 class Scope: Equatable {
-    static func == (lhs: Scope, rhs: Scope) -> Bool {
-        return lhs === rhs
-    }
+    static func == (lhs: Scope, rhs: Scope) -> Bool { lhs === rhs }
 
     public var outer: Scope? { _outer }
     public var registerCount: Int { _nextRegister }
@@ -26,7 +24,7 @@ class Scope: Equatable {
     }
     
     func find(_ id: String) -> Slot? {
-            return _bindings[id]
+            _bindings[id]
     }
     
     func nextRegister(pos: Pos, id: String) throws -> Register {

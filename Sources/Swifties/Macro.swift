@@ -3,9 +3,7 @@ import Foundation
 class Macro: Equatable {
     typealias Body = (_ pos: Pos, _ args: [Form]) throws -> Form
 
-    static func == (lhs: Macro, rhs: Macro) -> Bool {
-        return lhs === rhs
-    }
+    static func == (lhs: Macro, rhs: Macro) -> Bool { lhs === rhs }
     
     init(env: Env, name: String, _ body: @escaping Body) {
         _env = env

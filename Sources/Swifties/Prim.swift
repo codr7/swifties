@@ -3,9 +3,7 @@ import Foundation
 class Prim: Equatable {
     typealias Body = (_ pos: Pos, _ args: [Form]) throws -> Void
 
-    static func == (lhs: Prim, rhs: Prim) -> Bool {
-        return lhs === rhs
-    }
+    static func == (lhs: Prim, rhs: Prim) -> Bool { lhs === rhs }
 
     init(env: Env, name: String, _ body: @escaping Body) {
         _env = env

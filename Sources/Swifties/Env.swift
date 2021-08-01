@@ -10,9 +10,7 @@ typealias TypeId = UInt
 typealias Stack = [Slot]
 
 class Env {
-    static func == (lhs: Env, rhs: Env) -> Bool {
-        return lhs === rhs
-    }
+    static func == (lhs: Env, rhs: Env) -> Bool { lhs === rhs }
     
     var coreLib: CoreLib? { _coreLib }
     var pc: Pc { _ops.count }
@@ -77,11 +75,11 @@ class Env {
     }
     
     func pop() -> Slot? {
-        return _stack.popLast()
+        _stack.popLast()
     }
 
     func load(index i: Register) -> Slot? {
-        return _registers[i]
+        _registers[i]
     }
     
     func store(index i: Register, slot: Slot) {

@@ -3,9 +3,7 @@ import Foundation
 class Func: Definition, Equatable {
     typealias Body = (_ pos: Pos) -> Pc?
 
-    static func == (lhs: Func, rhs: Func) -> Bool {
-        return lhs === rhs
-    }
+    static func == (lhs: Func, rhs: Func) -> Bool { lhs === rhs }
 
     var env: Env { _env }
     var pos: Pos { _pos }
@@ -32,7 +30,7 @@ class Func: Definition, Equatable {
     }
 
     func call(pos: Pos) -> Pc? {
-        return _body(pos)
+        _body(pos)
     }
         
     let _pos: Pos
