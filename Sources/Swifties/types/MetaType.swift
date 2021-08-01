@@ -1,4 +1,4 @@
 import Foundation
 
-class MetaType: Type<AnyType> {
+public class MetaType: Type<AnyType> {
 }

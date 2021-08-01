@@ -1,13 +1,13 @@
 import Foundation
 
-struct Load: Op {
-    init(env: Env, pc: Pc, index: Register) {
+public struct Load: Op {
+    public init(env: Env, pc: Pc, index: Register) {
         _env = env
         _pc = pc
         _index = index
     }
         
-    func eval() throws -> Pc {
+    public func eval() throws -> Pc {
         _env.push(_env.load(index: _index)!)
         return _pc+1
     }

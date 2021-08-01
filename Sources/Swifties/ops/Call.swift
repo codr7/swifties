@@ -1,7 +1,7 @@
 import Foundation
 
-struct Call: Op {
-    init(env: Env, pos: Pos, pc: Pc, target: Slot?, check: Bool) {
+public struct Call: Op {
+    public init(env: Env, pos: Pos, pc: Pc, target: Slot?, check: Bool) {
         _env = env
         _pos = pos
         _pc = pc
@@ -9,7 +9,7 @@ struct Call: Op {
         _check = check
     }
         
-    func eval() throws -> Pc {
+    public func eval() throws -> Pc {
         let t = _target ?? _env.pop()
         return try t!.type.callValue!(t!.value, _pos, _check) ?? _pc+1
     }

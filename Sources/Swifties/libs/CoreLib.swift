@@ -1,23 +1,40 @@
 import Foundation
 
-class CoreLib: Lib {
-    lazy var anyType = AnyType(self, pos: pos, name: "Any", parentTypes: [])
+public class CoreLib: Lib {
+    public let anyType: AnyType
 
-    lazy var funcType = FuncType(self, pos: pos, name: "Func", parentTypes: [anyType])
-    lazy var intType = IntType(self, pos: pos, name: "Int", parentTypes: [anyType])
-    lazy var macroType = MacroType(self, pos: pos, name: "Meta", parentTypes: [anyType])
-    lazy var metaType = MetaType(self, pos: pos, name: "Meta", parentTypes: [anyType])
-    lazy var primType = PrimType(self, pos: pos, name: "Prim", parentTypes: [anyType])
-    lazy var registerType = RegisterType(self, pos: pos, name: "Register", parentTypes: [anyType])
-    lazy var stackType = StackType(self, pos: pos, name: "Stack", parentTypes: [anyType])
+    public let funcType: FuncType
+    public let intType: IntType
+    public let macroType: MacroType
+    public let metaType: MetaType
+    public let primType: PrimType
+    public let registerType: RegisterType
+    public let stackType: StackType
 
-    func stack(pos: Pos) -> Pc? {
+    public override init(env: Env, pos: Pos) {
+        anyType = AnyType(env, pos: pos, name: "Any", parentTypes: [])
+
+        funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType])
+        intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType])
+        macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
+        metaType = MetaType(env, pos: pos, name: "Meta", parentTypes: [anyType])
+        primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType])
+        registerType = RegisterType(env, pos: pos, name: "Register", parentTypes: [anyType])
+        stackType = StackType(env, pos: pos, name: "Stack", parentTypes: [anyType])
+
+        super.init(env: env, pos: pos)
+    }
+    
+    public func stack(pos: Pos) -> Pc? {
         env.push(env.coreLib!.stackType, env.stack)
         return nil
     }
     
-    override func bind(pos: Pos, _ names: [String]) throws {
+    public override func bind(pos: Pos, _ names: [String]) throws {
+        define(anyType, funcType, intType, macroType, metaType, primType, registerType, stackType)
+        
         define(Func(env: env, pos: self.pos, name: "stack", args: [], rets: [stackType], self.stack))
+        
         try super.bind(pos: pos, names)
     }
 }

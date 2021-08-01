@@ -1,25 +1,31 @@
 import Foundation
 
-protocol Definition {
+public protocol Definition {
     var pos: Pos {get}
     var name: String {get}
     var slot: Slot {get}
 }
 
-class Lib {
-    var env: Env { _env }
-    var pos: Pos { _pos }
+public class Lib {
+    public var env: Env { _env }
+    public var pos: Pos { _pos }
  
-    init(env: Env, pos: Pos) {
+    public init(env: Env, pos: Pos) {
         _env = env
         _pos = pos
     }
 
-    func define(_ d: Definition) {
-        _definitions[d.name] = d
-    }
+    public func define(_ ds: Definition...) { define(ds) }
     
-    func bind(pos: Pos, _ names: [String]) throws {
+    public func define(_ ds: [Definition]) {
+        for d in ds {
+            _definitions[d.name] = d
+        }
+    }
+
+    public func bind(pos: Pos, _ names: String...) throws { try bind(pos: pos, names) }
+
+    public func bind(pos: Pos, _ names: [String]) throws {
         for n in names {
             if let d = _definitions[n] {
                 try env.scope!.bind(pos: d.pos, id: n, d.slot)

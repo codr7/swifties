@@ -1,7 +1,7 @@
 import Foundation
 
-struct UnknownId: Error {
-    init(pos: Pos, id: String) {
+public struct UnknownId: Error {
+    public init(pos: Pos, id: String) {
         _pos = pos
         _id = id
     }

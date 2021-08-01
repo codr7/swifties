@@ -1,4 +1,4 @@
 import Foundation
 
-class MacroType: Type<Macro> {
+public class MacroType: Type<Macro> {
 }

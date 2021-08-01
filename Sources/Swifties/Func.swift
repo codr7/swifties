@@ -1,16 +1,16 @@
 import Foundation
 
-class Func: Definition, Equatable {
-    typealias Body = (_ pos: Pos) -> Pc?
+public class Func: Definition, Equatable {
+    public typealias Body = (_ pos: Pos) -> Pc?
 
-    static func == (lhs: Func, rhs: Func) -> Bool { lhs === rhs }
+    public static func == (lhs: Func, rhs: Func) -> Bool { lhs === rhs }
 
-    var env: Env { _env }
-    var pos: Pos { _pos }
-    var name: String { _name }
-    var slot: Slot { Slot(_env.coreLib!.funcType, self) }
+    public var env: Env { _env }
+    public var pos: Pos { _pos }
+    public var name: String { _name }
+    public var slot: Slot { Slot(_env.coreLib!.funcType, self) }
     
-    init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: @escaping Body) {
+    public init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: @escaping Body) {
         _env = env
         _pos = pos
         _name = name
@@ -19,7 +19,7 @@ class Func: Definition, Equatable {
         _body = body
     }
     
-    func isApplicable() -> Bool {
+    public func isApplicable() -> Bool {
         for i in 0..<_args.count {
             if !_env.peek(offset: _args.count - i - 1)!.type.isa(_args[i]) {
                 return false
@@ -29,7 +29,7 @@ class Func: Definition, Equatable {
         return true
     }
 
-    func call(pos: Pos) -> Pc? {
+    public func call(pos: Pos) -> Pc? {
         _body(pos)
     }
         

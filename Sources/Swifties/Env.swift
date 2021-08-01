@@ -1,29 +1,29 @@
 import Foundation
 
-typealias Pc = Int
+public typealias Pc = Int
 
-let STOP_PC: Pc = -1
+public let STOP_PC: Pc = -1
 
-typealias Register = Int
-typealias TypeId = UInt
+public typealias Register = Int
+public typealias TypeId = UInt
 
-typealias Stack = [Slot]
+public typealias Stack = [Slot]
 
-class Env {
-    static func == (lhs: Env, rhs: Env) -> Bool { lhs === rhs }
+public class Env {
+    public static func == (lhs: Env, rhs: Env) -> Bool { lhs === rhs }
     
-    var coreLib: CoreLib? { _coreLib }
-    var pc: Pc { _ops.count }
-    var scope: Scope? { _scope }
-    var stack: Stack { _stack }
+    public var coreLib: CoreLib? { _coreLib }
+    public var pc: Pc { _ops.count }
+    public var scope: Scope? { _scope }
+    public var stack: Stack { _stack }
     
     @discardableResult
-    func beginScope() -> Scope {
+    public func beginScope() -> Scope {
         _scope = Scope(env: self, outer: _scope)
         return _scope!
     }
     
-    func endScope(pos: Pos) throws -> Scope {
+    public func endScope(pos: Pos) throws -> Scope {
         if _scope == nil {
             throw CompileError(pos, "No open scopes")
         }
@@ -38,31 +38,31 @@ class Env {
         return s
     }
 
-    func initCoreLib(_ pos: Pos) throws {
+    public func initCoreLib(_ pos: Pos) throws {
         if _coreLib == nil {
             _coreLib = CoreLib(env: self, pos: pos)
         }
     }
 
-    func nextTypeId() -> TypeId {
+    public func nextTypeId() -> TypeId {
         let id = _nextTypeId
         _nextTypeId += 1
         return id
     }
     
-    func emit(_ op: Op) {
+    public func emit(_ op: Op) {
         _ops.append(op)
     }
         
-    func push(_ slot: Slot) {
+    public func push(_ slot: Slot) {
         _stack.append(slot)
     }
 
-    func push<T>(_ type: Type<T>, _ value: T) {
+    public func push<T>(_ type: Type<T>, _ value: T) {
         push(Slot(type, value))
     }
 
-    func peek(offset: Int = 0) -> Slot? {
+    public func peek(offset: Int = 0) -> Slot? {
         if offset >= _stack.count {
             return nil
         }
@@ -74,19 +74,19 @@ class Env {
         return _stack[_stack.count - offset - 1]
     }
     
-    func pop() -> Slot? {
+    public func pop() -> Slot? {
         _stack.popLast()
     }
 
-    func load(index i: Register) -> Slot? {
+    public func load(index i: Register) -> Slot? {
         _registers[i]
     }
     
-    func store(index i: Register, slot: Slot) {
+    public func store(index i: Register, slot: Slot) {
         _registers[i] = slot
     }
     
-    func eval(pc: Pc) throws {
+    public func eval(pc: Pc) throws {
         var nextPc = pc
         
         while nextPc != STOP_PC {

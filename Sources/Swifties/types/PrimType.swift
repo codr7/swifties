@@ -1,4 +1,4 @@
 import Foundation
 
-class PrimType: Type<Prim> {
+public class PrimType: Type<Prim> {
 }

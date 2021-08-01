@@ -1,27 +1,27 @@
 import Foundation
 
-typealias ParentTypes = Set<TypeId>
+public class AnyType: Definition, Equatable {
+    public typealias CallValue = (_ target: Any, _ pos: Pos, _ check: Bool) throws -> Pc?
+    public typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
 
-typealias CallValue = (_ target: Any, _ pos: Pos, _ check: Bool) throws -> Pc?
-typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
+    typealias ParentTypes = Set<TypeId>
 
-class AnyType: Definition, Equatable {
-    static func == (lhs: AnyType, rhs: AnyType) -> Bool {
+    public static func == (lhs: AnyType, rhs: AnyType) -> Bool {
         return lhs === rhs
     }
 
-    var env: Env { _env }
-    var pos: Pos { _pos }
-    var name: String { _name }
-    var slot: Slot { Slot(_env.coreLib!.metaType, self) }
+    public var env: Env { _env }
+    public var pos: Pos { _pos }
+    public var name: String { _name }
+    public var slot: Slot { Slot(_env.coreLib!.metaType, self) }
     
-    var callValue: CallValue?
-    var equalValues: EqualValues?
+    public var callValue: CallValue?
+    public var equalValues: EqualValues?
 
-    init(_ lib: Lib, pos: Pos, name: String, parentTypes: [AnyType]) {
-        _env = lib.env
+    public init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
+        _env = env
         _pos = pos
-        _id = _env.nextTypeId()
+        _id = env.nextTypeId()
         _name = name
         var pts: ParentTypes = []
         
@@ -34,10 +34,9 @@ class AnyType: Definition, Equatable {
         }
         
         _parentTypes = pts
-        lib.define(self)
     }
 
-    func isa(_ other: AnyType) -> Bool {
+    public func isa(_ other: AnyType) -> Bool {
         return other == self || _parentTypes.contains(other._id)
     }
     

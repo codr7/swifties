@@ -1,4 +1,4 @@
 import Foundation
 
-class IntType: Type<Int> {
+public class IntType: Type<Int> {
 }

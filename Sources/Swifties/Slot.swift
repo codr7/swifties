@@ -1,14 +1,14 @@
 import Foundation
 
-struct Slot: Equatable {
-    static func == (lhs: Slot, rhs: Slot) -> Bool {
+public struct Slot: Equatable {
+    public static func == (lhs: Slot, rhs: Slot) -> Bool {
         lhs._type == rhs._type && lhs._type.equalValues!(lhs.value, rhs.value)
     }
     
-    var type: AnyType { get { _type } }
-    var value: Any { get { _value } }
+    public var type: AnyType { get { _type } }
+    public var value: Any { get { _value } }
 
-    init<T>(_ type: Type<T>, _ value: T) {
+    public init<T>(_ type: Type<T>, _ value: T) {
         self._type = type
         self._value = value
     }

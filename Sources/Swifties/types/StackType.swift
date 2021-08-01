@@ -1,4 +1,4 @@
 import Foundation
 
-class StackType: Type<Stack> {
+public class StackType: Type<Stack> {
 }

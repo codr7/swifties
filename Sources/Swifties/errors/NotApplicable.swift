@@ -1,7 +1,7 @@
 import Foundation
 
-struct NotApplicable: Error {
-    init(pos: Pos, target: Func, stack: Stack) {
+public struct NotApplicable: Error {
+    public init(pos: Pos, target: Func, stack: Stack) {
         _pos = pos
         _target = target
         _stack = stack

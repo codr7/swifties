@@ -1,4 +1,4 @@
 import Foundation
 
-class RegisterType: Type<Register> {
+public class RegisterType: Type<Register> {
 }

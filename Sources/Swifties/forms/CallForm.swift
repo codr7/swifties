@@ -1,13 +1,13 @@
 import Foundation
 
-class CallForm: Form {
-    init(env: Env, pos: Pos, target: Form, args: [Form]) {
+public class CallForm: Form {
+    public init(env: Env, pos: Pos, target: Form, args: [Form]) {
         _target = target
         _args = args
         super.init(env: env, pos: pos)
     }
     
-    override func expand() throws -> Form {
+    public override func expand() throws -> Form {
         let newTarget = try _target.expand()
         let newArgs = try _args.map {a in try a.expand()}
         
@@ -25,7 +25,7 @@ class CallForm: Form {
         return self
     }
 
-    override func emit() throws {
+    public override func emit() throws {
         var t = env.scope!.find((_target as! IdForm).name)
         
         if t == nil {

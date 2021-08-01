@@ -1,7 +1,7 @@
 import Foundation
 
-struct DupBinding: Error {
-    init(pos: Pos, id: String) {
+public struct DupBinding: Error {
+    public init(pos: Pos, id: String) {
         _pos = pos
         _id = id
     }

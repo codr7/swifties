@@ -1,7 +1,7 @@
 import Foundation
 
-struct CompileError: Error {
-    init(_ pos: Pos, _ message: String) {
+public struct CompileError: Error {
+    public init(_ pos: Pos, _ message: String) {
         _pos = pos
         _message = message
     }
