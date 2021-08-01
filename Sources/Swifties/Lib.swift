@@ -16,7 +16,6 @@ class Lib {
     }
 
     func define(_ d: Definition) {
-        assert(_definitions[d.name] == nil, "Duplicate definition: \(d.name)")
         _definitions[d.name] = d
     }
     

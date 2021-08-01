@@ -7,10 +7,9 @@ class Prim: Equatable {
         return lhs === rhs
     }
 
-    init(env: Env, name: String, argCount: Int, _ body: @escaping Body) {
+    init(env: Env, name: String, _ body: @escaping Body) {
         _env = env
         _name = name
-        _argCount = argCount
         _body = body
     }
     
@@ -20,6 +19,5 @@ class Prim: Equatable {
         
     let _env: Env
     let _name: String
-    let _argCount: Int
     let _body: Body
 }

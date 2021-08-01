@@ -26,7 +26,6 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 
 ### todo
 - add reset/drop prims
-- add stack type/func
 - add repl
 - add parser
     - id parser
