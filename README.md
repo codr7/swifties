@@ -1,5 +1,5 @@
 # Swifties
-### a Swift language construction kit 
+### a custom language construction kit 
 
 ### intro
 [Swifties](https://github.com/codr7/swifties) aims to provide a flexible toolkit for creating custom languages in Swift.
@@ -31,6 +31,15 @@ let f = Func(env: env, pos: pos, name: "foo", args: [], rets: [env.coreLib!.intT
 env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
+### demo
+A Lisp REPL is under development for demonstration purposes.
+
+```
+(let [x 35 y 7]
+    (+ x y))
+[42]
+```
+
 ```
 (func fib [n:Int] [Int]
     (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
@@ -38,7 +47,7 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 
 ### todo
 - add let-prim
-    - first arg is bindings second body
+    - first arg is stack of bindings second body
     - (x 42 y 33)
     - bind forms with non-nil slots immediatel
 - add Nil type/Maybe type
