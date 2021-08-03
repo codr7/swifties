@@ -31,7 +31,25 @@ public class CoreLib: Lib {
         env.pop()
         return nil
     }
-    
+
+    public func _let(pos: Pos, args: [Form]) throws {
+        let scope = env.beginScope()
+        let bindings = (args[0] as! StackForm).items
+        var i = 0
+        
+        while i+1 < bindings.count {
+            let (id, v) = (bindings[i] as! IdForm, bindings[i+1])
+            try v.emit()
+            let register = try scope.nextRegister(pos: pos, id: id.name)
+            env.emit(Store(env: env, pc: env.pc, index: register))
+            i += 2
+        }
+        
+        for a in args[1...] {
+            try a.emit()
+        }
+    }
+
     public func reset(pos: Pos, args: [Form]) {
         env.emit(Reset(env: env, pc: env.pc))
     }
@@ -48,6 +66,7 @@ public class CoreLib: Lib {
         define("f", boolType, false)
         
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
+        define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Func(env: env, pos: self.pos, name: "stack", args: [], rets: [stackType], self.stack))
         

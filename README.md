@@ -35,28 +35,27 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 A Lisp REPL is under development for demonstration purposes.
 
 ```
-(let [x 35 y 7]
-    (+ x y))
+  (let [x 35 y 7]
+      (+ x y))
 [42]
 ```
 
 ```
-(func fib [n:Int] [Int]
-    (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
+  (func fib [n:Int] [Int]
+      (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
+[]
+  (fib 20)
+[6765]
 ```
 
 ### todo
-- add let-prim
-    - first arg is stack of bindings second body
-    - (x 42 y 33)
-    - bind forms with non-nil slots immediatel
-- add Nil type/Maybe type
-- add types to readme
 - add if prim
     - add branch op
         - add AnyType.valueIsTrue
             - default true
             - override for Int/Bool/String
+- add Nil type/Maybe type
+- add types to readme
 - add repl
     - add parser
         - id parser
