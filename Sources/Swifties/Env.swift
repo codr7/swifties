@@ -23,10 +23,9 @@ public class Env {
         return _scope!
     }
     
-    public func endScope(pos: Pos) throws -> Scope {
-        if _scope == nil {
-            throw CompileError(pos, "No open scopes")
-        }
+    @discardableResult
+    public func endScope() -> Scope {
+        precondition(_scope != nil, "No open scopes")
         
         let s = _scope!
         _scope = s.outer
