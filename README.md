@@ -58,8 +58,6 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 ```
 
 ### todo
-- debug call reader
-    - says open call form when > 1 form
 - add do macro
     - emit args
 - add Frame/env._frames
