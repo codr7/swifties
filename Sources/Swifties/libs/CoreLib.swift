@@ -4,6 +4,7 @@ public class CoreLib: Lib {
     public let anyType: AnyType
 
     public let boolType: BoolType
+    public let coroType: CoroType
     public let funcType: FuncType
     public let intType: IntType
     public let macroType: MacroType
@@ -16,6 +17,7 @@ public class CoreLib: Lib {
         anyType = AnyType(env, pos: pos, name: "Any", parentTypes: [])
 
         boolType = BoolType(env, pos: pos, name: "Bool", parentTypes: [anyType])
+        coroType = CoroType(env, pos: pos, name: "Coro", parentTypes: [anyType])
         funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType])
         intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
@@ -26,6 +28,8 @@ public class CoreLib: Lib {
 
         super.init(env: env, pos: pos)
     }
+    
+    public func missing(pos: Pos, args: [Form]) {}
     
     public func drop(pos: Pos) throws -> Pc? {
         env.pop()
@@ -62,11 +66,12 @@ public class CoreLib: Lib {
     }
     
     public override func bind(pos: Pos, _ names: [String]) throws {
-        define(anyType, funcType, intType, macroType, metaType, primType, registerType, stackType)
+        define(anyType, boolType, coroType, funcType, intType, macroType, metaType, primType, registerType, stackType)
         
         define("t", boolType, true)
         define("f", boolType, false)
         
+        define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.missing))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))

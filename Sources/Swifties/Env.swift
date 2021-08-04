@@ -2,6 +2,7 @@ import Foundation
 
 public typealias Pc = Int
 public typealias Register = Int
+public typealias Registers = [Slot?]
 public typealias TypeId = UInt
 public typealias Stack = [Slot]
 
@@ -15,6 +16,7 @@ public class Env {
     public var pc: Pc { _ops.count }
     public var scope: Scope? { _scope }
     public var stack: Stack { _stack }
+    public var registers: Registers { _registers }
     
     public init() {}
     
@@ -105,10 +107,17 @@ public class Env {
         }
     }
     
+    public func restore(coro: Coro) {
+        _scope = coro.scope
+        _stack = coro.stack
+        _registers = coro.registers
+            
+    }
+    
     private var _nextTypeId: TypeId = 1
     private var _coreLib: CoreLib?
     private var _ops: [Op] = []
     private var _scope: Scope?
     private var _stack: Stack = []
-    private var _registers: [Slot?] = []
+    private var _registers: Registers = []
 }

@@ -59,6 +59,7 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
             - override for Int/Bool/String/Stack
 - add func prim
 - add call parser to repl
+    - add Parser.append(reader: ) for args
 - add stack parser to repl
 - fib!
 - add parsers/readers to readme
