@@ -11,7 +11,8 @@ public class SpaceReader: Reader {
             } else if c.isWhitespace {
                 p.nextColumn()
             } else {
-                return nil
+                p.ungetc(c)
+                break
             }
         }
         
