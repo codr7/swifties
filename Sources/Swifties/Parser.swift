@@ -5,6 +5,7 @@ public protocol Reader {
 }
 
 public class Parser: Reader {
+    public var env: Env { _env }
     public var pos: Pos { _pos }
     public var forms: [Form] { _forms }
     
