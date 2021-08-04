@@ -9,6 +9,12 @@ public class Parser: Reader {
     public var pos: Pos { _pos }
     public var forms: [Form] { _forms }
     
+    public var errors: [Error] {
+        let tmp = _errors
+        _errors.removeAll()
+        return tmp
+    }
+    
     public convenience init(env: Env, source: String, _ readers: Reader...) {
         self.init(env: env, source: source, readers: readers)
     }
@@ -32,7 +38,14 @@ public class Parser: Reader {
 
     public func slurp(_ input: String) throws {
         _input = String(input.reversed()) + _input
-        while let f = try readForm(self) { _forms.append(f) }
+        let inputCopy = _input
+        
+        do {
+            while let f = try readForm(self) { _forms.append(f) }
+        } catch {
+            _input = inputCopy
+            throw error
+        }
     }
     
     public func nextColumn() { _pos.nextColumn() }
@@ -48,4 +61,5 @@ public class Parser: Reader {
     private var _pos: Pos
     private var _readers: [Reader]
     private var _forms: [Form] = []
+    private var _errors: [Error] = []
 }
