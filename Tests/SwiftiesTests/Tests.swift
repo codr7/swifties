@@ -3,7 +3,7 @@ import XCTest
 
 final class Tests: XCTestCase {
     func testPush() throws {
-        let p = Pos(source: "testPush", line: -1, column: -1)
+        let p = Pos("testPush", line: -1, column: -1)
         let env = Env()
         
         try env.initCoreLib(p)
@@ -17,7 +17,7 @@ final class Tests: XCTestCase {
     }
 
     func testStaticBinding() throws {
-        let p = Pos(source: "testStaticBinding", line: -1, column: -1)
+        let p = Pos("testStaticBinding", line: -1, column: -1)
         let env = Env()
         try env.initCoreLib(p)
         let v = Slot(env.coreLib!.intType, 42)
@@ -29,7 +29,7 @@ final class Tests: XCTestCase {
     }
     
     func testDynamicBinding() throws {
-        let p = Pos(source: "testDynamicBinding", line: -1, column: -1)
+        let p = Pos("testDynamicBinding", line: -1, column: -1)
         let env = Env()
         try env.initCoreLib(p)
         let scope = env.beginScope()
@@ -45,7 +45,7 @@ final class Tests: XCTestCase {
     }
     
     func testSwiftFunc() throws {
-        let p = Pos(source: "testSwiftFunc", line: -1, column: -1)
+        let p = Pos("testSwiftFunc", line: -1, column: -1)
         let env = Env()
         try env.initCoreLib(p)
         env.beginScope()

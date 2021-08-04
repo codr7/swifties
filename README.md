@@ -41,7 +41,7 @@ A Lisp REPL is under development for demonstration purposes.
 ```
 
 ```
-  (func fib [n:Int] [Int]
+  (func fib [n Int] [Int]
       (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
 []
   (fib 20)
@@ -49,21 +49,18 @@ A Lisp REPL is under development for demonstration purposes.
 ```
 
 ### todo
+- finish repl
+    - readLine until empty
+    - add parsers to readme
 - add if prim
     - add branch op
         - add AnyType.valueIsTrue
             - default true
-            - override for Int/Bool/String
+            - override for Int/Bool/String/Stack
 - add Nil type/Maybe type
 - add types to readme
-- add repl
-    - add parser
-        - id parser
-        - (foo x y z) for calls
-        - [x y z] for stacks
 - add func prim
-    - add StackForm
-        - items []Form
-        - emit as push
-        - implement slot
+- add Int parser
+- add call parser
+- add stack parser
 - add multi

@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Pos {
-    public init(source: String, line: Int, column: Int) {
+    public init(_ source: String, line: Int = 0, column: Int = 0) {
         _source = source
         self._line = line
         self._column = column
