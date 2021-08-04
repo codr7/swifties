@@ -38,7 +38,7 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 1  (do 1 2 3)
 1
 [1 2 3]
-2  (do stack 4 5 6)
+2  (do stack 4 5 6)
 2
 [[1 2 3] 4 5 6]
 ```
