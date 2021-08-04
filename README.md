@@ -54,7 +54,6 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 1      (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
 []
 2  (fib 20)
-2  
 [6765]
 ```
 
