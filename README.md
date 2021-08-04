@@ -58,7 +58,7 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 ```
 
 ### todo
-- add do macro
+- add do prim
     - emit args
 - add Frame/env._frames
     - gofu.Call
@@ -80,7 +80,7 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 - add return prim
   - add args [Form] to return op
     - check against peekFrame()!.target
-- add suspend macro
+- add suspend prim
     - (suspend ...)
     - emit jump
         - add Jump(pc:)
