@@ -35,16 +35,18 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 A REPL (under development) is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ```
-  (let [x 35 y 7]
-      (+ x y))
+1  (let [x 35 y 7]
+1      (+ x y))
+1
 [42]
 ```
 
 ```
-  (func fib [n Int] [Int]
-      (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
+1  (func fib [n Int] [Int]
+1      (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
+1
 []
-  (fib 20)
+2  (fib 20)
 [6765]
 ```
 

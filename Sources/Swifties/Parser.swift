@@ -5,9 +5,7 @@ public protocol Reader {
 }
 
 public class Parser: Reader {
-    public var env: Env { _env }
     public var pos: Pos
-    
     public var forms: [Form] { _forms }
     
     public convenience init(env: Env, source: String, _ readers: Reader...) {
@@ -35,6 +33,11 @@ public class Parser: Reader {
         while let f = try readForm(&input, root: self) {
             _forms.append(f)
         }
+    }
+    
+    public func reset() {
+        _forms = []
+        pos = Pos(pos.source)
     }
     
     private let _env: Env

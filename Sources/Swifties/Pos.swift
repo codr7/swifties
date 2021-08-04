@@ -1,6 +1,9 @@
 import Foundation
 
 public struct Pos {
+    public var source: String { _source }
+    public var _line, _column: Int
+
     public init(_ source: String, line: Int = 0, column: Int = 0) {
         _source = source
         self._line = line
@@ -17,5 +20,4 @@ public struct Pos {
     }
     
     private let _source: String
-    public var _line, _column: Int
 }
