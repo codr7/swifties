@@ -32,7 +32,7 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
 ### demo
-A Lisp REPL is under development for demonstration purposes.
+A REPL (under development) is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ```
   (let [x 35 y 7]
