@@ -49,16 +49,17 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 ```
 
 ### todo
-- add parsers/readers to readme
+- add Int parser
 - add if prim
     - add branch op
         - add AnyType.valueIsTrue
             - default true
             - override for Int/Bool/String/Stack
-- add Nil type/Maybe type
-- add types to readme
 - add func prim
-- add Int parser
 - add call parser to repl
 - add stack parser to repl
+- fib!
+- add parsers/readers to readme
+- add Nil type/Maybe type
+- add types to readme
 - add multi
