@@ -3,6 +3,8 @@ import Foundation
 public class Macro: Equatable {
     public typealias Body = (_ pos: Pos, _ args: [Form]) throws -> Form
 
+    public var name: String { _name }
+    
     public static func == (lhs: Macro, rhs: Macro) -> Bool { lhs === rhs }
     
     public init(env: Env, name: String, _ body: @escaping Body) {

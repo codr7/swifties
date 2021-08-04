@@ -29,6 +29,9 @@ public class Parser: Reader {
     }
 
     public func read(_ input: inout String) throws {
+        input = String(input.reversed())
+        defer { input = String(input.reversed()) }
+
         while let f = try readForm(&input, root: self) {
             _forms.append(f)
         }

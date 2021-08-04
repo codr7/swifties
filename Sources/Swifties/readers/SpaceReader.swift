@@ -3,10 +3,7 @@ import Foundation
 public let spaceReader = SpaceReader()
 
 public class SpaceReader: Reader {
-    public func readForm(_ input: inout String, root: Parser) throws -> Form? {
-        input = String(input.reversed())
-        defer { input = String(input.reversed()) }
-        
+    public func readForm(_ input: inout String, root: Parser) throws -> Form? {        
         while let c = input.popLast() {
             switch c {
             case " ", "\t":

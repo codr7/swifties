@@ -13,6 +13,11 @@ public class FuncType: Type<Func> {
             
             return try f.call(pos: pos)
         }
+ 
+        dumpValue = {v in
+            let f = v as! Func
+            return "Func\(f.name)"
+        }
     }
 }
 

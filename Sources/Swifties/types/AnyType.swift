@@ -2,6 +2,7 @@ import Foundation
 
 public class AnyType: Definition, Equatable {
     public typealias CallValue = (_ target: Any, _ pos: Pos, _ check: Bool) throws -> Pc?
+    public typealias DumpValue = (_ value: Any) -> String
     public typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
 
     typealias ParentTypes = Set<TypeId>
@@ -16,6 +17,7 @@ public class AnyType: Definition, Equatable {
     public var slot: Slot { Slot(_env.coreLib!.metaType, self) }
     
     public var callValue: CallValue?
+    public var dumpValue: DumpValue?
     public var equalValues: EqualValues?
 
     public init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {

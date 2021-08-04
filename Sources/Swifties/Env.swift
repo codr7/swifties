@@ -1,13 +1,12 @@
 import Foundation
 
 public typealias Pc = Int
-
-public let STOP_PC: Pc = -1
-
 public typealias Register = Int
 public typealias TypeId = UInt
-
 public typealias Stack = [Slot]
+
+public let STOP_PC: Pc = -1
+public let SWIFTIES_VERSION = 1
 
 public class Env {
     public static func == (lhs: Env, rhs: Env) -> Bool { lhs === rhs }
