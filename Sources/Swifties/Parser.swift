@@ -6,6 +6,7 @@ public protocol Reader {
 
 public class Parser: Reader {
     public var env: Env { _env }
+    public var input: String { _input }
     public var pos: Pos { _pos }
     public var forms: [Form] { _forms }
     
@@ -20,6 +21,7 @@ public class Parser: Reader {
     }
 
     public func getc() -> Character? { _input.popLast() }
+    public func ungetc(_ c: Character) { _input.append(c) }
     
     public func readForm(_ p: Parser) throws -> Form? {
         let (inputCopy, posCopy, formsCopy) = (_input, _pos, _forms)
