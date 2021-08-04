@@ -11,7 +11,6 @@ public class SpaceReader: Reader {
             case "\n":
                 p.newLine()
             default:
-                p.ungetc(c)
                 return nil
             }
         }

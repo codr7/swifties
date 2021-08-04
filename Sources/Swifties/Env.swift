@@ -57,9 +57,11 @@ public class Env {
         _ops.append(op)
         return op
     }
-        
-    public func push(_ slot: Slot) {
-        _stack.append(slot)
+
+    public func push(_ slots: Slot...) { push(slots) }
+
+    public func push(_ slots: [Slot]) {
+        for s in slots { _stack.append(s) }
     }
 
     public func push<T>(_ type: Type<T>, _ value: T) {

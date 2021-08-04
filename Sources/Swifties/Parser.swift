@@ -20,27 +20,31 @@ public class Parser: Reader {
     }
 
     public func getc() -> Character? { _input.popLast() }
-    public func ungetc(_ c: Character) { _input.append(c) }
     
     public func readForm(_ p: Parser) throws -> Form? {
+        let (inputCopy, posCopy, formsCopy) = (_input, _pos, _forms)
+
         for r in _readers {
             if let f = try r.readForm(self) { return f }
+            _input = inputCopy
+            _pos = posCopy
+            _forms = formsCopy
         }
-        
+  
         return nil
     }
 
     public func slurp(_ input: String) throws {
         _input = String(input.reversed()) + _input
         let (inputCopy, posCopy, formsCopy) = (_input, _pos, _forms)
-        
+
         do {
             while let f = try readForm(self) { _forms.append(f) }
-        } catch {
+        } catch let e {
             _input = inputCopy
             _pos = posCopy
             _forms = formsCopy
-            throw error
+            throw e
         }
     }
     
