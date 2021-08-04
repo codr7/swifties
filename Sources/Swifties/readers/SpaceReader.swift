@@ -3,6 +3,7 @@ import Foundation
 public let spaceReader = SpaceReader()
 
 public class SpaceReader: Reader {
+    @discardableResult
     public func readForm(_ p: Parser) throws -> Form? {
         while let c = p.getc() {
             switch c {
