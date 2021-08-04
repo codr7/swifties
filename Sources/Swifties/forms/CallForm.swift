@@ -29,7 +29,7 @@ public class CallForm: Form {
         var t = env.scope!.find((_target as! IdForm).name)
         
         if t == nil {
-            throw CompileError(pos, "Unknown target: \(_target)")
+            throw EmitError(pos, "Unknown target: \(_target)")
         }
 
         if t!.type == env.coreLib!.primType {

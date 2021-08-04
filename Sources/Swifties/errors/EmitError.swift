@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CompileError: Error {
+public struct EmitError: Error {
     public init(_ pos: Pos, _ message: String) {
         _pos = pos
         _message = message

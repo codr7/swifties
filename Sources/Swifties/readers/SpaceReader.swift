@@ -11,6 +11,7 @@ public class SpaceReader: Reader {
             case "\n":
                 root.newLine()
             default:
+                input.append(c)
                 return nil
             }
         }

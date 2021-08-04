@@ -31,7 +31,7 @@ public class IdForm: Form {
     }
         
     public override func emit() throws {
-        if let found = env.scope!.find(self._name) {
+        if let found = env.scope!.find(_name) {
             if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pc: env.pc, index: found.value as! Int))
             } else if found.type == env.coreLib!.primType {
@@ -41,6 +41,8 @@ public class IdForm: Form {
             } else {
                 env.emit(Push(pc: env.pc, found))
             }
+        } else {
+            throw EmitError(pos, "Unknown identifier: \(_name)")
         }
     }
 

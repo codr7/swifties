@@ -20,7 +20,7 @@ public class Prim: Definition, Equatable {
     
     public func emit(pos: Pos, args: [Form]) throws {
         if args.count < _args.0 || (_args.1 != -1 && args.count > _args.1) {
-            throw CompileError(pos, "Wrong number of arguments: \(_name)")
+            throw EmitError(pos, "Wrong number of arguments: \(_name)")
         }
             
         try _body(pos, args)
