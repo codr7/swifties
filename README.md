@@ -49,9 +49,7 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 ```
 
 ### todo
-- finish repl
-    - readLine until empty
-    - add parsers to readme
+- add parsers/readers to readme
 - add if prim
     - add branch op
         - add AnyType.valueIsTrue
@@ -61,6 +59,6 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 - add types to readme
 - add func prim
 - add Int parser
-- add call parser
-- add stack parser
+- add call parser to repl
+- add stack parser to repl
 - add multi
