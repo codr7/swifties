@@ -24,13 +24,8 @@ public class Parser: Reader {
     public func ungetc(_ c: Character) { _input.append(c) }
     
     public func readForm(_ p: Parser) throws -> Form? {
-        let (inputCopy, posCopy, formsCopy) = (_input, _pos, _forms)
-
         for r in _readers {
             if let f = try r.readForm(self) { return f }
-            _input = inputCopy
-            _pos = posCopy
-            _forms = formsCopy
         }
   
         return nil
