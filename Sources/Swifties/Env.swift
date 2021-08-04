@@ -17,6 +17,8 @@ public class Env {
     public var scope: Scope? { _scope }
     public var stack: Stack { _stack }
     
+    public init() {}
+    
     @discardableResult
     public func beginScope() -> Scope {
         _scope = Scope(env: self, outer: _scope)

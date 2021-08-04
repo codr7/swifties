@@ -10,11 +10,11 @@ public class RootParser: Parser {
     
     public var forms: [Form] { _forms }
     
-    convenience init(env: Env, source: String, links: Parser...) {
+    public convenience init(env: Env, source: String, links: Parser...) {
         self.init(env: env, source: source, links: links)
     }
     
-    init(env: Env, source: String, links: [Parser]) {
+    public init(env: Env, source: String, links: [Parser]) {
         _env = env
         pos = Pos(source)
         _links = links
