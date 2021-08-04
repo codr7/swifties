@@ -1,28 +1,28 @@
 import Foundation
 
-public protocol Parser {
-    func readForm(_ input: inout String, root: RootParser) throws -> Form?
+public protocol Reader {
+    func readForm(_ input: inout String, root: Parser) throws -> Form?
 }
 
-public class RootParser: Parser {
+public class Parser: Reader {
     public var env: Env { _env }
     public var pos: Pos
     
     public var forms: [Form] { _forms }
     
-    public convenience init(env: Env, source: String, _ links: Parser...) {
-        self.init(env: env, source: source, links: links)
+    public convenience init(env: Env, source: String, _ readers: Reader...) {
+        self.init(env: env, source: source, readers: readers)
     }
     
-    public init(env: Env, source: String, links: [Parser]) {
+    public init(env: Env, source: String, readers: [Reader]) {
         _env = env
         pos = Pos(source)
-        _links = links
+        _readers = readers
     }
 
-    public func readForm(_ input: inout String, root: RootParser) throws -> Form? {
-        for p in _links {
-            if let f = try p.readForm(&input, root: self) { return f }
+    public func readForm(_ input: inout String, root: Parser) throws -> Form? {
+        for r in _readers {
+            if let f = try r.readForm(&input, root: self) { return f }
         }
         
         return nil
@@ -35,6 +35,6 @@ public class RootParser: Parser {
     }
     
     private let _env: Env
-    private var _links: [Parser]
+    private var _readers: [Reader]
     private var _forms: [Form] = []
 }

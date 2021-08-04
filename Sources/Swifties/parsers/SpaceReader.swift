@@ -1,13 +1,9 @@
 import Foundation
 
-func isSpace(_ c: Character) -> Bool {
-    return c == " " || c == "\n" || c == "\t"
-}
+public let spaceReader = SpaceReader()
 
-public let spaceParser = SpaceParser()
-
-public class SpaceParser: Parser {
-    public func readForm(_ input: inout String, root: RootParser) throws -> Form? {
+public class SpaceReader: Reader {
+    public func readForm(_ input: inout String, root: Parser) throws -> Form? {
         input = String(input.reversed())
         defer { input = String(input.reversed()) }
         
