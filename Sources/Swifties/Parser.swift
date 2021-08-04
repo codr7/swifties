@@ -20,10 +20,7 @@ public class Parser: Reader {
     }
 
     public func getc() -> Character? { _input.popLast() }
-    
-    public func ungetc(_ c: Character) {
-        _input.append(c)
-    }
+    public func ungetc(_ c: Character) { _input.append(c) }
     
     public func readForm(_ p: Parser) throws -> Form? {
         for r in _readers {
@@ -35,19 +32,11 @@ public class Parser: Reader {
 
     public func slurp(_ input: String) throws {
         _input = String(input.reversed()) + _input
-
-        while let f = try readForm(self) {
-            _forms.append(f)
-        }
+        while let f = try readForm(self) { _forms.append(f) }
     }
     
-    public func nextColumn() {
-        _pos.nextColumn()
-    }
-    
-    public func newLine() {
-        _pos.newLine()
-    }
+    public func nextColumn() { _pos.nextColumn() }
+    public func newLine() { _pos.newLine() }
         
     public func reset() {
         _forms = []
