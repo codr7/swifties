@@ -67,6 +67,13 @@ public class CoreLib: Lib {
         return nil
     }
     
+    public func splat(pos: Pos, args: [Form]) throws {
+        for a in args {
+            try a.emit()
+            env.emit(Splat(env: env, pos: pos, pc: env.pc))
+        }
+    }
+    
     public override func bind(pos: Pos, _ names: [String]) throws {
         define(anyType, boolType, contType, funcType, intType, macroType, metaType, primType, registerType, stackType)
         
@@ -77,6 +84,7 @@ public class CoreLib: Lib {
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
+        define(Prim(env: env, pos: self.pos, name: "splat", (1, -1), self.splat))
         define(Func(env: env, pos: self.pos, name: "stash", args: [], rets: [stackType], self.stash))
         
         try super.bind(pos: pos, names)
