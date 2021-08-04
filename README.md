@@ -64,6 +64,19 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
     - gofu.Call
     - capture frames in Cont
 - add static Func.compile() -> Body
+- add func prim
+- add Int parser
+- add if prim
+    - add branch op
+        - add AnyType.valueIsTrue
+            - default true
+            - override for Int/Bool/String/Stack
+- add stack parser to repl
+- fib!
+- add parser to readme
+- add Nil type/Maybe type
+- add types to readme
+- add multi
 - add return prim
   - add args [Form] to return op
     - check against peekFrame()!.target
@@ -78,18 +91,3 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
     - emit stop
 - implement callValue for Cont
     - env.restore
-- add func prim
-- add Int parser
-- add if prim
-    - add branch op
-        - add AnyType.valueIsTrue
-            - default true
-            - override for Int/Bool/String/Stack
-- add call parser to repl
-    - add Parser.append(reader: ) for args
-- add stack parser to repl
-- fib!
-- add parsers/readers to readme
-- add Nil type/Maybe type
-- add types to readme
-- add multi
