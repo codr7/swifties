@@ -7,9 +7,9 @@ public class SpaceReader: Reader {
         while let c = input.popLast() {
             switch c {
             case " ", "\t":
-                root.pos.next()
+                root.nextColumn()
             case "\n":
-                root.pos.newline()
+                root.newLine()
             default:
                 return nil
             }

@@ -5,7 +5,7 @@ public protocol Reader {
 }
 
 public class Parser: Reader {
-    public var pos: Pos
+    public var pos: Pos { _pos }
     public var forms: [Form] { _forms }
     
     public convenience init(env: Env, source: String, _ readers: Reader...) {
@@ -14,7 +14,7 @@ public class Parser: Reader {
     
     public init(env: Env, source: String, readers: [Reader]) {
         _env = env
-        pos = Pos(source)
+        _pos = Pos(source)
         _readers = readers
     }
 
@@ -35,12 +35,21 @@ public class Parser: Reader {
         }
     }
     
+    public func nextColumn() {
+        _pos.nextColumn()
+    }
+    
+    public func newLine() {
+        _pos.newLine()
+    }
+        
     public func reset() {
         _forms = []
-        pos = Pos(pos.source)
+        _pos = Pos(pos.source)
     }
     
     private let _env: Env
+    private var _pos: Pos
     private var _readers: [Reader]
     private var _forms: [Form] = []
 }

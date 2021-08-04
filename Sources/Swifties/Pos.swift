@@ -2,7 +2,6 @@ import Foundation
 
 public struct Pos {
     public var source: String { _source }
-    public var _line, _column: Int
 
     public init(_ source: String, line: Int = 0, column: Int = 0) {
         _source = source
@@ -10,14 +9,15 @@ public struct Pos {
         self._column = column
     }
     
-    mutating public func next() {
+    mutating public func nextColumn() {
         self._column += 1
     }
     
-    mutating public func newline() {
+    mutating public func newLine() {
         self._line += 1
         self._column = 0
     }
     
     private let _source: String
+    private var _line, _column: Int
 }
