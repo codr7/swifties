@@ -60,7 +60,7 @@ public class CoreLib: Lib {
         env.emit(Reset(env: env, pc: env.pc))
     }
     
-    public func stack(pos: Pos) -> Pc? {
+    public func stash(pos: Pos) -> Pc? {
         let tmp = env.stack
         env.reset()
         env.push(env.coreLib!.stackType, tmp)
@@ -77,7 +77,7 @@ public class CoreLib: Lib {
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
-        define(Func(env: env, pos: self.pos, name: "stack", args: [], rets: [stackType], self.stack))
+        define(Func(env: env, pos: self.pos, name: "stash", args: [], rets: [stackType], self.stash))
         
         try super.bind(pos: pos, names)
     }
