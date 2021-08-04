@@ -36,24 +36,20 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 
 ```
 1  (do 1 2 3)
-1
 [1 2 3]
 2  (do stack 4 5 6)
-2
 [[1 2 3] 4 5 6]
 ```
 
 ```
 1  (let [x 35 y 7]
 1      (+ x y))
-1
 [42]
 ```
 
 ```
 1  (func fib [n Int] [Int]
 1      (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
-1
 []
 2  (fib 20)
 2  
@@ -61,11 +57,6 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 ```
 
 ### todo
-- fix parser
-    - save current input before and restore on error in Parser.read
-    - change repl to parse lines as they come
-        - eval once a form is returned
-        - update examples in readme
 - add do macro
     - emit args
 - add Frame/env._frames
