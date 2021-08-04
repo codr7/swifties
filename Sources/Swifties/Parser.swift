@@ -6,7 +6,8 @@ protocol Parser {
 
 class RootParser: Parser {
     public var env: Env { _env }
-    public var pos: Pos { _pos }
+    public var pos: Pos
+    
     public var forms: [Form] { _forms }
     
     convenience init(env: Env, source: String, links: Parser...) {
@@ -14,9 +15,9 @@ class RootParser: Parser {
     }
     
     init(env: Env, source: String, links: [Parser]) {
-        self._env = env
-        self._pos = Pos(source)
-        self._links = links
+        _env = env
+        pos = Pos(source)
+        _links = links
     }
 
     public func readForm(_ input: inout String, root: RootParser) throws -> Form? {
@@ -34,7 +35,6 @@ class RootParser: Parser {
     }
     
     private let _env: Env
-    private var _pos: Pos
     private var _links: [Parser]
     private var _forms: [Form] = []
 }

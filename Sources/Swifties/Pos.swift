@@ -7,6 +7,15 @@ public struct Pos {
         self._column = column
     }
     
+    mutating public func next() {
+        self._column += 1
+    }
+    
+    mutating public func newline() {
+        self._line += 1
+        self._column = 0
+    }
+    
     private let _source: String
-    private var _line, _column: Int
+    public var _line, _column: Int
 }
