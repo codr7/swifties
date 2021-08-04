@@ -30,7 +30,7 @@ public class Lib {
     public func bind(pos: Pos, _ names: String...) throws { try bind(pos: pos, names) }
 
     public func bind(pos: Pos, _ names: [String]) throws {
-        for n in names {
+        for n in (names.count == 0) ? _bindings.map({n, _ in n}) : names {
             if let s = _bindings[n] {
                 try env.scope!.bind(pos: pos, id: n, s)
             } else {

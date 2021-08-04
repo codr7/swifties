@@ -6,7 +6,7 @@ final class Tests: XCTestCase {
         let p = Pos("testPush", line: -1, column: -1)
         let env = Env()
         
-        try env.initCoreLib(p)
+        try env.initCoreLib(pos: p)
         XCTAssertEqual("Int", env.coreLib!.intType.name)
         
         let v = Slot(env.coreLib!.intType, 42)
@@ -19,7 +19,7 @@ final class Tests: XCTestCase {
     func testStaticBinding() throws {
         let p = Pos("testStaticBinding", line: -1, column: -1)
         let env = Env()
-        try env.initCoreLib(p)
+        try env.initCoreLib(pos: p)
         let v = Slot(env.coreLib!.intType, 42)
         try env.beginScope().bind(pos: p, id: "foo", v)
         try IdForm(env: env, pos: p, name: "foo").emit()
@@ -31,7 +31,7 @@ final class Tests: XCTestCase {
     func testDynamicBinding() throws {
         let p = Pos("testDynamicBinding", line: -1, column: -1)
         let env = Env()
-        try env.initCoreLib(p)
+        try env.initCoreLib(pos: p)
         let scope = env.beginScope()
         let v = Slot(env.coreLib!.intType, 42)
         let i = try scope.nextRegister(pos: p, id: "foo")
@@ -47,7 +47,7 @@ final class Tests: XCTestCase {
     func testSwiftFunc() throws {
         let p = Pos("testSwiftFunc", line: -1, column: -1)
         let env = Env()
-        try env.initCoreLib(p)
+        try env.initCoreLib(pos: p)
         env.beginScope()
 
         let f = Func(env: env, pos: p, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType], {(pos: Pos) -> Pc? in

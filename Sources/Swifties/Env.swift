@@ -38,7 +38,7 @@ public class Env {
         return s
     }
 
-    public func initCoreLib(_ pos: Pos) throws {
+    public func initCoreLib(pos: Pos) throws {
         if _coreLib == nil {
             _coreLib = CoreLib(env: self, pos: pos)
         }
