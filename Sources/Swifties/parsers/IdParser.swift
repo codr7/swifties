@@ -1,7 +1,7 @@
 import Foundation
 
-class IdParser: Parser {
-    func readForm(_ input: inout String, root: RootParser) throws -> Form? {
+public class IdParser: Parser {
+    public func readForm(_ input: inout String, root: RootParser) throws -> Form? {
         var out: String = ""
         input = String(input.reversed())
         defer { input = String(input.reversed()) }

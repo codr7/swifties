@@ -1,10 +1,10 @@
 import Foundation
 
-protocol Parser {
+public protocol Parser {
     func readForm(_ input: inout String, root: RootParser) throws -> Form?
 }
 
-class RootParser: Parser {
+public class RootParser: Parser {
     public var env: Env { _env }
     public var pos: Pos
     
