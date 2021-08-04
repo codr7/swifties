@@ -52,8 +52,10 @@ public class Env {
         return id
     }
     
-    public func emit(_ op: Op) {
+    @discardableResult
+    public func emit(_ op: Op) -> Op {
         _ops.append(op)
+        return op
     }
         
     public func push(_ slot: Slot) {
@@ -107,11 +109,14 @@ public class Env {
         }
     }
     
-    public func restore(coro: Coro) {
-        _scope = coro.scope
-        _stack = coro.stack
-        _registers = coro.registers
-            
+    public func suspend(pc: Pc) -> Cont {
+        Cont(scope: _scope, stack: _stack, registers: _registers, pc: pc)
+    }
+    
+    public func restore(cont: Cont) {
+        _scope = cont.scope
+        _stack = cont.stack
+        _registers = cont.registers
     }
     
     private var _nextTypeId: TypeId = 1

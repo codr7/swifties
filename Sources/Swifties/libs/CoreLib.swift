@@ -4,7 +4,7 @@ public class CoreLib: Lib {
     public let anyType: AnyType
 
     public let boolType: BoolType
-    public let coroType: CoroType
+    public let contType: ContType
     public let funcType: FuncType
     public let intType: IntType
     public let macroType: MacroType
@@ -17,7 +17,7 @@ public class CoreLib: Lib {
         anyType = AnyType(env, pos: pos, name: "Any", parentTypes: [])
 
         boolType = BoolType(env, pos: pos, name: "Bool", parentTypes: [anyType])
-        coroType = CoroType(env, pos: pos, name: "Coro", parentTypes: [anyType])
+        contType = ContType(env, pos: pos, name: "Cont", parentTypes: [anyType])
         funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType])
         intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
@@ -61,12 +61,14 @@ public class CoreLib: Lib {
     }
     
     public func stack(pos: Pos) -> Pc? {
-        env.push(env.coreLib!.stackType, env.stack)
+        let tmp = env.stack
+        env.reset()
+        env.push(env.coreLib!.stackType, tmp)
         return nil
     }
     
     public override func bind(pos: Pos, _ names: [String]) throws {
-        define(anyType, boolType, coroType, funcType, intType, macroType, metaType, primType, registerType, stackType)
+        define(anyType, boolType, contType, funcType, intType, macroType, metaType, primType, registerType, stackType)
         
         define("t", boolType, true)
         define("f", boolType, false)

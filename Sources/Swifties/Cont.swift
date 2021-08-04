@@ -1,7 +1,7 @@
 import Foundation
 
-public class Coro: Equatable {
-    public static func == (lhs: Coro, rhs: Coro) -> Bool { lhs === rhs }
+public class Cont: Equatable {
+    public static func == (lhs: Cont, rhs: Cont) -> Bool { lhs === rhs }
 
     public var scope: Scope? { _scope }
     public var stack: Stack { _stack }

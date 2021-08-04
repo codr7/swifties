@@ -35,6 +35,15 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 A REPL (under development) is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ```
+1  (do 1 2 3)
+1
+[1 2 3]
+2  (do stack 4 5 6)
+2
+[[1 2 3] 4 5 6]
+```
+
+```
 1  (let [x 35 y 7]
 1      (+ x y))
 1
@@ -51,13 +60,33 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 ```
 
 ### todo
+- add do macro
+    - emit args
+- add Frame/env._frames
+    - gofu.Call
+    - capture frames in Cont
+- add static Func.compile() -> Body
+- add return prim
+  - add args [Form] to return op
+    - check against peekFrame()!.target
+- add suspend macro
+    - (suspend ...)
+    - emit jump
+        - add Jump(pc:)
+        - add Nop(pc:)
+    - add env.pokeOp(pc: , Op)
+    - push cont
+    - emit args
+    - emit stop
+- implement callValue for Cont
+    - env.restore
+- add func prim
 - add Int parser
 - add if prim
     - add branch op
         - add AnyType.valueIsTrue
             - default true
             - override for Int/Bool/String/Stack
-- add func prim
 - add call parser to repl
     - add Parser.append(reader: ) for args
 - add stack parser to repl
