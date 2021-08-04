@@ -1,5 +1,7 @@
 import Foundation
 
+public let idParser = IdParser()
+
 public class IdParser: Parser {
     public func readForm(_ input: inout String, root: RootParser) throws -> Form? {
         var out: String = ""

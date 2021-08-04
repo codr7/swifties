@@ -4,6 +4,8 @@ func isSpace(_ c: Character) -> Bool {
     return c == " " || c == "\n" || c == "\t"
 }
 
+public let spaceParser = SpaceParser()
+
 public class SpaceParser: Parser {
     public func readForm(_ input: inout String, root: RootParser) throws -> Form? {
         input = String(input.reversed())
