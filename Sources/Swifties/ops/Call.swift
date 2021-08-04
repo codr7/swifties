@@ -11,6 +11,7 @@ public struct Call: Op {
         
     public func eval() throws -> Pc {
         let t = _target ?? _env.pop()
+        if t == nil { throw EvalError(_pos, "Missing target") }
         return try t!.type.callValue!(t!.value, _pos, _check) ?? _pc+1
     }
     
