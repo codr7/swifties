@@ -56,10 +56,16 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 1
 []
 2  (fib 20)
+2  
 [6765]
 ```
 
 ### todo
+- fix parser
+    - save current input before and restore on error in Parser.read
+    - change repl to parse lines as they come
+        - eval once a form is returned
+        - update examples in readme
 - add do macro
     - emit args
 - add Frame/env._frames

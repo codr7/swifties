@@ -1,7 +1,7 @@
 import Foundation
 
 public protocol Reader {
-    func readForm(_ input: inout String, root: Parser) throws -> Form?
+    func readForm(_ p: Parser) throws -> Form?
 }
 
 public class Parser: Reader {
@@ -19,19 +19,24 @@ public class Parser: Reader {
         _readers = readers
     }
 
-    public func readForm(_ input: inout String, root: Parser) throws -> Form? {
+    public func getc() -> Character? { _input.popLast() }
+    
+    public func ungetc(_ c: Character) {
+        _input.append(c)
+    }
+    
+    public func readForm(_ p: Parser) throws -> Form? {
         for r in _readers {
-            if let f = try r.readForm(&input, root: self) { return f }
+            if let f = try r.readForm(self) { return f }
         }
         
         return nil
     }
 
-    public func read(_ input: inout String) throws {
-        input = String(input.reversed())
-        defer { input = String(input.reversed()) }
+    public func slurp(_ input: String) throws {
+        _input = String(input.reversed()) + _input
 
-        while let f = try readForm(&input, root: self) {
+        while let f = try readForm(self) {
             _forms.append(f)
         }
     }
@@ -50,6 +55,7 @@ public class Parser: Reader {
     }
     
     private let _env: Env
+    private var _input: String = ""
     private var _pos: Pos
     private var _readers: [Reader]
     private var _forms: [Form] = []

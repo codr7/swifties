@@ -3,15 +3,15 @@ import Foundation
 public let spaceReader = SpaceReader()
 
 public class SpaceReader: Reader {
-    public func readForm(_ input: inout String, root: Parser) throws -> Form? {        
-        while let c = input.popLast() {
+    public func readForm(_ p: Parser) throws -> Form? {
+        while let c = p.getc() {
             switch c {
             case " ", "\t":
-                root.nextColumn()
+                p.nextColumn()
             case "\n":
-                root.newLine()
+                p.newLine()
             default:
-                input.append(c)
+                p.ungetc(c)
                 return nil
             }
         }
