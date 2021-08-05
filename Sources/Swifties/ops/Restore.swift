@@ -9,10 +9,9 @@ public struct Restore: Op {
 
     public func eval() throws -> Pc {
         let s = _env.pop()
-        if s == nil { throw EvalError(_pos, "Missing coroutine") }
+        if s == nil { throw EvalError(_pos, "Missing continuation") }
         let c = s!.value as! Cont
-        _env.restore(cont: c)
-        return c.pc
+        return c.restore()
     }
     
     private let _env: Env

@@ -8,6 +8,8 @@ public class Func: Definition, Equatable {
     public var env: Env { _env }
     public var pos: Pos { _pos }
     public var name: String { _name }
+    public var args: [AnyType] { _args }
+    public var rets: [AnyType] { _rets }
     public var slot: Slot { Slot(_env.coreLib!.funcType, self) }
     
     public init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: @escaping Body) {

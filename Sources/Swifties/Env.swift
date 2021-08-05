@@ -1,5 +1,6 @@
 import Foundation
 
+public typealias Frames = [Frame]
 public typealias Pc = Int
 public typealias Register = Int
 public typealias Registers = [Slot?]
@@ -38,6 +39,22 @@ public class Env {
         }
         
         return s
+    }
+
+    @discardableResult
+    public func beginCall(pos: Pos, _func: Func, returnPc: Pc) -> Frame {
+        let f = Frame(env: self, pos: pos, _func: _func, returnPc: returnPc)
+        _frames.append(f)
+        return f
+    }
+
+    @discardableResult
+    public func endCall(pos: Pos, _func: Func, returnPc: Pc) throws -> Frame {
+        precondition(_frames.count > 0, "No active calls")
+
+        let f = _frames.popLast()
+        try f!.restore()
+        return f!
     }
 
     public func initCoreLib(pos: Pos) throws {
@@ -108,20 +125,14 @@ public class Env {
         while nextPc != STOP_PC { nextPc = try _ops[nextPc].eval() }
     }
     
-    public func suspend(pc: Pc) -> Cont {
-        Cont(scope: _scope, stack: _stack, registers: _registers, pc: pc)
-    }
-    
-    public func restore(cont: Cont) {
-        _scope = cont.scope
-        _stack = cont.stack
-        _registers = cont.registers
-    }
+    public func suspend(pc: Pc) -> Cont { Cont(env: self, pc: pc) }
+        
+    var _scope: Scope?
+    var _stack: Stack = []
+    var _registers: Registers = []
+    var _frames: Frames = []
     
     private var _nextTypeId: TypeId = 1
     private var _coreLib: CoreLib?
     private var _ops: [Op] = []
-    private var _scope: Scope?
-    private var _stack: Stack = []
-    private var _registers: Registers = []
 }

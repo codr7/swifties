@@ -35,9 +35,6 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- add Frame/env._frames
-    - gofu.Call
-    - capture frames in Cont
 - add static Func.compile() -> Body
 - add func prim
 - add Int parser
