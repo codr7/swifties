@@ -32,30 +32,7 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
 ### demo
-A REPL (under development) is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
-
-```
-1  (do 1 2 3)
-[1 2 3]
-2  (do 4 stash 5 6)
-[[1 2 3 4] 5 6]
-3  (do drop drop splat)
-[1 2 3 4]
-```
-
-```
-1  (let [x 35 y 7]
-1      (+ x y))
-[42]
-```
-
-```
-1  (func fib [n Int] [Int]
-1      (if (< n 2) n (+ (fib (- n 1) (fib (- n 2))))))
-[]
-2  (fib 20)
-[6765]
-```
+A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
 - add Frame/env._frames
