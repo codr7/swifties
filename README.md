@@ -23,7 +23,8 @@ Functions may take any number of arguments and return any number of results; `po
 ```swift
 let pos = Pos(source: "test", line: -1, column: -1)
 
-let f = Func(env: env, pos: pos, name: "foo", args: [], rets: [env.coreLib!.intType], {pos, self, retPc -> Pc in
+let f = Func(env: env, pos: pos, name: "foo", args: [], rets: [env.coreLib!.intType], {
+pos, self, retPc -> Pc in
     env.push(env.coreLib!.intType, 42)
     return retPc
 })
