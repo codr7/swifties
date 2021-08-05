@@ -6,7 +6,7 @@ public class ContType: Type<Cont> {
  
         dumpValue = {v in
             let c = v as! Cont
-            return "Coro\(c.pc)"
+            return "Cont\(c.pc)"
         }
     }
 }

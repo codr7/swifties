@@ -58,8 +58,6 @@ A REPL (under development) is [provided](https://github.com/codr7/swifties-repl)
 ```
 
 ### todo
-- add do prim
-    - emit args
 - add Frame/env._frames
     - gofu.Call
     - capture frames in Cont

@@ -27,20 +27,19 @@ public class CallForm: Form {
 
     public override func emit() throws {
         var t = env.scope!.find((_target as! IdForm).name)
-        
-        if t == nil {
-            throw EmitError(pos, "Unknown target: \(_target)")
-        }
+        if t == nil { throw EmitError(pos, "Unknown target: \(_target)") }
 
         if t!.type == env.coreLib!.primType {
             try (t!.value as! Prim).emit(pos: pos, args: _args)
-        } else if t!.type == env.coreLib!.registerType {
-            env.emit(Load(env: env, pc: env.pc, index: t!.value as! Register))
-            t = nil
-        }
+        } else {
+            if t!.type == env.coreLib!.registerType {
+                env.emit(Load(env: env, pc: env.pc, index: t!.value as! Register))
+                t = nil
+            }
 
-        for a in _args { try a.emit() }
-        env.emit(Call(env: env, pos: pos, pc: env.pc, target: t, check: true))
+            for a in _args { try a.emit() }
+            env.emit(Call(env: env, pos: pos, pc: env.pc, target: t, check: true))
+        }
     }
 
     private let _target: Form
