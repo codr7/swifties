@@ -6,9 +6,10 @@ public class Func: Definition, Equatable {
     public static func == (lhs: Func, rhs: Func) -> Bool { lhs === rhs }
 
     public static func compile(env: Env, body: Form) throws -> Body {
-        let startPc = env.pc
         let skip = env.emit(STOP)
+        let startPc = env.pc
         try body.emit()
+        env.emit(Return(env: env, pos: body.pos))
         env.emit(Goto(pc: env.pc), index: skip)
         
         return {p, f, retPc in

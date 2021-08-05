@@ -39,7 +39,7 @@ final class Tests: XCTestCase {
         env.emit(Store(env: env, pc: env.pc, index: i))
         env.emit(Load(env: env, pc: env.pc, index: i))
         env.emit(STOP)
-        XCTAssertEqual(scope, env.endScope())
+        env.endScope()
         try env.eval(pc: 0)
         XCTAssertEqual(v, env.pop()!)
     }

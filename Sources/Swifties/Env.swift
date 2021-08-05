@@ -27,8 +27,7 @@ public class Env {
         return _scope!
     }
     
-    @discardableResult
-    public func endScope() -> Scope {
+    public func endScope() {
         precondition(_scope != nil, "No open scopes")
         
         let s = _scope!
@@ -37,8 +36,6 @@ public class Env {
         if (_registers.count < s.registerCount) {
             _registers += Array(repeating: nil, count: s.registerCount - _registers.count)
         }
-        
-        return s
     }
 
     @discardableResult
@@ -48,13 +45,10 @@ public class Env {
         return f
     }
 
-    @discardableResult
-    public func endCall(pos: Pos, _func: Func, retPc: Pc) throws -> Frame {
+    public func endCall() throws -> Pc{
         precondition(_frames.count > 0, "No active calls")
-
         let f = _frames.popLast()
-        try f!.restore()
-        return f!
+        return try f!.restore()
     }
 
     public func initCoreLib(pos: Pos) throws {

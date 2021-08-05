@@ -11,7 +11,7 @@ public class Frame {
         _env.reset()
     }
  
-    public func restore() throws {
+    public func restore() throws -> Pc {
         let n = _env._stack.count
         if n < _func.rets.count { throw EvalError(_pos, "Missing results: \(_func.name) \(_env._stack)")}
         let rstack = _env._stack[(n-_func.rets.count)...]
@@ -23,6 +23,7 @@ public class Frame {
         
         _env._stack.append(contentsOf: rstack)
         _env._registers = _registers
+        return _retPc
     }
     
     private let _env: Env

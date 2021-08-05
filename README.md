@@ -35,7 +35,7 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- add Form body test
+- add Func Form body test
 - add func prim
 - add Int parser
 - add if prim
@@ -49,9 +49,6 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
 - add Nil type/Maybe type
 - add types to readme
 - add multi
-- add return prim
-  - add args [Form] to return op
-    - check against peekFrame()!.target
 - add suspend prim
     - (suspend ...)
     - emit jump
