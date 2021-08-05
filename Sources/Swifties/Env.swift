@@ -42,14 +42,14 @@ public class Env {
     }
 
     @discardableResult
-    public func beginCall(pos: Pos, _func: Func, returnPc: Pc) -> Frame {
-        let f = Frame(env: self, pos: pos, _func: _func, returnPc: returnPc)
+    public func beginCall(pos: Pos, _func: Func, retPc: Pc) -> Frame {
+        let f = Frame(env: self, pos: pos, _func: _func, retPc: retPc)
         _frames.append(f)
         return f
     }
 
     @discardableResult
-    public func endCall(pos: Pos, _func: Func, returnPc: Pc) throws -> Frame {
+    public func endCall(pos: Pos, _func: Func, retPc: Pc) throws -> Frame {
         precondition(_frames.count > 0, "No active calls")
 
         let f = _frames.popLast()
@@ -70,9 +70,14 @@ public class Env {
     }
     
     @discardableResult
-    public func emit(_ op: Op) -> Op {
+    public func emit(_ op: Op, index: Int? = nil) -> Pc {
+        if let i = index {
+            _ops[i] = op
+            return i
+        }
+
         _ops.append(op)
-        return op
+        return _ops.count-1
     }
 
     public func push(_ slots: Slot...) { push(slots) }

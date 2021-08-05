@@ -5,32 +5,32 @@ public class MathLib: Lib {
         super.init(env: env, pos: pos)
     }
     
-    public func plusInt(pos: Pos) throws -> Pc? {
+    public func plusInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()!
         let x = env.peek()!
         env.poke(offset: 0, env.coreLib!.intType, (x.value as! Int) + (y.value as! Int))
-        return nil
+        return retPc
     }
     
-    public func minusInt(pos: Pos) throws -> Pc? {
+    public func minusInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()!
         let x = env.peek()!
         env.poke(offset: 0, env.coreLib!.intType, (x.value as! Int) - (y.value as! Int))
-        return nil
+        return retPc
     }
 
-    public func ltInt(pos: Pos) throws -> Pc? {
+    public func ltInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()!
         let x = env.peek()!
         env.poke(offset: 0, env.coreLib!.boolType, (x.value as! Int) < (y.value as! Int))
-        return nil
+        return retPc
     }
 
-    public func gtInt(pos: Pos) throws -> Pc? {
+    public func gtInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()!
         let x = env.peek()!
         env.poke(offset: 0, env.coreLib!.boolType, (x.value as! Int) > (y.value as! Int))
-        return nil
+        return retPc
     }
 
     public override func bind(pos: Pos, _ names: [String]) throws {

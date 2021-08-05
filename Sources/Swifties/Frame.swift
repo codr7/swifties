@@ -1,13 +1,13 @@
 import Foundation
 
 public class Frame {
-    public init(env: Env, pos: Pos, _func: Func, returnPc: Pc) {
+    public init(env: Env, pos: Pos, _func: Func, retPc: Pc) {
         _env = env
         _pos = pos
         self._func = _func
         _stack = _env._stack
         _registers = _env._registers
-        _returnPc = returnPc
+        _retPc = retPc
         _env.reset()
     }
  
@@ -30,6 +30,6 @@ public class Frame {
     private let _func: Func
     private let _stack: Stack
     private let _registers: Registers
-    private let _returnPc: Pc
+    private let _retPc: Pc
     
 }

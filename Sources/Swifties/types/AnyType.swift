@@ -1,7 +1,7 @@
 import Foundation
 
 public class AnyType: Definition, Equatable {
-    public typealias CallValue = (_ target: Any, _ pos: Pos, _ check: Bool) throws -> Pc?
+    public typealias CallValue = (_ target: Any, _ pos: Pos, _ retPc: Pc, _ check: Bool) throws -> Pc?
     public typealias DumpValue = (_ value: Any) -> String
     public typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
 

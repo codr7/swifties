@@ -35,9 +35,9 @@ public class CoreLib: Lib {
         for a in args { try a.emit() }
     }
 
-    public func drop(pos: Pos) throws -> Pc? {
+    public func drop(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         env.pop()
-        return nil
+        return retPc
     }
 
     public func _let(pos: Pos, args: [Form]) throws {
@@ -64,11 +64,11 @@ public class CoreLib: Lib {
         env.emit(Reset(env: env, pc: env.pc))
     }
     
-    public func stash(pos: Pos) -> Pc? {
+    public func stash(pos: Pos, self: Func, retPc: Pc) -> Pc {
         let tmp = env.stack
         env.reset()
         env.push(env.coreLib!.stackType, tmp)
-        return nil
+        return retPc
     }
     
     public func splat(pos: Pos, args: [Form]) throws {
