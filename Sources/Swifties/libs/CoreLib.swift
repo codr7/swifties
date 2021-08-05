@@ -30,7 +30,11 @@ public class CoreLib: Lib {
     }
     
     public func missing(pos: Pos, args: [Form]) {}
-    
+
+    public func _do(pos: Pos, args: [Form]) throws {
+        for a in args { try a.emit() }
+    }
+
     public func drop(pos: Pos) throws -> Pc? {
         env.pop()
         return nil
@@ -81,6 +85,7 @@ public class CoreLib: Lib {
         define("f", boolType, false)
         
         define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.missing))
+        define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))

@@ -31,7 +31,7 @@ public class Parser: Reader {
         return nil
     }
 
-    public func slurp(_ input: String) -> Error? {
+    public func slurp(_ input: String) throws {
         _input = String(input.reversed()) + _input
         let (inputCopy, posCopy, formsCopy) = (_input, _pos, _forms)
 
@@ -41,10 +41,8 @@ public class Parser: Reader {
             _input = inputCopy
             _pos = posCopy
             _forms = formsCopy
-            return e
+            throw e
         }
-    
-        return nil
     }
     
     public func nextColumn() { _pos.nextColumn() }

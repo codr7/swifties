@@ -105,10 +105,7 @@ public class Env {
     
     public func eval(pc: Pc) throws {
         var nextPc = pc
-        
-        while nextPc != STOP_PC {
-            nextPc = try _ops[nextPc].eval()
-        }
+        while nextPc != STOP_PC { nextPc = try _ops[nextPc].eval() }
     }
     
     public func suspend(pc: Pc) -> Cont {
