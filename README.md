@@ -117,7 +117,7 @@ Code is parsed into forms, which is what primitives and macros operate on.
 - Stack - Emits code to push a stack with specified items
 
 ### operations
-Operations are the basic building blocks that are eventually evaluated in sequence to get the desired result.
+Forms emit operations, which are the basic building blocks that are eventually evaluated in sequence to get the desired result.
 
 - Call - Call specified value
 - Goto - Goto specified `Pc`
@@ -156,9 +156,7 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
             - override for Int/Bool/String/Stack
 - add stack reader
 - fib!
-- add parser to readme
 - add Nil type/Maybe type
-- add types to readme
 - add multi
 - add suspend prim
     - (suspend ...)
