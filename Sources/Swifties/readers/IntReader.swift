@@ -13,9 +13,8 @@ public class IntReader: Reader {
                 break
             }
             
-            v *= m
+            v *= 10
             v += c.hexDigitValue!
-            m *= 10
             p.nextColumn()
         }
         
