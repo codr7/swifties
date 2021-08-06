@@ -10,7 +10,8 @@ Primitives are called at compile time and may take any number (min/max are speci
 ```swift
 let pos = Pos(source: "test", line: -1, column: -1)
 
-let p = Prim(env: env, pos: self.pos, name: "do", (0, -1), { pos, args in
+let p = Prim(env: env, pos: self.pos, name: "do", (0, -1), { 
+pos, args in
     for a in args { try a.emit() }
 })
 
@@ -18,7 +19,7 @@ env.beginScope().bind(pos: pos, id: "do", env.coreLib!.primType, p)
 ```
 
 ### functions
-Functions may take any number of arguments and return any number of results; `pos` indicates the call site; if a `Pc`is returned, execution continues from there.
+Functions may take any number of arguments and return any number of results; `pos` indicates the call site; evaluation resumes from the returned `Pc`.
 
 ```swift
 let pos = Pos(source: "test", line: -1, column: -1)
@@ -40,9 +41,37 @@ let f = try Func(env: env, pos: p, name: "foo",
                  rets: [env.coreLib!.intType],
                  LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
 ```
+### operations
+Operations are the basic building blocks that are eventually evaluated in sequence to get the desired result.
+
+- Call - Call specified value
+- Goto - Goto specified `Pc`
+- Load - Load value from specified register
+- Push - Push specified value on stack
+- PushDown - Push top of stack onto next item
+- Reset - Clear stack
+- Restore - Restore continuation
+- Return - Pop frame from call stack and goto return pc
+- Splat - Replace top item with it's items
+- Stop - Stop evaluation
+- Store - Store value in specified register
+- Suspend - Push continuation
+
+Operations may be manually emitted at any point using `Env.emit(Op)`.
+
+```
+let pos = Pos("test", line: -1, column: -1)
+let env = Env()
+try env.initCoreLib(pos: pos)
+let v = Slot(env.coreLib!.intType, 42)
+env.emit(Push(pc: env.pc, v))
+env.emit(STOP)
+try env.eval(pc: 0)
+XCTAssertEqual(v, env.pop()!)
+```
 
 ### types
-Two kinds of types are used, `ÀnyType`, and it's direct subclass `Type<T>` which all types inherit.
+Two kinds of types are used, `ÀnyType`, and it's direct subclass `Type<T>` which all other types inherit.
 
 - Any - Any kind of value
 - Bool - Boolean values
@@ -81,3 +110,4 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
     - emit stop
 - implement callValue for Cont
     - env.restore
+- add syntax for func arg names
