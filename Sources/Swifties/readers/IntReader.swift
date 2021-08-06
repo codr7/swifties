@@ -16,8 +16,9 @@ public class IntReader: Reader {
             v *= m
             v += c.hexDigitValue!
             m *= 10
+            p.nextColumn()
         }
         
-        return LiteralForm(env: p.env, pos: p.pos, p.env.coreLib!.intType, v)
+        return (m == 1) ? nil : LiteralForm(env: p.env, pos: p.pos, p.env.coreLib!.intType, v)
     }
 }
