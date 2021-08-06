@@ -34,24 +34,37 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 
 Functions may alternatively be instantiated with `Form`-bodies, which emits operations behind the scenes and generates a function containing the code required to evaluate them.
 
-```
+```swift
 let f = try Func(env: env, pos: p, name: "foo",
                  args: [],
                  rets: [env.coreLib!.intType],
                  LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
 ```
 
+### types
+Two kinds of types are used, `ÀnyType`, and it's direct subclass `Type<T>` which all types inherit.
+
+- Any - Any kind of value
+- Bool - Boolean values
+- Cont - Continuations as values
+- Func - Functions as values
+- Int - Integer values
+- Macro - Macros as values
+- Meta - Types as values
+- Prim - Primitives as values
+- Register - Register references as values
+- Stack - Stack values
+
 ### demo
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- add Int parser
 - add if prim
     - add branch op
         - add AnyType.valueIsTrue
             - default true
             - override for Int/Bool/String/Stack
-- add stack parser
+- add stack reader
 - fib!
 - add parser to readme
 - add Nil type/Maybe type
