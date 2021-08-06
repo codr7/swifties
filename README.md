@@ -10,11 +10,11 @@ Primitives are called at compile time and may take any number (min/max are speci
 ```swift
 let pos = Pos(source: "test", line: -1, column: -1)
 
-let p = Prim(env: env, pos: pos, name: "reset", (0, 0), {pos, args -> Void in
-    env.emit(Reset(env, env.pc))
+let p = Prim(env: env, pos: self.pos, name: "do", (0, -1), { pos, args in
+    for a in args { try a.emit() }
 })
 
-env.beginScope().bind(pos: pos, id: "reset", env.coreLib!.PrimType, p)
+env.beginScope().bind(pos: pos, id: "do", env.coreLib!.primType, p)
 ```
 
 ### functions
@@ -45,7 +45,6 @@ let f = try Func(env: env, pos: p, name: "foo",
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- add func prim
 - add Int parser
 - add if prim
     - add branch op

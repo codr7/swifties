@@ -12,10 +12,7 @@ public class Scope: Equatable {
     }
     
     public func bind(pos: Pos, id: String, _ slot: Slot) throws {
-        if _bindings.keys.contains(id) {
-            throw DupBinding(pos: pos, id: id)
-        }
-        
+        if _bindings.keys.contains(id) { throw DupBinding(pos: pos, id: id) }
         _bindings[id] = slot
     }
 
@@ -23,9 +20,7 @@ public class Scope: Equatable {
         try bind(pos: pos, id: id, Slot(type, value))
     }
     
-    public func find(_ id: String) -> Slot? {
-            _bindings[id]
-    }
+    public func find(_ id: String) -> Slot? { _bindings[id] }
     
     public func nextRegister(pos: Pos, id: String) throws -> Register {
         let i = _nextRegister

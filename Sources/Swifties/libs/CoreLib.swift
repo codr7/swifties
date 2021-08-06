@@ -39,7 +39,16 @@ public class CoreLib: Lib {
         env.pop()
         return retPc
     }
-
+    
+    public func _func(pos: Pos, args: [Form]) throws {
+        let name = (args[0] as! IdForm).name
+        let ats = try (args[1] as! StackForm).items.map(getType)
+        let rts = try (args[2] as! StackForm).items.map(getType)
+        let body = DoForm(env: env, pos: pos, body: Array(args[3...]))
+        let f = try Func(env: env, pos: pos, name: name, args: ats, rets: rts, body)
+        try env.scope!.bind(pos: pos, id: name, env.coreLib!.funcType, f)
+    }
+    
     public func _let(pos: Pos, args: [Form]) throws {
         let scope = env.beginScope()
         defer { env.endScope() }
@@ -55,9 +64,7 @@ public class CoreLib: Lib {
             i += 2
         }
         
-        for a in args[1...] {
-            try a.emit()
-        }
+        for a in args[1...] { try a.emit() }
     }
 
     public func reset(pos: Pos, args: [Form]) {
@@ -87,11 +94,20 @@ public class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.missing))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
+        define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Prim(env: env, pos: self.pos, name: "splat", (1, -1), self.splat))
         define(Func(env: env, pos: self.pos, name: "stash", args: [], rets: [stackType], self.stash))
         
         try super.bind(pos: pos, names)
+    }
+    
+    private func getType(f: Form) throws -> AnyType {
+        let name = (f as! IdForm).name
+        let found = env.scope!.find(name)
+        if found == nil { throw EmitError(f.pos, "Invalid type: \(name)") }
+        if found!.type != env.coreLib!.metaType { throw EmitError(f.pos, "Invalid type: \(found!)") }
+        return found!.value as! AnyType
     }
 }
