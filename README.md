@@ -41,6 +41,81 @@ let f = try Func(env: env, pos: p, name: "foo",
                  rets: [env.coreLib!.intType],
                  LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
 ```
+
+### types
+Two levels of types are used, `ÀnyType`, and it's direct parameterized subclass `Type<T>` from which all other types inherit.
+
+- Any - Any kind of value
+- Bool - Boolean values
+- Cont - Continuations as values
+- Func - Functions as values
+- Int - Integer values
+- Macro - Macros as values
+- Meta - Types as values
+- Prim - Primitives as values
+- Register - Register references as values
+- Stack - Stack values
+
+### parsing
+`Parser` may be used to simplify the process of turning code into forms.
+
+```
+let pos = Pos("test", line: -1, column: -1)
+let env = Env()
+try env.initCoreLib(pos: pos)
+
+let parser = Parser(env: env, source: "test",
+                    spaceReader, intReader)
+                    
+try parser.slurp("1 2 3")
+for f in parser.forms { try f.emit() }
+env.emit(STOP)
+try env.eval(pc: 0)
+
+XCTAssertEqual(Slot(env.coreLib!.intType, 3), env.pop()) 
+XCTAssertEqual(Slot(env.coreLib!.intType, 2), env.pop()) 
+XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop()) 
+```
+
+#### readers
+Readers specialize in parsing a specific kind of form.
+
+- Int - Reads Int forms
+- Space - Skips whitespace
+
+It's trivial to extend the framework with custom readers. 
+Just make sure to return `nil` if you can't find what you're looking for, since each reader is tried in sequence for every new position.
+
+```
+public class IdReader: Reader {
+    public func readForm(_ p: Parser) throws -> Form? {
+        let fpos = p.pos
+        var out: String = ""
+        
+        while let c = p.getc() {
+            if c.isWhitespace || c == "(" || c == ")" {
+                p.ungetc(c)
+                break
+            }
+            
+            out.append(c)
+            p.nextColumn()
+        }
+        
+        return (out.count == 0) ? nil : IdForm(env: p.env, pos: fpos, name: out)
+    }
+}
+```
+
+### forms
+Code is parsed into forms, which is what primitives and macros operate on.
+
+- Call - Emits code to call specified target with args
+- Do - Emits args in sequence
+- Id - Emits the value of specified binding and calls it if possible
+- Literal - Emits code to push specified value
+- Stack - Emits code to push a stack with specified items
+
 ### operations
 Operations are the basic building blocks that are eventually evaluated in sequence to get the desired result.
 
@@ -69,20 +144,6 @@ env.emit(STOP)
 try env.eval(pc: 0)
 XCTAssertEqual(v, env.pop()!)
 ```
-
-### types
-Two kinds of types are used, `ÀnyType`, and it's direct subclass `Type<T>` which all other types inherit.
-
-- Any - Any kind of value
-- Bool - Boolean values
-- Cont - Continuations as values
-- Func - Functions as values
-- Int - Integer values
-- Macro - Macros as values
-- Meta - Types as values
-- Prim - Primitives as values
-- Register - Register references as values
-- Stack - Stack values
 
 ### demo
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
