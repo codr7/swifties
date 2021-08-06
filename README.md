@@ -32,11 +32,19 @@ pos, self, retPc -> Pc in
 env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
+Functions may alternatively be instantiated with `Form`-bodies, which emits operations behind the scenes and generates a function containing the code required to evaluate them.
+
+```
+let f = try Func(env: env, pos: p, name: "foo",
+                 args: [],
+                 rets: [env.coreLib!.intType],
+                 LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
+```
+
 ### demo
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- add Func Form body test
 - add func prim
 - add Int parser
 - add if prim
@@ -44,7 +52,7 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
         - add AnyType.valueIsTrue
             - default true
             - override for Int/Bool/String/Stack
-- add stack parser to repl
+- add stack parser
 - fib!
 - add parser to readme
 - add Nil type/Maybe type

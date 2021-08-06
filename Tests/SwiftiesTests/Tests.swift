@@ -44,8 +44,8 @@ final class Tests: XCTestCase {
         XCTAssertEqual(v, env.pop()!)
     }
     
-    func testSwiftFunc() throws {
-        let p = Pos("testSwiftFunc", line: -1, column: -1)
+    func testFunc() throws {
+        let p = Pos("testFunc", line: -1, column: -1)
         let env = Env()
         try env.initCoreLib(pos: p)
         env.beginScope()
@@ -57,6 +57,23 @@ final class Tests: XCTestCase {
         })
         
         env.emit(Push(pc: env.pc, env.coreLib!.intType, 35))
+        env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
+        env.emit(STOP)
+        try env.eval(pc: 0)
+        XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
+    }
+    
+    func testCompileFunc() throws {
+        let p = Pos("testCompileFunc", line: -1, column: -1)
+        let env = Env()
+        try env.initCoreLib(pos: p)
+        env.beginScope()
+
+        let f = try Func(env: env, pos: p, name: "foo",
+                         args: [],
+                         rets: [env.coreLib!.intType],
+                         LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
+        
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)
         try env.eval(pc: 0)
