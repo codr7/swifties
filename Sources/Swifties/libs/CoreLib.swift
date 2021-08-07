@@ -38,6 +38,14 @@ public class CoreLib: Lib {
         return retPc
     }
 
+    public func bench(pos: Pos, args: [Form]) throws {
+        let reps = (args[0] as! LiteralForm).slot!.value as! Int
+        let i = env.emit(STOP)
+        let startPc = env.pc
+        for f in args[1...] { try f.emit() }
+        env.emit(Bench(env: env, reps: reps, startPc: startPc, endPc: env.pc), index: i)
+    }
+    
     public func _do(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
     }
