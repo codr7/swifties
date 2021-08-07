@@ -5,8 +5,9 @@ public class Frame {
         _env = env
         _pos = pos
         self._func = _func
-        _stack = _env._stack
-        _env._stack = _stack.dropLast(_func.args.count)
+        let s = env._stack
+        _env._stack = Stack(s.dropFirst(s.count-_func.args.count))
+        _stack = s.dropLast(_func.args.count)
         _registers = _env._registers
         _retPc = retPc
         _env.reset()
@@ -15,7 +16,7 @@ public class Frame {
     public func restore() throws -> Pc {
         let n = _env._stack.count
         if n < _func.rets.count { throw EvalError(_pos, "Missing results: \(_func.name) \(_env._stack)")}
-        let rstack = _env._stack[(n-_func.rets.count)...]
+        let rstack = _env._stack.dropFirst(n-_func.rets.count)
         _env._stack = _stack
 
         for i in 0..<_func.rets.count {
