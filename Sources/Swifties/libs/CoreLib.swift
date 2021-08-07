@@ -54,13 +54,14 @@ public class CoreLib: Lib {
         try cond.emit()
         let trueBranch = args[1]
         let falseBranch = args[2]
+        let branchPc = env.pc
         let branch = env.emit(STOP)
         try trueBranch.emit()
         let skipFalse = env.emit(STOP)
         let falsePc = env.pc
         try falseBranch.emit()
         env.emit(Goto(pc: env.pc), index: skipFalse)
-        env.emit(Branch(env: env, pos: pos, pc: env.pc, falsePc: falsePc), index: branch)
+        env.emit(Branch(env: env, pos: pos, pc: branchPc, falsePc: falsePc), index: branch)
     }
     
     public func _let(pos: Pos, args: [Form]) throws {

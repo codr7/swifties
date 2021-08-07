@@ -80,7 +80,20 @@ final class Tests: XCTestCase {
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
     }
     
-    static var allTests = [
-        ("testPush", testPush),
-    ]
+    func testIf() throws {
+        let pos = Pos("testIf", line: -1, column: -1)
+        let env = Env()
+        env.beginScope()
+        try env.initCoreLib(pos: pos).bind(pos: pos)
+
+        try CallForm(env: env, pos: pos, target: IdForm(env: env, pos: pos, name: "if"), args: [
+            IdForm(env: env, pos: pos, name: "t"),
+            LiteralForm(env: env, pos: pos, env.coreLib!.intType, 1),
+            LiteralForm(env: env, pos: pos, env.coreLib!.intType, 2)
+        ]).emit()
+        
+        env.emit(STOP)
+        try env.eval(pc: 0)
+        XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop()!)
+    }
 }

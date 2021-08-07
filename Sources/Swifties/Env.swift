@@ -51,10 +51,12 @@ public class Env {
         return try f!.restore()
     }
 
-    public func initCoreLib(pos: Pos) throws {
+    public func initCoreLib(pos: Pos) throws -> CoreLib {
         if _coreLib == nil {
             _coreLib = CoreLib(env: self, pos: pos)
         }
+        
+        return _coreLib!
     }
 
     public func nextTypeId() -> TypeId {
