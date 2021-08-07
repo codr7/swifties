@@ -1,11 +1,13 @@
 import Foundation
 
-public struct PushDown: Op {
+public class PushDown: Op {
     public init(env: Env, pos: Pos, pc: Pc) {
         _env = env
         _pos = pos
         _pc = pc
     }
+
+    public func prepare() {}
 
     public func eval() throws {
         let v = _env.pop()
@@ -19,7 +21,7 @@ public struct PushDown: Op {
         var dst = s!.value as! Stack
         dst.append(v!)
         _env.poke(_env.coreLib!.stackType, dst, offset: 0)
-        try _env.eval(_pc+1)
+        try _env.eval(_pc+1, prepare: false)
     }
     
     private let _env: Env

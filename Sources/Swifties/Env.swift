@@ -15,6 +15,7 @@ public class Env {
     public static func == (lhs: Env, rhs: Env) -> Bool { lhs === rhs }
     
     public var coreLib: CoreLib? { _coreLib }
+    public var ops: Ops { _ops }
     public var pc: Pc { _ops.count }
     public var scope: Scope? { _scope }
     public var stack: Stack { _stack }
@@ -121,7 +122,11 @@ public class Env {
         _registers[i] = v!
     }
     
-    public func eval(_ pc: Pc) throws { try _ops[pc].eval() }
+    public func eval(_ pc: Pc, prepare: Bool = true) throws {
+        if prepare { for i in pc..<_ops.count { _ops[i].prepare() } }
+        try _ops[pc].eval()
+        
+    }
     
     public func suspend(pc: Pc) -> Cont { Cont(env: self, pc: pc) }
         

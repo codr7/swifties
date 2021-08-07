@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Call: Op {
+public class Call: Op {
     public init(env: Env, pos: Pos, pc: Pc, target: Slot?, check: Bool) {
         _env = env
         _pos = pos
@@ -9,11 +9,13 @@ public struct Call: Op {
         _check = check
     }
         
+    public func prepare() {}
+
     public func eval() throws {
         let t = _target ?? _env.pop()
         if t == nil { throw EvalError(_pos, "Missing target") }
         if t!.type.callValue == nil { throw EvalError(_pos, "Invalid target: \(t!)") }
-        try _env.eval(try t!.type.callValue!(t!.value, _pos, _pc+1, _check))
+        try _env.eval(try t!.type.callValue!(t!.value, _pos, _pc+1, _check), prepare: false)
     }
     
     private let _env: Env

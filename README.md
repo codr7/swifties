@@ -68,7 +68,7 @@ let parser = Parser(env: env, source: "test",
 try parser.slurp("1 2 3")
 for f in parser.forms { try f.emit() }
 env.emit(STOP)
-try env.eval(pc: 0)
+try env.eval(0)
 
 XCTAssertEqual(Slot(env.coreLib!.intType, 3), env.pop()!) 
 XCTAssertEqual(Slot(env.coreLib!.intType, 2), env.pop()!) 
@@ -139,7 +139,7 @@ try env.initCoreLib(pos: pos)
 let v = Slot(env.coreLib!.intType, 42)
 env.emit(Push(pc: env.pc, v))
 env.emit(STOP)
-try env.eval(pc: 0)
+try env.eval(0)
 XCTAssertEqual(v, env.pop()!)
 ```
 
