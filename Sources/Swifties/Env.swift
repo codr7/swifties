@@ -125,7 +125,6 @@ public class Env {
     public func eval(_ pc: Pc, prepare: Bool = true) throws {
         if prepare { for i in pc..<_ops.count { _ops[i].prepare() } }
         try _ops[pc].eval()
-        
     }
     
     public func suspend(pc: Pc) -> Cont { Cont(env: self, pc: pc) }

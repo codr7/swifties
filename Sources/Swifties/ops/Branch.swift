@@ -1,16 +1,16 @@
 import Foundation
 
 public class Branch: Op {
-    public init(env: Env, pos: Pos, pc: Pc, falsePc: Pc) {
+    public init(env: Env, pos: Pos, pc: Pc, truePc: Pc) {
         _env = env
         _pos = pos
         _pc = pc
-        _falsePc = falsePc
+        _truePc = truePc
     }
 
     public func prepare() {
-        _trueOp = _env.ops[_pc+1]
-        _falseOp = _env.ops[_falsePc]
+        _trueOp = _env.ops[_truePc]
+        _falseOp = _env.ops[_pc+1]
     }
     
     public func eval() throws {
@@ -21,6 +21,6 @@ public class Branch: Op {
     
     private let _env: Env
     private let _pos: Pos
-    private let _pc, _falsePc: Pc
+    private let _pc, _truePc: Pc
     private var _trueOp, _falseOp: Op?
 }

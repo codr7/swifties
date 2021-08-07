@@ -171,7 +171,7 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
     - add Env.safetyLevel = 0
     - add Unsafe op
         - copy Bench
-        - dec/inc safetyLevel
-    - add Env.isUnsafe { safetyLevel > 0 }
-    - skip Func.IsApplicable if env.isUnsafe
-    - skip result check in Frame.restore if env.isUnsafe
+        - dec/defer inc safetyLevel
+    - add Env.unsafe { safetyLevel > 0 }
+    - skip Func.IsApplicable if env.unsafe
+    - skip result check in Frame.restore if env.unsafe
