@@ -8,28 +8,28 @@ public class MathLib: Lib {
     public func plusInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()!
         let x = env.peek()!
-        env.poke(offset: 0, env.coreLib!.intType, (x.value as! Int) + (y.value as! Int))
+        env.poke(env.coreLib!.intType, (x.value as! Int) + (y.value as! Int), offset: 0)
         return retPc
     }
     
     public func minusInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()!
         let x = env.peek()!
-        env.poke(offset: 0, env.coreLib!.intType, (x.value as! Int) - (y.value as! Int))
+        env.poke(env.coreLib!.intType, (x.value as! Int) - (y.value as! Int), offset: 0)
         return retPc
     }
 
     public func ltInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()!
         let x = env.peek()!
-        env.poke(offset: 0, env.coreLib!.boolType, (x.value as! Int) < (y.value as! Int))
+        env.poke(env.coreLib!.boolType, (x.value as! Int) < (y.value as! Int), offset: 0)
         return retPc
     }
 
     public func gtInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()!
         let x = env.peek()!
-        env.poke(offset: 0, env.coreLib!.boolType, (x.value as! Int) > (y.value as! Int))
+        env.poke(env.coreLib!.boolType, (x.value as! Int) > (y.value as! Int), offset: 0)
         return retPc
     }
 

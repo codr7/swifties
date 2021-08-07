@@ -1,7 +1,7 @@
 import Foundation
 
 public class Frame {
-    public init(env: Env, pos: Pos, _func: Func, retPc: Pc) {
+    public init(env: Env, pos: Pos, _func: Func, startPc: Pc, retPc: Pc) {
         _env = env
         _pos = pos
         self._func = _func
@@ -9,6 +9,7 @@ public class Frame {
         _env._stack = Stack(s.dropFirst(s.count-_func.args.count))
         _stack = s.dropLast(_func.args.count)
         _registers = _env._registers
+        _startPc = startPc
         _retPc = retPc
     }
  
@@ -33,7 +34,7 @@ public class Frame {
             throw NotApplicable(pos: pos, target: _func, stack: _env._stack)
         }
         
-        return try _func.call(pos: pos, retPc: _retPc)
+        return _startPc
     }
     
     private let _env: Env
@@ -41,5 +42,5 @@ public class Frame {
     private let _func: Func
     private let _stack: Stack
     private let _registers: Registers
-    private let _retPc: Pc
+    private let _startPc, _retPc: Pc
 }

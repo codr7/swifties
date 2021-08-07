@@ -18,7 +18,7 @@ public struct PushDown: Op {
         }
         var dst = s!.value as! Stack
         dst.append(v!)
-        _env.poke(offset: 0, _env.coreLib!.stackType, dst)
+        _env.poke(_env.coreLib!.stackType, dst, offset: 0)
         return _pc+1
     }
     

@@ -39,8 +39,8 @@ public class Env {
     }
 
     @discardableResult
-    public func pushFrame(pos: Pos, _func: Func, retPc: Pc) -> Frame {
-        let f = Frame(env: self, pos: pos, _func: _func, retPc: retPc)
+    public func pushFrame(pos: Pos, _func: Func, startPc: Pc, retPc: Pc) -> Frame {
+        let f = Frame(env: self, pos: pos, _func: _func, startPc: startPc, retPc: retPc)
         _frames.append(f)
         return f
     }
@@ -99,7 +99,7 @@ public class Env {
     }
     
     @discardableResult
-    public func poke<T>(offset: Int, _ type: Type<T>, _ value: T) -> Bool {
+    public func poke<T>(_ type: Type<T>, _ value: T, offset: Int = 0) -> Bool {
         if offset >= _stack.count {
             return false
         }

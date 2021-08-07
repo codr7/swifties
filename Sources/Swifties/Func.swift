@@ -29,7 +29,7 @@ public class Func: Definition, Equatable {
         _env.emit(Goto(pc: env.pc), index: skip)
         
         _body = {p, f, retPc in
-            self._env.pushFrame(pos: p, _func: f, retPc: retPc)
+            self._env.pushFrame(pos: p, _func: f, startPc: startPc, retPc: retPc)
             return startPc
         }
     }

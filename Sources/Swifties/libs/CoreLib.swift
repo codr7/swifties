@@ -31,6 +31,13 @@ public class CoreLib: Lib {
 
     public func nop(pos: Pos, args: [Form]) {}
 
+    public func equal(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+        let y = env.pop()
+        let x = env.peek()
+        env.poke(env.coreLib!.boolType, (x!.type == y!.type) && x!.type.equalValues!(x!.value, y!.value))
+        return retPc
+    }
+
     public func _do(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
     }
@@ -112,6 +119,7 @@ public class CoreLib: Lib {
         define("f", boolType, false)
         
         define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.nop))
+        define(Func(env: env, pos: self.pos, name: "=", args: [anyType, anyType], rets: [boolType], self.equal))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
