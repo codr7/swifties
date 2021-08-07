@@ -72,9 +72,9 @@ for f in parser.forms { try f.emit() }
 env.emit(STOP)
 try env.eval(pc: 0)
 
-XCTAssertEqual(Slot(env.coreLib!.intType, 3), env.pop()) 
-XCTAssertEqual(Slot(env.coreLib!.intType, 2), env.pop()) 
-XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop()) 
+XCTAssertEqual(Slot(env.coreLib!.intType, 3), env.pop()!) 
+XCTAssertEqual(Slot(env.coreLib!.intType, 2), env.pop()!) 
+XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop()!) 
 ```
 
 #### readers
@@ -90,7 +90,7 @@ Just make sure to return `nil` if you can't find what you're looking for, since 
 public class IdReader: Reader {
     public func readForm(_ p: Parser) throws -> Form? {
         let fpos = p.pos
-        var out: String = ""
+        var out = ""
         
         while let c = p.getc() {
             if c.isWhitespace || c == "(" || c == ")" {
@@ -149,10 +149,6 @@ XCTAssertEqual(v, env.pop()!)
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- add branch op
-    - add AnyType.valueIsTrue
-            - default true
-            - override for Int/Bool/String/Stack
 - fib!
 - add Nil type/Maybe type
 - add multi
@@ -161,7 +157,6 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
     - emit jump
         - add Jump(pc:)
         - add Nop(pc:)
-    - add env.pokeOp(pc: , Op)
     - push cont
     - emit args
     - emit stop

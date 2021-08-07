@@ -16,5 +16,7 @@ public class StackType: Type<Stack> {
             out += "]"
             return out
         }
+        
+        valueIsTrue = {v in (v as! Stack).count > 0}
     }
 }

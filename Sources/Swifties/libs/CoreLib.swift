@@ -51,6 +51,7 @@ public class CoreLib: Lib {
   
     public func _if(pos: Pos, args: [Form]) throws {
         let cond = args[0]
+        try cond.emit()
         let trueBranch = args[1]
         let falseBranch = args[2]
         let branch = env.emit(STOP)

@@ -4,7 +4,8 @@ public class AnyType: Definition, Equatable {
     public typealias CallValue = (_ target: Any, _ pos: Pos, _ retPc: Pc, _ check: Bool) throws -> Pc?
     public typealias DumpValue = (_ value: Any) -> String
     public typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
-
+    public typealias ValueIsTrue = (_ value: Any) -> Bool
+    
     typealias ParentTypes = Set<TypeId>
 
     public static func == (lhs: AnyType, rhs: AnyType) -> Bool {
@@ -19,7 +20,8 @@ public class AnyType: Definition, Equatable {
     public var callValue: CallValue?
     public var dumpValue: DumpValue?
     public var equalValues: EqualValues?
-
+    public var valueIsTrue: ValueIsTrue
+    
     public init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
         _env = env
         _pos = pos
@@ -36,6 +38,7 @@ public class AnyType: Definition, Equatable {
         }
         
         _parentTypes = pts
+        valueIsTrue = {_ in true}
     }
 
     public func isa(_ other: AnyType) -> Bool {
