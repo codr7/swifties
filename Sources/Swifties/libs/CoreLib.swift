@@ -68,11 +68,11 @@ public class CoreLib: Lib {
         let scope = env.beginScope()
         defer { env.endScope() }
         
-        let bindings = (args[0] as! StackForm).items
+        let bindings = Array((args[0] as! StackForm).items.reversed())
         var i = 0
         
         while i+1 < bindings.count {
-            let (id, v) = (bindings[i] as! IdForm, bindings[i+1])
+            let (v, id) = (bindings[i], bindings[i+1] as! IdForm)
             try v.emit()
             let register = try scope.nextRegister(pos: pos, id: id.name)
             env.emit(Store(env: env, pos: pos, pc: env.pc, index: register))
