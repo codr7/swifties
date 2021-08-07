@@ -29,14 +29,14 @@ final class Tests: XCTestCase {
     }
     
     func testDynamicBinding() throws {
-        let p = Pos("testDynamicBinding", line: -1, column: -1)
+        let pos = Pos("testDynamicBinding", line: -1, column: -1)
         let env = Env()
-        try env.initCoreLib(pos: p)
+        try env.initCoreLib(pos: pos)
         let scope = env.beginScope()
         let v = Slot(env.coreLib!.intType, 42)
-        let i = try scope.nextRegister(pos: p, id: "foo")
+        let i = try scope.nextRegister(pos: pos, id: "foo")
         env.emit(Push(pc: env.pc, v))
-        env.emit(Store(env: env, pc: env.pc, index: i))
+        env.emit(Store(env: env, pos: pos, pc: env.pc, index: i))
         env.emit(Load(env: env, pc: env.pc, index: i))
         env.emit(STOP)
         env.endScope()
@@ -69,10 +69,8 @@ final class Tests: XCTestCase {
         try env.initCoreLib(pos: p)
         env.beginScope()
 
-        let f = try Func(env: env, pos: p, name: "foo",
-                         args: [],
-                         rets: [env.coreLib!.intType],
-                         LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
+        let f = Func(env: env, pos: p, name: "foo", args: [], rets: [env.coreLib!.intType])
+        try f.compileBody(LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
         
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)

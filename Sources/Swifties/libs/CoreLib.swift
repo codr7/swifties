@@ -44,8 +44,8 @@ public class CoreLib: Lib {
         let name = (args[0] as! IdForm).name
         let ats = try (args[1] as! StackForm).items.map(getType)
         let rts = try (args[2] as! StackForm).items.map(getType)
-        let body = DoForm(env: env, pos: pos, body: Array(args[3...]))
-        let f = try Func(env: env, pos: pos, name: name, args: ats, rets: rts, body)
+        let f = Func(env: env, pos: pos, name: name, args: ats, rets: rts)
+        try f.compileBody(DoForm(env: env, pos: pos, body: Array(args[3...])))
         try env.scope!.bind(pos: pos, id: name, env.coreLib!.funcType, f)
     }
   
@@ -75,7 +75,7 @@ public class CoreLib: Lib {
             let (id, v) = (bindings[i] as! IdForm, bindings[i+1])
             try v.emit()
             let register = try scope.nextRegister(pos: pos, id: id.name)
-            env.emit(Store(env: env, pc: env.pc, index: register))
+            env.emit(Store(env: env, pos: pos, pc: env.pc, index: register))
             i += 2
         }
         

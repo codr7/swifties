@@ -25,7 +25,7 @@ public class Scope: Equatable {
         
         if found == nil && _outer != nil {
             found = _outer!.find(id)
-            if found!.type == _env.coreLib!.registerType { found = nil }
+            if found != nil && found!.type == _env.coreLib!.registerType { found = nil }
         }
         
         return found

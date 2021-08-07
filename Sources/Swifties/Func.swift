@@ -4,19 +4,6 @@ public class Func: Definition, Equatable {
     public typealias Body = (_ pos: Pos, _ self: Func, _ retPc: Pc) throws -> Pc
 
     public static func == (lhs: Func, rhs: Func) -> Bool { lhs === rhs }
-
-    public static func compile(env: Env, body: Form) throws -> Body {
-        let skip = env.emit(STOP)
-        let startPc = env.pc
-        try body.emit()
-        env.emit(Return(env: env, pos: body.pos))
-        env.emit(Goto(pc: env.pc), index: skip)
-        
-        return {p, f, retPc in
-            env.beginCall(pos: p, _func: f, retPc: retPc)
-            return startPc
-        }
-    }
     
     public var env: Env { _env }
     public var pos: Pos { _pos }
@@ -25,7 +12,7 @@ public class Func: Definition, Equatable {
     public var rets: [AnyType] { _rets }
     public var slot: Slot { Slot(_env.coreLib!.funcType, self) }
     
-    public init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: @escaping Body) {
+    public init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: Body? = nil) {
         _env = env
         _pos = pos
         _name = name
@@ -34,10 +21,19 @@ public class Func: Definition, Equatable {
         _body = body
     }
 
-    convenience public init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: Form) throws {
-        self.init(env: env, pos: pos, name: name, args: args, rets: rets, try Func.compile(env: env, body: body))
+    public func compileBody(_ form: Form) throws {
+        let skip = _env.emit(STOP)
+        let startPc = _env.pc
+        try form.emit()
+        _env.emit(Return(env: env, pos: form.pos))
+        _env.emit(Goto(pc: env.pc), index: skip)
+        
+        _body = {p, f, retPc in
+            self._env.beginCall(pos: p, _func: f, retPc: retPc)
+            return startPc
+        }
     }
-
+    
     public func isApplicable() -> Bool {
         for i in 0..<_args.count {
             let v = _env.peek(offset: _args.count - i - 1)
@@ -47,11 +43,11 @@ public class Func: Definition, Equatable {
         return true
     }
 
-    public func call(pos: Pos, retPc: Pc) throws -> Pc? { try _body(pos, self, retPc) }
+    public func call(pos: Pos, retPc: Pc) throws -> Pc? { try _body!(pos, self, retPc) }
         
     private let _pos: Pos
     private let _env: Env
     private let _name: String
     private let _args, _rets: [AnyType]
-    private let _body: Body
+    private var _body: Body?
 }

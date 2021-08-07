@@ -36,10 +36,8 @@ env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 Functions may alternatively be instantiated with `Form`-bodies, which emits operations behind the scenes and generates a function containing the code required to evaluate them.
 
 ```swift
-let f = try Func(env: env, pos: p, name: "foo",
-                 args: [],
-                 rets: [env.coreLib!.intType],
-                 LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
+let f = try Func(env: env, pos: p, name: "foo", args: [], rets: [env.coreLib!.intType])
+try f.compileBody(LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
 ```
 
 ### types
