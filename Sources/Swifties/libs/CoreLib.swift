@@ -125,7 +125,7 @@ public class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
         define(Prim(env: env, pos: self.pos, name: "if", (3, 3), self._if))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
-        define(Prim(env: env, pos: self.pos, name: "recall", (0, 0), self.recall))
+        define(Prim(env: env, pos: self.pos, name: "recall", (0, -1), self.recall))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Prim(env: env, pos: self.pos, name: "splat", (1, -1), self.splat))
         define(Func(env: env, pos: self.pos, name: "stash", args: [], rets: [stackType], self.stash))
