@@ -45,8 +45,8 @@ public class CoreLib: Lib {
         let ats = try (args[1] as! StackForm).items.map(getType)
         let rts = try (args[2] as! StackForm).items.map(getType)
         let f = Func(env: env, pos: pos, name: name, args: ats, rets: rts)
-        try f.compileBody(DoForm(env: env, pos: pos, body: Array(args[3...])))
         try env.scope!.bind(pos: pos, id: name, env.coreLib!.funcType, f)
+        try f.compileBody(DoForm(env: env, pos: pos, body: Array(args[3...])))
     }
   
     public func _if(pos: Pos, args: [Form]) throws {
