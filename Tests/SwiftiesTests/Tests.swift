@@ -76,8 +76,11 @@ final class Tests: XCTestCase {
         
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)
+        env.push(env.coreLib!.intType, 7)
         try env.eval(pc: 0)
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
+        XCTAssertEqual(Slot(env.coreLib!.intType, 7), env.pop()!)
+        XCTAssertEqual(nil, env.pop())
     }
     
     func testIf() throws {
@@ -93,7 +96,10 @@ final class Tests: XCTestCase {
         ]).emit()
         
         env.emit(STOP)
+        env.push(env.coreLib!.intType, 42)
         try env.eval(pc: 0)
         XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop()!)
+        XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
+        XCTAssertEqual(nil, env.pop())
     }
 }

@@ -51,6 +51,7 @@ public class Env {
         return try f!.restore()
     }
 
+    @discardableResult
     public func initCoreLib(pos: Pos) throws -> CoreLib {
         if _coreLib == nil {
             _coreLib = CoreLib(env: self, pos: pos)

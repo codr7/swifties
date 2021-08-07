@@ -15,7 +15,8 @@ public class Frame {
         let n = _env._stack.count
         if n < _func.rets.count { throw EvalError(_pos, "Missing results: \(_func.name) \(_env._stack)")}
         let rstack = _env._stack[(n-_func.rets.count)...]
-        
+        _env._stack = _stack
+
         for i in 0..<_func.rets.count {
             let v = rstack[i]
             if !v.type.isa(_func.rets[i]) { throw EvalError(_pos, "Invalid result: \(_func.name) \(v)") }
