@@ -128,6 +128,7 @@ public class CoreLib: Lib {
         
         define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.nop))
         define(Func(env: env, pos: self.pos, name: "=", args: [anyType, anyType], rets: [boolType], self.equal))
+        define(Prim(env: env, pos: self.pos, name: "bench", (1, -1), self.bench))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
