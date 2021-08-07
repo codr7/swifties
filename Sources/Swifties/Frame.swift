@@ -1,6 +1,6 @@
 import Foundation
 
-public class Frame {
+public struct Frame {
     public init(env: Env, pos: Pos, _func: Func, startPc: Pc, retPc: Pc) {
         _env = env
         _pos = pos
