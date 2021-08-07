@@ -157,9 +157,7 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
 - add multi
 - add suspend prim
     - (suspend ...)
-    - emit jump
-        - add Jump(pc:)
-        - add Nop(pc:)
+    - emit goto
     - push cont
     - emit args
     - emit stop
