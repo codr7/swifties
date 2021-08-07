@@ -47,9 +47,7 @@ public class Env {
         return f
     }
 
-    public func peekFrame() -> Frame? {
-        return (_frames.count == 0) ? nil : _frames.last
-    }
+    public func peekFrame() -> Frame? { _frames.last }
     
     public func popFrame(pos: Pos) throws {
         if _frames.count == 0 { throw EvalError(pos, "No calls in progress") }
