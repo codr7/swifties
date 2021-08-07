@@ -150,7 +150,6 @@ XCTAssertEqual(v, env.pop()!)
 ```
 
 ### todo
-- add sub scope for func
 - add return prim
     - emit args & Return
 - add Nil type/Maybe type

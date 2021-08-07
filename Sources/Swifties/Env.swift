@@ -41,8 +41,8 @@ public class Env {
     }
 
     @discardableResult
-    public func pushFrame(pos: Pos, _func: Func, startOp: Op, ret: Op) -> Frame {
-        let f = Frame(env: self, pos: pos, _func: _func, startOp: startOp, ret: ret)
+    public func pushFrame(pos: Pos, _func: Func, scope: Scope, startOp: Op, ret: Op) -> Frame {
+        let f = Frame(env: self, pos: pos, _func: _func, scope: scope, startOp: startOp, ret: ret)
         _frames.append(f)
         return f
     }

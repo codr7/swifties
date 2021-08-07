@@ -24,13 +24,19 @@ public class Func: Definition, Equatable {
     public func compileBody(_ form: Form) throws {
         let skip = _env.emit(STOP)
         let startPc = _env.pc
-        try form.emit()
+        let scope = _env.openScope()
+
+        do {
+            defer { _env.closeScope() }
+            try form.emit()
+        }
+
         _env.emit(Return(env: env, pos: form.pos))
         _env.emit(Goto(env: env, pc: env.pc), index: skip)
         let startOp = _env.ops[startPc]
         
         _body = {p, f, ret in
-            self._env.pushFrame(pos: p, _func: f, startOp: startOp, ret: ret)
+            self._env.pushFrame(pos: p, _func: f, scope: scope, startOp: startOp, ret: ret)
             try startOp.eval()
         }
     }
