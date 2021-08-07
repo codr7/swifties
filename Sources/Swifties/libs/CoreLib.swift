@@ -90,8 +90,8 @@ public class CoreLib: Lib {
     }
     
     public func _let(pos: Pos, args: [Form]) throws {
-        let scope = env.beginScope()
-        defer { env.endScope() }
+        let scope = env.openScope()
+        defer { env.closeScope() }
         
         let bindings = Array((args[0] as! StackForm).items.reversed())
         var i = 0

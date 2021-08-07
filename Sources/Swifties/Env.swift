@@ -22,12 +22,12 @@ public class Env {
     public init() {}
     
     @discardableResult
-    public func beginScope() -> Scope {
+    public func openScope() -> Scope {
         _scope = Scope(env: self, outer: _scope)
         return _scope!
     }
     
-    public func endScope() {
+    public func closeScope() {
         precondition(_scope != nil, "No open scopes")
         
         let s = _scope!
@@ -49,8 +49,8 @@ public class Env {
         return (_frames.count == 0) ? nil : _frames.last
     }
     
-    public func popFrame() throws -> Pc {
-        precondition(_frames.count > 0, "No active calls")
+    public func popFrame(pos: Pos) throws -> Pc {
+        if _frames.count == 0 { throw EvalError(pos, "No calls in progress") }
         return try _frames.popLast()!.restore()
     }
 
@@ -86,15 +86,10 @@ public class Env {
         for s in slots { _stack.append(s) }
     }
 
-    public func push<T>(_ type: Type<T>, _ value: T) {
-        push(Slot(type, value))
-    }
+    public func push<T>(_ type: Type<T>, _ value: T) { push(Slot(type, value)) }
 
     public func peek(offset: Int = 0) -> Slot? {
-        if offset >= _stack.count {
-            return nil
-        }
-        
+        if offset >= _stack.count { return nil }
         return _stack[_stack.count - offset - 1]
     }
     
@@ -109,21 +104,17 @@ public class Env {
     }
     
     @discardableResult
-    public func pop() -> Slot? {
-        _stack.popLast()
-    }
+    public func pop() -> Slot? { _stack.popLast() }
 
-    public func reset() {
-        _stack.removeAll()
+    public func reset() { _stack.removeAll() }
+    
+    public func load(pos: Pos, index i: Register) throws {
+        let v = _registers[i]
+        if v == nil { throw EvalError(pos, "Missing value for register: \(i)") }
+        push(v!)
     }
     
-    public func load(index i: Register) -> Slot? {
-        _registers[i]
-    }
-    
-    public func store(index i: Register, slot: Slot) {
-        _registers[i] = slot
-    }
+    public func store(index i: Register, slot: Slot) { _registers[i] = slot }
     
     public func eval(pc: Pc) throws {
         var nextPc = pc

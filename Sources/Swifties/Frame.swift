@@ -30,10 +30,7 @@ public struct Frame {
     }
     
     public func recall(pos: Pos, check: Bool) throws -> Pc {
-        if check && !_func.isApplicable() {
-            throw NotApplicable(pos: pos, target: _func, stack: _env._stack)
-        }
-        
+        if check && !_func.isApplicable() { throw NotApplicable(pos: pos, target: _func, stack: _env._stack) }
         return _startPc
     }
     

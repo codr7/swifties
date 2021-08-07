@@ -21,7 +21,7 @@ final class Tests: XCTestCase {
         let env = Env()
         try env.initCoreLib(pos: p)
         let v = Slot(env.coreLib!.intType, 42)
-        try env.beginScope().bind(pos: p, id: "foo", v)
+        try env.openScope().bind(pos: p, id: "foo", v)
         try IdForm(env: env, pos: p, name: "foo").emit()
         env.emit(STOP)
         try env.eval(pc: 0)
@@ -32,14 +32,14 @@ final class Tests: XCTestCase {
         let pos = Pos("testDynamicBinding", line: -1, column: -1)
         let env = Env()
         try env.initCoreLib(pos: pos)
-        let scope = env.beginScope()
+        let scope = env.openScope()
         let v = Slot(env.coreLib!.intType, 42)
         let i = try scope.nextRegister(pos: pos, id: "foo")
         env.emit(Push(pc: env.pc, v))
         env.emit(Store(env: env, pos: pos, pc: env.pc, index: i))
-        env.emit(Load(env: env, pc: env.pc, index: i))
+        env.emit(Load(env: env, pos: pos, pc: env.pc, index: i))
         env.emit(STOP)
-        env.endScope()
+        env.closeScope()
         try env.eval(pc: 0)
         XCTAssertEqual(v, env.pop()!)
     }
@@ -48,7 +48,7 @@ final class Tests: XCTestCase {
         let p = Pos("testFunc", line: -1, column: -1)
         let env = Env()
         try env.initCoreLib(pos: p)
-        env.beginScope()
+        env.openScope()
 
         let f = Func(env: env, pos: p, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType],
                      {(pos: Pos, self: Func, retPc: Pc) -> Pc in
@@ -67,7 +67,7 @@ final class Tests: XCTestCase {
         let p = Pos("testCompileFunc", line: -1, column: -1)
         let env = Env()
         try env.initCoreLib(pos: p)
-        env.beginScope()
+        env.openScope()
 
         let f = Func(env: env, pos: p, name: "foo", args: [], rets: [env.coreLib!.intType])
         try f.compileBody(LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
@@ -84,7 +84,7 @@ final class Tests: XCTestCase {
     func testIf() throws {
         let pos = Pos("testIf", line: -1, column: -1)
         let env = Env()
-        env.beginScope()
+        env.openScope()
         try env.initCoreLib(pos: pos).bind(pos: pos)
 
         try CallForm(env: env, pos: pos, target: IdForm(env: env, pos: pos, name: "if"), args: [

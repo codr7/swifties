@@ -33,7 +33,7 @@ public class CallForm: Form {
             try (t!.value as! Prim).emit(pos: pos, args: _args)
         } else {
             if t!.type == env.coreLib!.registerType {
-                env.emit(Load(env: env, pc: env.pc, index: t!.value as! Register))
+                env.emit(Load(env: env, pos: pos, pc: env.pc, index: t!.value as! Register))
                 t = nil
             }
 
