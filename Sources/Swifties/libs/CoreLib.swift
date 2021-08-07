@@ -28,8 +28,8 @@ public class CoreLib: Lib {
 
         super.init(env: env, pos: pos)
     }
-    
-    public func missing(pos: Pos, args: [Form]) {}
+
+    public func nop(pos: Pos, args: [Form]) {}
 
     public func _do(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
@@ -106,7 +106,7 @@ public class CoreLib: Lib {
         define("t", boolType, true)
         define("f", boolType, false)
         
-        define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.missing))
+        define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.nop))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))

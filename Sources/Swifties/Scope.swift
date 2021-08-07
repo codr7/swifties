@@ -20,7 +20,16 @@ public class Scope: Equatable {
         try bind(pos: pos, id: id, Slot(type, value))
     }
     
-    public func find(_ id: String) -> Slot? { _bindings[id] }
+    public func find(_ id: String) -> Slot? {
+        var found = _bindings[id]
+        
+        if found == nil && _outer != nil {
+            found = _outer!.find(id)
+            if found!.type == _env.coreLib!.registerType { found = nil }
+        }
+        
+        return found
+    }
     
     public func nextRegister(pos: Pos, id: String) throws -> Register {
         let i = _nextRegister
