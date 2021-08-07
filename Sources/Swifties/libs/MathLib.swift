@@ -6,12 +6,12 @@ public class MathLib: Lib {
     }
 
     public func minusOne(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
-        env.poke(env.coreLib!.intType, (env.peek()!.value as! Int) - 1, offset: 0)
+        env.poke(env.coreLib!.intType, (env.peek()!.value as! Int)-1, offset: 0)
         return retPc
     }
 
     public func minusTwo(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
-        env.poke(env.coreLib!.intType, (env.peek()!.value as! Int) - 1, offset: 0)
+        env.poke(env.coreLib!.intType, (env.peek()!.value as! Int)-2, offset: 0)
         return retPc
     }
 
