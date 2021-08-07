@@ -4,7 +4,7 @@ public class FuncType: Type<Func> {
     public override init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
         super.init(env, pos: pos, name: name, parentTypes: parentTypes)
         
-        callValue = {target, pos, retPc, check throws -> Pc? in
+        callValue = {target, pos, retPc, check throws -> Pc in
             let f = target as! Func
             
             if check && !f.isApplicable() {
