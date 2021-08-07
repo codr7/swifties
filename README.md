@@ -15,7 +15,7 @@ pos, args in
     for a in args { try a.emit() }
 })
 
-env.beginScope().bind(pos: pos, id: "do", env.coreLib!.primType, p)
+env.pushFrame().bind(pos: pos, id: "do", env.coreLib!.primType, p)
 ```
 
 ### functions
@@ -30,7 +30,7 @@ pos, self, retPc -> Pc in
     return retPc
 })
 
-env.beginScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
+env.pushFrame().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 ```
 
 Functions may alternatively be instantiated with `Form`-bodies, which emits operations behind the scenes and generates a function containing the code required to evaluate them.
