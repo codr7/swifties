@@ -48,6 +48,19 @@ public class CoreLib: Lib {
         let f = try Func(env: env, pos: pos, name: name, args: ats, rets: rts, body)
         try env.scope!.bind(pos: pos, id: name, env.coreLib!.funcType, f)
     }
+  
+    public func _if(pos: Pos, args: [Form]) throws {
+        let cond = args[0]
+        let trueBranch = args[1]
+        let falseBranch = args[2]
+        let branch = env.emit(STOP)
+        try trueBranch.emit()
+        let skipFalse = env.emit(STOP)
+        let falsePc = env.pc
+        try falseBranch.emit()
+        env.emit(Goto(pc: env.pc), index: skipFalse)
+        env.emit(Branch(env: env, pos: pos, pc: env.pc, falsePc: falsePc), index: branch)
+    }
     
     public func _let(pos: Pos, args: [Form]) throws {
         let scope = env.beginScope()
@@ -95,6 +108,7 @@ public class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
+        define(Prim(env: env, pos: self.pos, name: "if", (3, 3), self._if))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Prim(env: env, pos: self.pos, name: "splat", (1, -1), self.splat))

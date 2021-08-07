@@ -59,7 +59,7 @@ Two levels of types are used, `ÀnyType`, and it's direct parameterized subclass
 ### parsing
 `Parser` may be used to simplify the process of turning code into forms.
 
-```
+```swift
 let pos = Pos("test", line: -1, column: -1)
 let env = Env()
 try env.initCoreLib(pos: pos)
@@ -86,7 +86,7 @@ Readers specialize in parsing a specific kind of form.
 It's trivial to extend the framework with custom readers. 
 Just make sure to return `nil` if you can't find what you're looking for, since each reader is tried in sequence for every new position.
 
-```
+```swift
 public class IdReader: Reader {
     public func readForm(_ p: Parser) throws -> Form? {
         let fpos = p.pos
@@ -134,7 +134,7 @@ Forms emit operations, which are the basic building blocks that are eventually e
 
 Operations may be manually emitted at any point using `Env.emit(Op)`.
 
-```
+```swift
 let pos = Pos("test", line: -1, column: -1)
 let env = Env()
 try env.initCoreLib(pos: pos)
@@ -149,12 +149,10 @@ XCTAssertEqual(v, env.pop()!)
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- add if prim
-    - add branch op
-        - add AnyType.valueIsTrue
+- add branch op
+    - add AnyType.valueIsTrue
             - default true
             - override for Int/Bool/String/Stack
-- add stack reader
 - fib!
 - add Nil type/Maybe type
 - add multi
