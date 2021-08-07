@@ -147,11 +147,6 @@ XCTAssertEqual(v, env.pop()!)
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- add bench prim
-    - add bench op reps/start/endPc
-    - use eval
-        emit stop after body
-    - check fib performance
 - add sub scope for func
 - add return prim
     - emit args & Return
