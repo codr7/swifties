@@ -147,7 +147,8 @@ XCTAssertEqual(v, env.pop()!)
 A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### todo
-- fib!
+- add bench macro
+    - check fib performance
 - add sub scope for func
 - add Nil type/Maybe type
 - add multi
