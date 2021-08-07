@@ -14,10 +14,7 @@ public class PushDown: Op {
         if v == nil { throw EvalError(_pos, "Missing item") }
         let s = _env.peek()
         if s == nil { throw EvalError(_pos, "Missing stack") }
-        
-        if s!.type != _env.coreLib!.stackType {
-            throw EvalError(_pos, "Invalid stack: \(s!.type.name)")
-        }
+        if s!.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(s!.type.name)") }
         var dst = s!.value as! Stack
         dst.append(v!)
         _env.poke(_env.coreLib!.stackType, dst, offset: 0)

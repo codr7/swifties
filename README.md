@@ -167,3 +167,11 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
     - env.restore
 - make suggestions based on edit distance for missing ids
     - recursive like find
+- add unsafe prim
+    - add Env.safetyLevel = 0
+    - add Unsafe op
+        - copy Bench
+        - dec/inc safetyLevel
+    - add Env.isUnsafe { safetyLevel > 0 }
+    - skip Func.IsApplicable if env.isUnsafe
+    - skip result check in Frame.restore if env.isUnsafe

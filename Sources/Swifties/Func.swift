@@ -30,7 +30,7 @@ public class Func: Definition, Equatable {
         let startOp = _env.ops[startPc]
         
         _body = {p, f, ret in
-            self._env.pushFrame(pos: p, _func: f, startOp: startOp, retOp: ret)
+            self._env.pushFrame(pos: p, _func: f, startOp: startOp, ret: ret)
             try startOp.eval()
         }
     }

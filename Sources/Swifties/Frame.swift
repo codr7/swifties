@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Frame {
-    public init(env: Env, pos: Pos, _func: Func, startOp: Op, retOp: Op) {
+    public init(env: Env, pos: Pos, _func: Func, startOp: Op, ret: Op) {
         _env = env
         _pos = pos
         self._func = _func
@@ -10,7 +10,7 @@ public struct Frame {
         _stack = s.dropLast(_func.args.count)
         _registers = _env._registers
         _startOp = startOp
-        _retOp = retOp
+        _ret = ret
     }
  
     public func restore() throws {
@@ -26,7 +26,7 @@ public struct Frame {
         
         _env._stack.append(contentsOf: rstack)
         _env._registers = _registers
-        try _retOp.eval()
+        try _ret.eval()
     }
     
     public func recall(pos: Pos, check: Bool) throws {
@@ -39,5 +39,5 @@ public struct Frame {
     private let _func: Func
     private let _stack: Stack
     private let _registers: Registers
-    private let _startOp, _retOp: Op
+    private let _startOp, _ret: Op
 }
