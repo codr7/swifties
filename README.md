@@ -148,6 +148,7 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
 
 ### todo
 - fib!
+- add sub scope for func
 - add Nil type/Maybe type
 - add multi
 - add suspend prim

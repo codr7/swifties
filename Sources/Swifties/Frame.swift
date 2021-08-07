@@ -10,7 +10,6 @@ public class Frame {
         _stack = s.dropLast(_func.args.count)
         _registers = _env._registers
         _retPc = retPc
-        _env.reset()
     }
  
     public func restore() throws -> Pc {
