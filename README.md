@@ -25,9 +25,9 @@ Functions may take any number of arguments and return any number of results; `po
 let pos = Pos(source: "test", line: -1, column: -1)
 
 let f = Func(env: env, pos: pos, name: "foo", args: [], rets: [env.coreLib!.intType], {
-pos, self, retPc -> Pc in
+pos, self, ret in
     env.push(env.coreLib!.intType, 42)
-    return retPc
+    try ret.eval()
 })
 
 env.openScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
@@ -117,11 +117,14 @@ Code is parsed into forms, which is what primitives and macros operate on.
 ### operations
 Forms emit operations, which are the basic building blocks that are eventually evaluated in sequence to get the desired result.
 
+- Bench - Repeats body specified number of times and pushes elapsed time in milliseconds
+- Branch - Conditional Goto
 - Call - Call specified value
 - Goto - Goto specified `Pc`
 - Load - Load value from specified register
 - Push - Push specified value on stack
 - PushDown - Push top of stack onto next item
+- Recall - Optimized tail call
 - Reset - Clear stack
 - Restore - Restore continuation
 - Return - Pop frame from call stack and goto return pc
