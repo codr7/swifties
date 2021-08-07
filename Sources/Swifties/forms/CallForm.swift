@@ -32,12 +32,13 @@ public class CallForm: Form {
         if t!.type == env.coreLib!.primType {
             try (t!.value as! Prim).emit(pos: pos, args: _args)
         } else {
+            for a in _args { try a.emit() }
+            
             if t!.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pos: pos, pc: env.pc, index: t!.value as! Register))
                 t = nil
             }
 
-            for a in _args { try a.emit() }
             env.emit(Call(env: env, pos: pos, pc: env.pc, target: t, check: true))
         }
     }
