@@ -39,16 +39,19 @@ public class Env {
     }
 
     @discardableResult
-    public func beginCall(pos: Pos, _func: Func, retPc: Pc) -> Frame {
+    public func pushFrame(pos: Pos, _func: Func, retPc: Pc) -> Frame {
         let f = Frame(env: self, pos: pos, _func: _func, retPc: retPc)
         _frames.append(f)
         return f
     }
 
-    public func endCall() throws -> Pc{
+    public func peekFrame() -> Frame? {
+        return (_frames.count == 0) ? nil : _frames.last
+    }
+    
+    public func popFrame() throws -> Pc {
         precondition(_frames.count > 0, "No active calls")
-        let f = _frames.popLast()
-        return try f!.restore()
+        return try _frames.popLast()!.restore()
     }
 
     @discardableResult

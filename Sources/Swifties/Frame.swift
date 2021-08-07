@@ -28,11 +28,18 @@ public class Frame {
         return _retPc
     }
     
+    public func recall(pos: Pos, check: Bool) throws -> Pc {
+        if check && !_func.isApplicable() {
+            throw NotApplicable(pos: pos, target: _func, stack: _env._stack)
+        }
+        
+        return try _func.call(pos: pos, retPc: _retPc)
+    }
+    
     private let _env: Env
     private let _pos: Pos
     private let _func: Func
     private let _stack: Stack
     private let _registers: Registers
     private let _retPc: Pc
-    
 }

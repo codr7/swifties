@@ -34,7 +34,7 @@ public class CoreLib: Lib {
     public func _do(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
     }
-
+    
     public func drop(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         env.pop()
         return retPc
@@ -82,6 +82,11 @@ public class CoreLib: Lib {
         for a in args[1...] { try a.emit() }
     }
 
+    public func recall(pos: Pos, args: [Form]) throws {
+        for a in args { try a.emit() }
+        env.emit(Recall(env: env, pos: pos, check: true))
+    }
+
     public func reset(pos: Pos, args: [Form]) {
         env.emit(Reset(env: env, pc: env.pc))
     }
@@ -112,6 +117,7 @@ public class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
         define(Prim(env: env, pos: self.pos, name: "if", (3, 3), self._if))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
+        define(Prim(env: env, pos: self.pos, name: "recall", (0, 0), self.recall))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Prim(env: env, pos: self.pos, name: "splat", (1, -1), self.splat))
         define(Func(env: env, pos: self.pos, name: "stash", args: [], rets: [stackType], self.stash))

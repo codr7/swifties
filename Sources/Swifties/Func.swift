@@ -29,7 +29,7 @@ public class Func: Definition, Equatable {
         _env.emit(Goto(pc: env.pc), index: skip)
         
         _body = {p, f, retPc in
-            self._env.beginCall(pos: p, _func: f, retPc: retPc)
+            self._env.pushFrame(pos: p, _func: f, retPc: retPc)
             return startPc
         }
     }
@@ -43,7 +43,7 @@ public class Func: Definition, Equatable {
         return true
     }
 
-    public func call(pos: Pos, retPc: Pc) throws -> Pc? { try _body!(pos, self, retPc) }
+    public func call(pos: Pos, retPc: Pc) throws -> Pc { try _body!(pos, self, retPc) }
         
     private let _pos: Pos
     private let _env: Env

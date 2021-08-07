@@ -162,4 +162,5 @@ A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) fo
     - emit stop
 - implement callValue for Cont
     - env.restore
-- add syntax for func arg names
+- make suggestions based on edit distance for missing ids
+    - recursive like find
