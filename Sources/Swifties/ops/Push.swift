@@ -12,9 +12,9 @@ public struct Push: Op {
         self.init(pc: pc, Slot(type, value))
     }
 
-    public func eval() throws -> Pc {
+    public func eval() throws {
         env.push(_slot)
-        return _pc+1
+        try env.eval(_pc+1)
     }
     
     private let _pc: Pc

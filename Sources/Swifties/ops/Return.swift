@@ -6,7 +6,7 @@ public struct Return: Op {
         _pos = pos
     }
 
-    public func eval() throws -> Pc { try _env.popFrame(pos: _pos) }
+    public func eval() throws { try _env.eval(try _env.popFrame(pos: _pos)) }
     
     private let _env: Env
     private let _pos: Pos

@@ -8,9 +8,9 @@ public struct Store: Op {
         _index = index
     }
         
-    public func eval() throws -> Pc {
+    public func eval() throws {
         try _env.store(pos: _pos, index: _index)
-        return _pc+1
+        try _env.eval(_pc+1)
     }
     
     private let _env: Env

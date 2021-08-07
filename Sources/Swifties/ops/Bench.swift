@@ -8,15 +8,15 @@ public struct Bench: Op {
         _endPc = endPc
     }
 
-    public func eval() throws -> Pc {
+    public func eval() throws {
         let stack = _env._stack
         _env._stack = []
         let t1 = DispatchTime.now()
-        for _ in 0..<_reps { try _env.eval(pc: _startPc)}
+        for _ in 0..<_reps { try _env.eval(_startPc) }
         let t2 = DispatchTime.now()
         _env._stack = stack
         _env.push(_env.coreLib!.intType, Int((t2.uptimeNanoseconds-t1.uptimeNanoseconds) / 1000000))
-        return _endPc
+        try _env.eval(_endPc)
     }
     
     private let _env: Env

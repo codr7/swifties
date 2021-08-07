@@ -7,7 +7,7 @@ public struct PushDown: Op {
         _pc = pc
     }
 
-    public func eval() throws -> Pc {
+    public func eval() throws {
         let v = _env.pop()
         if v == nil { throw EvalError(_pos, "Missing item") }
         let s = _env.peek()
@@ -19,7 +19,7 @@ public struct PushDown: Op {
         var dst = s!.value as! Stack
         dst.append(v!)
         _env.poke(_env.coreLib!.stackType, dst, offset: 0)
-        return _pc+1
+        try _env.eval(_pc+1)
     }
     
     private let _env: Env

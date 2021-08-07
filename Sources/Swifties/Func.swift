@@ -26,7 +26,7 @@ public class Func: Definition, Equatable {
         let startPc = _env.pc
         try form.emit()
         _env.emit(Return(env: env, pos: form.pos))
-        _env.emit(Goto(pc: env.pc), index: skip)
+        _env.emit(Goto(env: env, pc: env.pc), index: skip)
         
         _body = {p, f, retPc in
             self._env.pushFrame(pos: p, _func: f, startPc: startPc, retPc: retPc)

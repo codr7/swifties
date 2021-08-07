@@ -1,11 +1,12 @@
 import Foundation
 
 public typealias Frames = [Frame]
+public typealias Ops = [Op]
 public typealias Pc = Int
 public typealias Register = Int
 public typealias Registers = [Slot?]
-public typealias TypeId = UInt
 public typealias Stack = [Slot]
+public typealias TypeId = UInt
 
 public let STOP_PC: Pc = -1
 public let SWIFTIES_VERSION = 1
@@ -120,10 +121,7 @@ public class Env {
         _registers[i] = v!
     }
     
-    public func eval(pc: Pc) throws {
-        var nextPc = pc
-        while nextPc != STOP_PC { nextPc = try _ops[nextPc].eval() }
-    }
+    public func eval(_ pc: Pc) throws { try _ops[pc].eval() }
     
     public func suspend(pc: Pc) -> Cont { Cont(env: self, pc: pc) }
         
@@ -134,5 +132,5 @@ public class Env {
     
     private var _nextTypeId: TypeId = 1
     private var _coreLib: CoreLib?
-    private var _ops: [Op] = []
+    private var _ops: Ops = []
 }

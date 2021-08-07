@@ -9,11 +9,11 @@ public struct Call: Op {
         _check = check
     }
         
-    public func eval() throws -> Pc {
+    public func eval() throws {
         let t = _target ?? _env.pop()
         if t == nil { throw EvalError(_pos, "Missing target") }
         if t!.type.callValue == nil { throw EvalError(_pos, "Invalid target: \(t!)") }
-        return try t!.type.callValue!(t!.value, _pos, _pc+1, _check)
+        try _env.eval(try t!.type.callValue!(t!.value, _pos, _pc+1, _check))
     }
     
     private let _env: Env

@@ -85,7 +85,7 @@ public class CoreLib: Lib {
         let skipFalse = env.emit(STOP)
         let falsePc = env.pc
         try falseBranch.emit()
-        env.emit(Goto(pc: env.pc), index: skipFalse)
+        env.emit(Goto(env: env, pc: env.pc), index: skipFalse)
         env.emit(Branch(env: env, pos: pos, pc: branchPc, falsePc: falsePc), index: branch)
     }
     

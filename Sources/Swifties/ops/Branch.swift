@@ -8,10 +8,10 @@ public struct Branch: Op {
         _falsePc = falsePc
     }
 
-    public func eval() throws -> Pc {
+    public func eval() throws {
         let v = _env.pop()
         if v == nil { throw EvalError(_pos, "Missing branch condition") }
-        return v!.type.valueIsTrue(v!.value) ? _pc+1 : _falsePc
+        try _env.eval(v!.type.valueIsTrue(v!.value) ? _pc+1 : _falsePc)
     }
     
     private let _env: Env

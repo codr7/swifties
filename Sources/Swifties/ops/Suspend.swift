@@ -7,9 +7,9 @@ public struct Suspend: Op {
         _retPc = retPc
     }
 
-    public func eval() throws -> Pc {
+    public func eval() throws {
         _env.push(_env.coreLib!.contType, _env.suspend(pc: _pc+1))
-        return _retPc()
+        try _env.eval(_retPc())
     }
     
     private let _env: Env

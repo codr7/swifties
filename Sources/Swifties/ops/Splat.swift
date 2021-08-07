@@ -7,13 +7,13 @@ public struct Splat: Op {
         _pc = pc
     }
 
-    public func eval() throws -> Pc {
+    public func eval() throws {
         _env.reset()
         let ss = _env.pop()
         if ss == nil { throw EvalError(_pos, "Missing stack") }
         if ss!.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(ss!.type.name)") }
         _env.push(ss!.value as! Stack)
-        return _pc+1
+        try _env.eval(_pc+1)
     }
     
     private let _env: Env

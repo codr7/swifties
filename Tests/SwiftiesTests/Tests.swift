@@ -12,7 +12,7 @@ final class Tests: XCTestCase {
         let v = Slot(env.coreLib!.intType, 42)
         env.emit(Push(pc: env.pc, v))
         env.emit(STOP)
-        try env.eval(pc: 0)
+        try env.eval(0)
         XCTAssertEqual(v, env.pop()!)
     }
 
@@ -24,7 +24,7 @@ final class Tests: XCTestCase {
         try env.openScope().bind(pos: p, id: "foo", v)
         try IdForm(env: env, pos: p, name: "foo").emit()
         env.emit(STOP)
-        try env.eval(pc: 0)
+        try env.eval(0)
         XCTAssertEqual(v, env.pop()!)
     }
     
@@ -40,7 +40,7 @@ final class Tests: XCTestCase {
         env.emit(Load(env: env, pos: pos, pc: env.pc, index: i))
         env.emit(STOP)
         env.closeScope()
-        try env.eval(pc: 0)
+        try env.eval(0)
         XCTAssertEqual(v, env.pop()!)
     }
     
@@ -59,7 +59,7 @@ final class Tests: XCTestCase {
         env.emit(Push(pc: env.pc, env.coreLib!.intType, 35))
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)
-        try env.eval(pc: 0)
+        try env.eval(0)
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
     }
     
@@ -75,7 +75,7 @@ final class Tests: XCTestCase {
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)
         env.push(env.coreLib!.intType, 7)
-        try env.eval(pc: 0)
+        try env.eval(0)
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
         XCTAssertEqual(Slot(env.coreLib!.intType, 7), env.pop()!)
         XCTAssertEqual(nil, env.pop())
@@ -95,7 +95,7 @@ final class Tests: XCTestCase {
         
         env.emit(STOP)
         env.push(env.coreLib!.intType, 42)
-        try env.eval(pc: 0)
+        try env.eval(0)
         XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop()!)
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
         XCTAssertEqual(nil, env.pop())

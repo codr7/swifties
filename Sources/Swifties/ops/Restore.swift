@@ -7,11 +7,11 @@ public struct Restore: Op {
         _pc = pc
     }
 
-    public func eval() throws -> Pc {
+    public func eval() throws {
         let s = _env.pop()
         if s == nil { throw EvalError(_pos, "Missing continuation") }
         let c = s!.value as! Cont
-        return c.restore()
+        try _env.eval(c.restore())
     }
     
     private let _env: Env

@@ -6,9 +6,9 @@ public struct Reset: Op {
         _pc = pc
     }
 
-    public func eval() throws -> Pc {
+    public func eval() throws {
         _env.reset()
-        return _pc+1
+        try _env.eval(_pc+1)
     }
     
     private let _env: Env

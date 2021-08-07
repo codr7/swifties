@@ -1,5 +1,5 @@
 import Foundation
 
 public protocol Op {
-    func eval() throws -> Pc
+    func eval() throws
 }
