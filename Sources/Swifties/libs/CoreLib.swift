@@ -31,21 +31,21 @@ public class CoreLib: Lib {
 
     public func nop(pos: Pos, args: [Form]) {}
 
-    public func equals(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func equals(pos: Pos, self: Func, ret: Op) throws {
         let y = env.pop()
         let x = env.peek()
         env.poke(env.coreLib!.boolType, (x!.type == y!.type) && x!.type.equalValues!(x!.value, y!.value))
-        return retPc
+        try ret.eval()
     }
 
-    public func equalsZero(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func equalsZero(pos: Pos, self: Func, ret: Op) throws {
         env.poke(env.coreLib!.boolType, env.peek()!.value as! Int == 0)
-        return retPc
+        try ret.eval()
     }
 
-    public func equalsOne(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func equalsOne(pos: Pos, self: Func, ret: Op) throws {
         env.poke(env.coreLib!.boolType, env.peek()!.value as! Int == 1)
-        return retPc
+        try ret.eval()
     }
 
     public func bench(pos: Pos, args: [Form]) throws {
@@ -60,9 +60,9 @@ public class CoreLib: Lib {
         for a in args { try a.emit() }
     }
     
-    public func drop(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func drop(pos: Pos, self: Func, ret: Op) throws {
         env.pop()
-        return retPc
+        try ret.eval()
     }
     
     public func _func(pos: Pos, args: [Form]) throws {
@@ -116,11 +116,11 @@ public class CoreLib: Lib {
         env.emit(Reset(env: env, pc: env.pc))
     }
     
-    public func stash(pos: Pos, self: Func, retPc: Pc) -> Pc {
+    public func stash(pos: Pos, self: Func, ret: Op) throws {
         let tmp = env.stack
         env.reset()
         env.push(env.coreLib!.stackType, tmp)
-        return retPc
+        try ret.eval()
     }
     
     public func splat(pos: Pos, args: [Form]) throws {

@@ -1,46 +1,44 @@
 import Foundation
 
 public class MathLib: Lib {
-    public override init(env: Env, pos: Pos) {
-        super.init(env: env, pos: pos)
-    }
+    public override init(env: Env, pos: Pos) { super.init(env: env, pos: pos) }
 
-    public func minusOne(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func minusOne(pos: Pos, self: Func, ret: Op) throws {
         env.poke(env.coreLib!.intType, (env.peek()!.value as! Int)-1, offset: 0)
-        return retPc
+        try ret.eval()
     }
 
-    public func minusTwo(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func minusTwo(pos: Pos, self: Func, ret: Op) throws {
         env.poke(env.coreLib!.intType, (env.peek()!.value as! Int)-2, offset: 0)
-        return retPc
+        try ret.eval()
     }
 
-    public func plusInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func plusInt(pos: Pos, self: Func, ret: Op) throws {
         let y = env.pop()!
         let x = env.peek()!
         env.poke(env.coreLib!.intType, (x.value as! Int) + (y.value as! Int), offset: 0)
-        return retPc
+        try ret.eval()
     }
     
-    public func minusInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func minusInt(pos: Pos, self: Func, ret: Op) throws {
         let y = env.pop()!
         let x = env.peek()!
         env.poke(env.coreLib!.intType, (x.value as! Int) - (y.value as! Int), offset: 0)
-        return retPc
+        try ret.eval()
     }
 
-    public func ltInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func ltInt(pos: Pos, self: Func, ret: Op) throws {
         let y = env.pop()!
         let x = env.peek()!
         env.poke(env.coreLib!.boolType, (x.value as! Int) < (y.value as! Int), offset: 0)
-        return retPc
+        try ret.eval()
     }
 
-    public func gtInt(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func gtInt(pos: Pos, self: Func, ret: Op) throws {
         let y = env.pop()!
         let x = env.peek()!
         env.poke(env.coreLib!.boolType, (x.value as! Int) > (y.value as! Int), offset: 0)
-        return retPc
+        try ret.eval()
     }
 
     public override func bind(pos: Pos, _ names: [String]) throws {

@@ -1,7 +1,7 @@
 import Foundation
 
 public class Func: Definition, Equatable {
-    public typealias Body = (_ pos: Pos, _ self: Func, _ retPc: Pc) throws -> Pc
+    public typealias Body = (_ pos: Pos, _ self: Func, _ ret: Op) throws -> Void
 
     public static func == (lhs: Func, rhs: Func) -> Bool { lhs === rhs }
     
@@ -27,10 +27,11 @@ public class Func: Definition, Equatable {
         try form.emit()
         _env.emit(Return(env: env, pos: form.pos))
         _env.emit(Goto(env: env, pc: env.pc), index: skip)
+        let startOp = _env.ops[startPc]
         
-        _body = {p, f, retPc in
-            self._env.pushFrame(pos: p, _func: f, startPc: startPc, retPc: retPc)
-            return startPc
+        _body = {p, f, ret in
+            self._env.pushFrame(pos: p, _func: f, startOp: startOp, retOp: ret)
+            try startOp.eval()
         }
     }
     
@@ -43,7 +44,7 @@ public class Func: Definition, Equatable {
         return true
     }
 
-    public func call(pos: Pos, retPc: Pc) throws -> Pc { try _body!(pos, self, retPc) }
+    public func call(pos: Pos, ret: Op) throws { try _body!(pos, self, ret) }
         
     private let _pos: Pos
     private let _env: Env

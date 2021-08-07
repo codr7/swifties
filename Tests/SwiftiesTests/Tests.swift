@@ -51,9 +51,9 @@ final class Tests: XCTestCase {
         env.openScope()
 
         let f = Func(env: env, pos: p, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType],
-                     {(pos: Pos, self: Func, retPc: Pc) -> Pc in
+                     {(pos: Pos, self: Func, ret: Op) in
             env.push(env.coreLib!.intType, env.pop()!.value as! Int + 7)
-            return retPc
+            try ret.eval()
         })
         
         env.emit(Push(pc: env.pc, env.coreLib!.intType, 35))
