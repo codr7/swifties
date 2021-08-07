@@ -114,7 +114,11 @@ public class Env {
         push(v!)
     }
     
-    public func store(index i: Register, slot: Slot) { _registers[i] = slot }
+    public func store(pos: Pos, index i: Register) throws {
+        let v = pop()
+        if v == nil { throw EvalError(pos, "Missing value to store: \(i)") }
+        _registers[i] = v!
+    }
     
     public func eval(pc: Pc) throws {
         var nextPc = pc

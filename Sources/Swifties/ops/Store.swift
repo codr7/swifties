@@ -9,9 +9,7 @@ public struct Store: Op {
     }
         
     public func eval() throws -> Pc {
-        let v = _env.pop()
-        if v == nil { throw EvalError(_pos, "Missing value to store") }
-        _env.store(index: _index, slot: v!)
+        try _env.store(pos: _pos, index: _index)
         return _pc+1
     }
     
