@@ -6,6 +6,7 @@ public class Frame {
         _pos = pos
         self._func = _func
         _stack = _env._stack
+        _env._stack = _stack.dropLast(_func.args.count)
         _registers = _env._registers
         _retPc = retPc
         _env.reset()
