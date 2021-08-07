@@ -42,7 +42,7 @@ public class Env {
 
     @discardableResult
     public func pushFrame(pos: Pos, _func: Func, startPc: Pc, retPc: Pc) -> Frame {
-        let f = Frame(env: self, pos: pos, _func: _func, startPc: startPc, retPc: retPc)
+        let f = Frame(env: self, pos: pos, _func: _func, startOp: _ops[startPc], retOp: _ops[retPc])
         _frames.append(f)
         return f
     }
@@ -51,9 +51,9 @@ public class Env {
         return (_frames.count == 0) ? nil : _frames.last
     }
     
-    public func popFrame(pos: Pos) throws -> Pc {
+    public func popFrame(pos: Pos) throws {
         if _frames.count == 0 { throw EvalError(pos, "No calls in progress") }
-        return try _frames.popLast()!.restore()
+        try _frames.popLast()!.restore()
     }
 
     @discardableResult

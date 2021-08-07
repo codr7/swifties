@@ -12,7 +12,7 @@ public class Recall: Op {
     public func eval() throws {
         let f = _env.peekFrame()
         if f == nil { throw EvalError(_pos, "No calls in progress") }
-        try _env.eval(try f!.recall(pos: _pos, check: _check), prepare: false)
+        try f!.recall(pos: _pos, check: _check)
     }
     
     private let _env: Env

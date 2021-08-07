@@ -7,8 +7,7 @@ public class Return: Op {
     }
 
     public func prepare() {}
-
-    public func eval() throws { try _env.eval(try _env.popFrame(pos: _pos), prepare: false) }
+    public func eval() throws { try _env.popFrame(pos: _pos) }
     
     private let _env: Env
     private let _pos: Pos

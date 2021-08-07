@@ -7,7 +7,7 @@ public class PushDown: Op {
         _pc = pc
     }
 
-    public func prepare() {}
+    public func prepare() { _nextOp = _env.ops[_pc+1] }
 
     public func eval() throws {
         let v = _env.pop()
@@ -21,10 +21,11 @@ public class PushDown: Op {
         var dst = s!.value as! Stack
         dst.append(v!)
         _env.poke(_env.coreLib!.stackType, dst, offset: 0)
-        try _env.eval(_pc+1, prepare: false)
+        try _nextOp!.eval()
     }
     
     private let _env: Env
     private let _pos: Pos
     private let _pc: Pc
+    private var _nextOp: Op?
 }
