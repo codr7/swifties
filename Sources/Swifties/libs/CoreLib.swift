@@ -31,10 +31,20 @@ public class CoreLib: Lib {
 
     public func nop(pos: Pos, args: [Form]) {}
 
-    public func equal(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+    public func equals(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
         let y = env.pop()
         let x = env.peek()
         env.poke(env.coreLib!.boolType, (x!.type == y!.type) && x!.type.equalValues!(x!.value, y!.value))
+        return retPc
+    }
+
+    public func equalsZero(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+        env.poke(env.coreLib!.boolType, env.peek()!.value as! Int == 0)
+        return retPc
+    }
+
+    public func equalsOne(pos: Pos, self: Func, retPc: Pc) throws -> Pc {
+        env.poke(env.coreLib!.boolType, env.peek()!.value as! Int == 1)
         return retPc
     }
 
@@ -127,7 +137,9 @@ public class CoreLib: Lib {
         define("f", boolType, false)
         
         define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.nop))
-        define(Func(env: env, pos: self.pos, name: "=", args: [anyType, anyType], rets: [boolType], self.equal))
+        define(Func(env: env, pos: self.pos, name: "=", args: [anyType, anyType], rets: [boolType], self.equals))
+        define(Func(env: env, pos: self.pos, name: "=0", args: [intType], rets: [boolType], self.equalsZero))
+        define(Func(env: env, pos: self.pos, name: "=1", args: [intType], rets: [boolType], self.equalsOne))
         define(Prim(env: env, pos: self.pos, name: "bench", (1, -1), self.bench))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
