@@ -36,12 +36,10 @@ public class Func: Definition, Equatable {
     }
     
     public func isApplicable() -> Bool {
-        /*
         for i in 0..<_args.count {
             let v = _env.peek(offset: _args.count - i - 1)
             if v == nil || !v!.type.isa(_args[i]) { return false }
         }
-         */
 
         return true
     }
