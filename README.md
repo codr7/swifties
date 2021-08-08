@@ -121,20 +121,20 @@ Code is parsed into forms, which is what primitives and macros operate on.
 Forms emit operations, which are the basic building blocks that are eventually evaluated in sequence to get the desired result.
 
 - Bench - Repeats body specified number of times and pushes elapsed time in milliseconds
-- Branch - Conditional Goto
-- Call - Call specified value
-- Goto - Goto specified `Pc`
-- Load - Load value from specified register
-- Push - Push specified value on stack
-- PushDown - Push top of stack onto next item
-- Recall - Optimized tail call
-- Reset - Clear stack
-- Restore - Restore continuation
-- Return - Pop frame from call stack and goto return pc
-- Splat - Replace top item with it's items
-- Stop - Stop evaluation
-- Store - Store value in specified register
-- Suspend - Push continuation
+- Branch - Branches conditionally
+- Call - Calls specified value
+- Goto - Resumes evaluation from specified `Pc`
+- Load - Loads value from specified register
+- Push - Pushes specified value on stack
+- PushDown - Pushes top of stack onto next item
+- Recall - Restarts current function without pushing frame
+- Reset - Clears stack
+- Restore - Restores continuation
+- Return - Pops frame from call stack and resumes evaluation from it's return pc
+- Splat - Replaces top item with it's items
+- Stop - Stops evaluation without error
+- Store - Stores value in specified register
+- Suspend - Pushes continuation
 
 Operations may be manually emitted at any point using `Env.emit(Op)`.
 
@@ -150,8 +150,7 @@ XCTAssertEqual(v, env.pop()!)
 ```
 
 ### todo
-- add return prim
-    - emit args & Return
+- add and/or prims
 - add Nil type/Maybe type
 - add multi
 - add suspend prim
@@ -172,3 +171,5 @@ XCTAssertEqual(v, env.pop()!)
     - add Env.unsafe { safetyLevel > 0 }
     - skip Func.IsApplicable if env.unsafe
     - skip result check in Frame.restore if env.unsafe
+- add return prim
+    - emit args & Return
