@@ -116,7 +116,7 @@ public class CoreLib: Lib {
 
     public func not(pos: Pos, self: Func, ret: Op) throws {
         let s = env.peek()!
-        env.poke(env.coreLib!.boolType, s.type.valueIsTrue(s.value))
+        env.poke(env.coreLib!.boolType, !s.type.valueIsTrue(s.value))
         try ret.eval()
     }
     
