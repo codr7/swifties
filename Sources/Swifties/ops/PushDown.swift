@@ -10,13 +10,12 @@ public class PushDown: Op {
     public func prepare() { _nextOp = _env.ops[_pc+1] }
 
     public func eval() throws {
-        let v = _env.pop()
-        if v == nil { throw EvalError(_pos, "Missing item") }
+        let v = try _env.pop(pos: _pos)
         let s = _env.peek()
         if s == nil { throw EvalError(_pos, "Missing stack") }
         if s!.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(s!.type.name)") }
         var dst = s!.value as! Stack
-        dst.append(v!)
+        dst.append(v)
         _env.poke(_env.coreLib!.stackType, dst, offset: 0)
         try _nextOp!.eval()
     }

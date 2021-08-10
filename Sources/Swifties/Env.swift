@@ -104,7 +104,11 @@ public class Env {
     }
     
     @discardableResult
-    public func pop() -> Slot? { _stack.popLast() }
+    public func pop(pos: Pos) throws -> Slot {
+        let v = _stack.popLast()
+        if v == nil { throw EvalError(pos, "Stack is empty") }
+        return v!
+    }
 
     public func reset() { _stack.removeAll() }
     
@@ -115,9 +119,7 @@ public class Env {
     }
     
     public func store(pos: Pos, index i: Register) throws {
-        let v = pop()
-        if v == nil { throw EvalError(pos, "Missing value to store: \(i)") }
-        _registers[i] = v!
+        _registers[i] = try pop(pos: pos)
     }
     
     public func eval(_ pc: Pc, prepare: Bool = true) throws {

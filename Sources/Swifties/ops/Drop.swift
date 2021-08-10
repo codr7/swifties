@@ -10,7 +10,7 @@ public class Drop: Op {
     public func prepare() { _nextOp = _env.ops[_pc+1] }
 
     public func eval() throws {
-        if _env.pop() == nil { throw EvalError(_pos, "Stack is empty") }
+        try _env.pop(pos: _pos)
         try _nextOp!.eval()
     }
     

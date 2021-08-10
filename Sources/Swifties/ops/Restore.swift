@@ -10,9 +10,8 @@ public class Restore: Op {
     public func prepare() {}
 
     public func eval() throws {
-        let s = _env.pop()
-        if s == nil { throw EvalError(_pos, "Missing continuation") }
-        let c = s!.value as! Cont
+        let s = try _env.pop(pos: _pos)
+        let c = s.value as! Cont
         try _env.eval(c.restore(), prepare: false)
     }
     

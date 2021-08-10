@@ -12,8 +12,8 @@ public class Call: Op {
     public func prepare() { _retOp = _env.ops[_pc+1] }
 
     public func eval() throws {
-        let t = _target ?? _env.pop()
-        if t == nil { throw EvalError(_pos, "Missing target") }
+        var t = _target
+        if t == nil { t = try _env.pop(pos: _pos)}
         if t!.type.callValue == nil { throw EvalError(_pos, "Invalid target: \(t!)") }
         try t!.type.callValue!(t!.value, _pos, _retOp!, _check)
     }

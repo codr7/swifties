@@ -32,9 +32,9 @@ public class CoreLib: Lib {
     public func nop(pos: Pos, args: [Form]) {}
 
     public func equals(pos: Pos, self: Func, ret: Op) throws {
-        let y = env.pop()
+        let y = try env.pop(pos: pos)
         let x = env.peek()
-        env.poke(env.coreLib!.boolType, (x!.type == y!.type) && x!.type.equalValues!(x!.value, y!.value))
+        env.poke(env.coreLib!.boolType, (x!.type == y.type) && x!.type.equalValues!(x!.value, y.value))
         try ret.eval()
     }
 
@@ -69,7 +69,7 @@ public class CoreLib: Lib {
     }
     
     public func drop(pos: Pos, self: Func, ret: Op) throws {
-        env.pop()
+        try env.pop(pos: pos)
         try ret.eval()
     }
     

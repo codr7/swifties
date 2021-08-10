@@ -11,10 +11,9 @@ public class Splat: Op {
 
     public func eval() throws {
         _env.reset()
-        let ss = _env.pop()
-        if ss == nil { throw EvalError(_pos, "Missing stack") }
-        if ss!.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(ss!.type.name)") }
-        _env.push(ss!.value as! Stack)
+        let ss = try _env.pop(pos: _pos)
+        if ss.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(ss.type.name)") }
+        _env.push(ss.value as! Stack)
         try _nextOp!.eval()
     }
     

@@ -13,7 +13,7 @@ final class Tests: XCTestCase {
         env.emit(Push(pc: env.pc, v))
         env.emit(STOP)
         try env.eval(0)
-        XCTAssertEqual(v, env.pop()!)
+        XCTAssertEqual(v, try env.pop(pos: p))
     }
 
     func testStaticBinding() throws {
@@ -25,7 +25,7 @@ final class Tests: XCTestCase {
         try IdForm(env: env, pos: p, name: "foo").emit()
         env.emit(STOP)
         try env.eval(0)
-        XCTAssertEqual(v, env.pop()!)
+        XCTAssertEqual(v, try env.pop(pos: p))
     }
     
     func testDynamicBinding() throws {
@@ -41,7 +41,7 @@ final class Tests: XCTestCase {
         env.emit(STOP)
         env.closeScope()
         try env.eval(0)
-        XCTAssertEqual(v, env.pop()!)
+        XCTAssertEqual(v, try env.pop(pos: pos))
     }
     
     func testFunc() throws {
@@ -52,7 +52,7 @@ final class Tests: XCTestCase {
 
         let f = Func(env: env, pos: p, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType],
                      {(pos: Pos, self: Func, ret: Op) in
-            env.push(env.coreLib!.intType, env.pop()!.value as! Int + 7)
+                        env.push(env.coreLib!.intType, try env.pop(pos: p).value as! Int + 7)
             try ret.eval()
         })
         
@@ -60,7 +60,7 @@ final class Tests: XCTestCase {
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)
         try env.eval(0)
-        XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
+        XCTAssertEqual(Slot(env.coreLib!.intType, 42), try env.pop(pos: p))
     }
     
     func testCompileFunc() throws {
@@ -76,9 +76,9 @@ final class Tests: XCTestCase {
         env.emit(STOP)
         env.push(env.coreLib!.intType, 7)
         try env.eval(0)
-        XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
-        XCTAssertEqual(Slot(env.coreLib!.intType, 7), env.pop()!)
-        XCTAssertEqual(nil, env.pop())
+        XCTAssertEqual(Slot(env.coreLib!.intType, 42), try env.pop(pos: p))
+        XCTAssertEqual(Slot(env.coreLib!.intType, 7), try env.pop(pos: p))
+        XCTAssertEqual(nil, env.peek())
     }
     
     func testIf() throws {
@@ -96,8 +96,8 @@ final class Tests: XCTestCase {
         env.emit(STOP)
         env.push(env.coreLib!.intType, 42)
         try env.eval(0)
-        XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop()!)
-        XCTAssertEqual(Slot(env.coreLib!.intType, 42), env.pop()!)
-        XCTAssertEqual(nil, env.pop())
+        XCTAssertEqual(Slot(env.coreLib!.intType, 1), try env.pop(pos: pos))
+        XCTAssertEqual(Slot(env.coreLib!.intType, 42), try env.pop(pos: pos))
+        XCTAssertEqual(nil, env.peek())
     }
 }

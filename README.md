@@ -150,6 +150,8 @@ XCTAssertEqual(v, env.pop()!)
 ```
 
 ### todo
+- add stack arg to form/prim emit
+    - push/pop to imitate runtime stack effect
 - add suspend prim
     - (suspend ...)
     - emit goto

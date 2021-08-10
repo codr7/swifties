@@ -14,28 +14,28 @@ public class MathLib: Lib {
     }
 
     public func plusInt(pos: Pos, self: Func, ret: Op) throws {
-        let y = env.pop()!
+        let y = try env.pop(pos: pos)
         let x = env.peek()!
         env.poke(env.coreLib!.intType, (x.value as! Int) + (y.value as! Int), offset: 0)
         try ret.eval()
     }
     
     public func minusInt(pos: Pos, self: Func, ret: Op) throws {
-        let y = env.pop()!
+        let y = try env.pop(pos: pos)
         let x = env.peek()!
         env.poke(env.coreLib!.intType, (x.value as! Int) - (y.value as! Int), offset: 0)
         try ret.eval()
     }
 
     public func ltInt(pos: Pos, self: Func, ret: Op) throws {
-        let y = env.pop()!
+        let y = try env.pop(pos: pos)
         let x = env.peek()!
         env.poke(env.coreLib!.boolType, (x.value as! Int) < (y.value as! Int), offset: 0)
         try ret.eval()
     }
 
     public func gtInt(pos: Pos, self: Func, ret: Op) throws {
-        let y = env.pop()!
+        let y = try env.pop(pos: pos)
         let x = env.peek()!
         env.poke(env.coreLib!.boolType, (x.value as! Int) > (y.value as! Int), offset: 0)
         try ret.eval()
