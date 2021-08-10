@@ -51,6 +51,7 @@ public class CoreLib: Lib {
     public func and(pos: Pos, args: [Form]) throws {
         try args[0].emit()
         let branchPc = env.emit(STOP)
+        env.emit(Drop(env: env, pos: pos, pc: env.pc))
         try args[1].emit()
         env.emit(Branch(env: env, pos: pos, truePc: branchPc+1, falsePc: env.pc, pop: false), pc: branchPc)
     }
@@ -122,6 +123,7 @@ public class CoreLib: Lib {
     public func or(pos: Pos, args: [Form]) throws {
         try args[0].emit()
         let branchPc = env.emit(STOP)
+        env.emit(Drop(env: env, pos: pos, pc: env.pc))
         try args[1].emit()
         env.emit(Branch(env: env, pos: pos, truePc: env.pc, falsePc: branchPc+1, pop: false), pc: branchPc)
     }
