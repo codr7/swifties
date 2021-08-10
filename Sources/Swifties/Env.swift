@@ -93,14 +93,9 @@ public class Env {
         return _stack[_stack.count - offset - 1]
     }
     
-    @discardableResult
-    public func poke<T>(_ type: Type<T>, _ value: T, offset: Int = 0) -> Bool {
-        if offset >= _stack.count {
-            return false
-        }
-        
+    public func poke<T>(pos: Pos, _ type: Type<T>, _ value: T, offset: Int = 0) throws {
+        if offset >= _stack.count { throw EvalError(pos, "Stack is empty") }
         _stack[_stack.count - offset - 1] = Slot(type, value)
-        return true
     }
     
     @discardableResult

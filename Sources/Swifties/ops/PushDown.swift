@@ -16,7 +16,7 @@ public class PushDown: Op {
         if s!.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(s!.type.name)") }
         var dst = s!.value as! Stack
         dst.append(v)
-        _env.poke(_env.coreLib!.stackType, dst, offset: 0)
+        try _env.poke(pos: _pos, _env.coreLib!.stackType, dst, offset: 0)
         try _nextOp!.eval()
     }
     

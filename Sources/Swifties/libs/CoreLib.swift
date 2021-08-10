@@ -34,17 +34,17 @@ public class CoreLib: Lib {
     public func equals(pos: Pos, self: Func, ret: Op) throws {
         let y = try env.pop(pos: pos)
         let x = env.peek()
-        env.poke(env.coreLib!.boolType, (x!.type == y.type) && x!.type.equalValues!(x!.value, y.value))
+        try env.poke(pos: pos, env.coreLib!.boolType, (x!.type == y.type) && x!.type.equalValues!(x!.value, y.value))
         try ret.eval()
     }
 
     public func equalsZero(pos: Pos, self: Func, ret: Op) throws {
-        env.poke(env.coreLib!.boolType, env.peek()!.value as! Int == 0)
+        try env.poke(pos: pos, env.coreLib!.boolType, env.peek()!.value as! Int == 0)
         try ret.eval()
     }
 
     public func equalsOne(pos: Pos, self: Func, ret: Op) throws {
-        env.poke(env.coreLib!.boolType, env.peek()!.value as! Int == 1)
+        try env.poke(pos: pos, env.coreLib!.boolType, env.peek()!.value as! Int == 1)
         try ret.eval()
     }
 
@@ -116,7 +116,7 @@ public class CoreLib: Lib {
 
     public func not(pos: Pos, self: Func, ret: Op) throws {
         let s = env.peek()!
-        env.poke(env.coreLib!.boolType, !s.type.valueIsTrue(s.value))
+        try env.poke(pos: pos, env.coreLib!.boolType, !s.type.valueIsTrue(s.value))
         try ret.eval()
     }
     
