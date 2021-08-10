@@ -70,8 +70,8 @@ public class Env {
     }
     
     @discardableResult
-    public func emit(_ op: Op, index: Int? = nil) -> Pc {
-        if let i = index {
+    public func emit(_ op: Op, pc: Int? = nil) -> Pc {
+        if let i = pc {
             _ops[i] = op
             return i
         }

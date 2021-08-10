@@ -48,12 +48,19 @@ public class CoreLib: Lib {
         try ret.eval()
     }
 
+    public func and(pos: Pos, args: [Form]) throws {
+        try args[0].emit()
+        let branchPc = env.emit(STOP)
+        try args[1].emit()
+        env.emit(Branch(env: env, pos: pos, truePc: branchPc+1, falsePc: env.pc, pop: false), pc: branchPc)
+    }
+
     public func bench(pos: Pos, args: [Form]) throws {
         let reps = (args[0] as! LiteralForm).slot!.value as! Int
         let i = env.emit(STOP)
         let startPc = env.pc
         for f in args[1...] { try f.emit() }
-        env.emit(Bench(env: env, reps: reps, startPc: startPc, endPc: env.pc), index: i)
+        env.emit(Bench(env: env, reps: reps, startPc: startPc, endPc: env.pc), pc: i)
     }
     
     public func _do(pos: Pos, args: [Form]) throws {
@@ -79,14 +86,13 @@ public class CoreLib: Lib {
         try cond.emit()
         let trueBranch = args[1]
         let falseBranch = args[2]
-        let branchPc = env.pc
-        let branch = env.emit(STOP)
+        let branchPc = env.emit(STOP)
         try falseBranch.emit()
         let skipTrue = env.emit(STOP)
         let truePc = env.pc
         try trueBranch.emit()
-        env.emit(Goto(env: env, pc: env.pc), index: skipTrue)
-        env.emit(Branch(env: env, pos: pos, pc: branchPc, truePc: truePc), index: branch)
+        env.emit(Goto(env: env, pc: env.pc), pc: skipTrue)
+        env.emit(Branch(env: env, pos: pos, truePc: truePc, falsePc: branchPc+1), pc: branchPc)
     }
     
     public func _let(pos: Pos, args: [Form]) throws {
@@ -107,6 +113,19 @@ public class CoreLib: Lib {
         for a in args[1...] { try a.emit() }
     }
 
+    public func not(pos: Pos, self: Func, ret: Op) throws {
+        let s = env.peek()!
+        env.poke(env.coreLib!.boolType, s.type.valueIsTrue(s.value))
+        try ret.eval()
+    }
+    
+    public func or(pos: Pos, args: [Form]) throws {
+        try args[0].emit()
+        let branchPc = env.emit(STOP)
+        try args[1].emit()
+        env.emit(Branch(env: env, pos: pos, truePc: env.pc, falsePc: branchPc+1, pop: false), pc: branchPc)
+    }
+    
     public func recall(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
         env.emit(Recall(env: env, pos: pos, check: true))
@@ -140,12 +159,15 @@ public class CoreLib: Lib {
         define(Func(env: env, pos: self.pos, name: "=", args: [anyType, anyType], rets: [boolType], self.equals))
         define(Func(env: env, pos: self.pos, name: "=0", args: [intType], rets: [boolType], self.equalsZero))
         define(Func(env: env, pos: self.pos, name: "=1", args: [intType], rets: [boolType], self.equalsOne))
+        define(Prim(env: env, pos: self.pos, name: "and", (2, 2), self.and))
         define(Prim(env: env, pos: self.pos, name: "bench", (1, -1), self.bench))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
         define(Prim(env: env, pos: self.pos, name: "if", (3, 3), self._if))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
+        define(Func(env: env, pos: self.pos, name: "not", args: [anyType], rets: [boolType], self.not))
+        define(Prim(env: env, pos: self.pos, name: "or", (2, 2), self.or))
         define(Prim(env: env, pos: self.pos, name: "recall", (0, -1), self.recall))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Prim(env: env, pos: self.pos, name: "splat", (1, -1), self.splat))

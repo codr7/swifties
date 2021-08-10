@@ -32,7 +32,7 @@ public class Func: Definition, Equatable {
         }
 
         _env.emit(Return(env: env, pos: form.pos))
-        _env.emit(Goto(env: env, pc: env.pc), index: skip)
+        _env.emit(Goto(env: env, pc: env.pc), pc: skip)
         let startOp = _env.ops[startPc]
         
         _body = {p, f, ret in

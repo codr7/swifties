@@ -150,9 +150,6 @@ XCTAssertEqual(v, env.pop()!)
 ```
 
 ### todo
-- add and/or prims
-- add Nil type/Maybe type
-- add multi
 - add suspend prim
     - (suspend ...)
     - emit goto
@@ -161,6 +158,8 @@ XCTAssertEqual(v, env.pop()!)
     - emit stop
 - implement callValue for Cont
     - env.restore
+- add Nil type/Maybe type
+- add multi
 - make suggestions based on edit distance for missing ids
     - recursive like find
 - add unsafe prim
