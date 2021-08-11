@@ -1,7 +1,7 @@
 import Foundation
 
 public class LiteralForm: Form {
-    public override var slot: Slot? { get { _slot } }
+    public override var slot: Slot? { _slot }
 
     public init<T>(env: Env, pos: Pos, _ type: Type<T>, _ value: T) {
         _slot = Slot(type, value)

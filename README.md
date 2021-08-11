@@ -150,12 +150,6 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- add pairs x:y
-    - add PairForm
-        - implement slot
-    - add PairType
-    - break id-parser on :
-    - add pair-parser to repl
 - add for prim
     - if first arg is a pair-form bind argument
 - implement iterValue for String/Stack

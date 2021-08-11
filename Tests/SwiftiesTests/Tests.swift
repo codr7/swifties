@@ -78,7 +78,7 @@ final class Tests: XCTestCase {
         try env.eval(0)
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), try env.pop(pos: p))
         XCTAssertEqual(Slot(env.coreLib!.intType, 7), try env.pop(pos: p))
-        XCTAssertEqual(nil, env.peek())
+        XCTAssertEqual(nil, env.tryPeek())
     }
     
     func testIf() throws {
@@ -98,6 +98,6 @@ final class Tests: XCTestCase {
         try env.eval(0)
         XCTAssertEqual(Slot(env.coreLib!.intType, 1), try env.pop(pos: pos))
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), try env.pop(pos: pos))
-        XCTAssertEqual(nil, env.peek())
+        XCTAssertEqual(nil, env.tryPeek())
     }
 }

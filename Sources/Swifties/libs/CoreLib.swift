@@ -10,6 +10,7 @@ public class CoreLib: Lib {
     public let iterType: IterType
     public let macroType: MacroType
     public let metaType: MetaType
+    public let pairType: PairType
     public let primType: PrimType
     public let registerType: RegisterType
     public let stackType: StackType
@@ -24,6 +25,7 @@ public class CoreLib: Lib {
         intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType, iterType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         metaType = MetaType(env, pos: pos, name: "Meta", parentTypes: [anyType])
+        pairType = PairType(env, pos: pos, name: "Pair", parentTypes: [anyType])
         primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType])
         registerType = RegisterType(env, pos: pos, name: "Register", parentTypes: [anyType])
         stackType = StackType(env, pos: pos, name: "Stack", parentTypes: [anyType])
@@ -35,18 +37,18 @@ public class CoreLib: Lib {
 
     public func equals(pos: Pos, self: Func, ret: Op) throws {
         let y = try env.pop(pos: pos)
-        let x = env.peek()
-        try env.poke(pos: pos, env.coreLib!.boolType, (x!.type == y.type) && x!.type.equalValues!(x!.value, y.value))
+        let x = try env.peek(pos: pos)
+        try env.poke(pos: pos, env.coreLib!.boolType, (x.type == y.type) && x.type.equalValues!(x.value, y.value))
         try ret.eval()
     }
 
     public func equalsZero(pos: Pos, self: Func, ret: Op) throws {
-        try env.poke(pos: pos, env.coreLib!.boolType, env.peek()!.value as! Int == 0)
+        try env.poke(pos: pos, env.coreLib!.boolType, env.peek(pos: pos).value as! Int == 0)
         try ret.eval()
     }
 
     public func equalsOne(pos: Pos, self: Func, ret: Op) throws {
-        try env.poke(pos: pos, env.coreLib!.boolType, env.peek()!.value as! Int == 1)
+        try env.poke(pos: pos, env.coreLib!.boolType, env.peek(pos: pos).value as! Int == 1)
         try ret.eval()
     }
 
@@ -117,7 +119,7 @@ public class CoreLib: Lib {
     }
 
     public func not(pos: Pos, self: Func, ret: Op) throws {
-        let s = env.peek()!
+        let s = try env.peek(pos: pos)
         try env.poke(pos: pos, env.coreLib!.boolType, !s.type.valueIsTrue(s.value))
         try ret.eval()
     }
@@ -154,7 +156,15 @@ public class CoreLib: Lib {
     }
     
     public override func bind(pos: Pos, _ names: [String]) throws {
-        define(anyType, boolType, contType, funcType, intType, iterType, macroType, metaType, primType, registerType, stackType)
+        define(anyType,
+               boolType,
+               contType,
+               funcType,
+               intType, iterType,
+               macroType, metaType,
+               pairType, primType,
+               registerType,
+               stackType)
         
         define("t", boolType, true)
         define("f", boolType, false)

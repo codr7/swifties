@@ -15,9 +15,8 @@ public class Branch: Op {
     }
     
     public func eval() throws {
-        let v = _pop ? try _env.pop(pos: _pos) : _env.peek()
-        if v == nil { throw EvalError(_pos, "Missing branch condition") }
-        try (v!.type.valueIsTrue(v!.value) ? _trueOp : _falseOp)!.eval()
+        let v = _pop ? try _env.pop(pos: _pos) : try _env.peek(pos: _pos)
+        try (v.type.valueIsTrue(v.value) ? _trueOp : _falseOp)!.eval()
     }
     
     private let _env: Env

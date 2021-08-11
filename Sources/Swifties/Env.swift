@@ -86,7 +86,13 @@ public class Env {
 
     public func push<T>(_ type: Type<T>, _ value: T) { push(Slot(type, value)) }
 
-    public func peek(offset: Int = 0) -> Slot? {
+    public func peek(pos: Pos, offset: Int = 0) throws -> Slot {
+        let v = tryPeek(offset: offset)
+        if v == nil { throw EvalError(pos, "Stack is empty") }
+        return v!
+    }
+    
+    public func tryPeek(offset: Int = 0) -> Slot? {
         if offset >= _stack.count { return nil }
         return _stack[_stack.count - offset - 1]
     }

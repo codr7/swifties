@@ -4,7 +4,7 @@ public protocol Reader {
     func readForm(_ p: Parser) throws -> Form?
 }
 
-public class Parser: Reader {
+public class Parser {
     public var env: Env { _env }
     public var input: String { _input }
     public var pos: Pos { _pos }
@@ -23,7 +23,7 @@ public class Parser: Reader {
     public func getc() -> Character? { _input.popLast() }
     public func ungetc(_ c: Character) { _input.append(c) }
     
-    public func readForm(_ p: Parser) throws -> Form? {
+    public func readForm() throws -> Form? {
         for r in _readers {
             if let f = try r.readForm(self) { return f }
         }
@@ -31,12 +31,14 @@ public class Parser: Reader {
         return nil
     }
 
+    public func popForm() throws -> Form? { _forms.popLast() }
+    
     public func slurp(_ input: String) throws {
         _input = String(input.reversed()) + _input
         let (inputCopy, posCopy, formsCopy) = (_input, _pos, _forms)
 
         do {
-            while let f = try readForm(self) { _forms.append(f) }
+            while let f = try readForm() { _forms.append(f) }
         } catch let e {
             _input = inputCopy
             _pos = posCopy

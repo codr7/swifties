@@ -1,6 +1,6 @@
 import Foundation
 
-public class PushDown: Op {
+public class Zip: Op {
     public init(env: Env, pos: Pos, pc: Pc) {
         _env = env
         _pos = pos
@@ -10,12 +10,9 @@ public class PushDown: Op {
     public func prepare() { _nextOp = _env.ops[_pc+1] }
 
     public func eval() throws {
-        let v = try _env.pop(pos: _pos)
-        let s = try _env.peek(pos: _pos)
-        if s.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(s.type.name)") }
-        var dst = s.value as! Stack
-        dst.append(v)
-        try _env.poke(pos: _pos, _env.coreLib!.stackType, dst, offset: 0)
+        let l = try _env.pop(pos: _pos)
+        let r = try _env.peek(pos: _pos)
+        try _env.poke(pos: _pos, _env.coreLib!.pairType, (l, r))
         try _nextOp!.eval()
     }
     

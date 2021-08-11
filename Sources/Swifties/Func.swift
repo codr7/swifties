@@ -41,7 +41,7 @@ public class Func: Definition {
     
     public func isApplicable() -> Bool {
         for i in 0..<_args.count {
-            let v = _env.peek(offset: _args.count - i - 1)
+            let v = _env.tryPeek(offset: _args.count - i - 1)
             if v == nil || !v!.type.isa(_args[i]) { return false }
         }
 
