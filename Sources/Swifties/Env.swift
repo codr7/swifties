@@ -9,7 +9,7 @@ public typealias Stack = [Slot]
 public typealias TypeId = UInt
 
 public let STOP_PC: Pc = -1
-public let SWIFTIES_VERSION = 1
+public let SWIFTIES_VERSION = 2
 
 public class Env {
     public var coreLib: CoreLib? { _coreLib }
