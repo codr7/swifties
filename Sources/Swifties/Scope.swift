@@ -1,8 +1,6 @@
 import Foundation
 
-public class Scope: Equatable {
-    public static func == (lhs: Scope, rhs: Scope) -> Bool { lhs === rhs }
-
+public class Scope {
     public var outer: Scope? { _outer }
     public var registerCount: Int { _nextRegister }
 

@@ -2,7 +2,7 @@ import Foundation
 
 public struct Slot: Equatable {
     public static func == (lhs: Slot, rhs: Slot) -> Bool {
-        if (lhs._type != rhs._type) { return false }
+        if (lhs._type !== rhs._type) { return false }
         precondition(lhs._type.equalValues != nil, "Equality not supported for type \(lhs._type.name)")
         return lhs._type.equalValues!(lhs.value, rhs.value)
     }

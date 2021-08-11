@@ -12,8 +12,6 @@ public let STOP_PC: Pc = -1
 public let SWIFTIES_VERSION = 1
 
 public class Env {
-    public static func == (lhs: Env, rhs: Env) -> Bool { lhs === rhs }
-    
     public var coreLib: CoreLib? { _coreLib }
     public var ops: Ops { _ops }
     public var pc: Pc { _ops.count }

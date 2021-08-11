@@ -1,9 +1,7 @@
 import Foundation
 
-public class Prim: Definition, Equatable {
+public class Prim: Definition {
     public typealias Body = (_ pos: Pos, _ args: [Form]) throws -> Void
-
-    public static func == (lhs: Prim, rhs: Prim) -> Bool { lhs === rhs }
 
     public var env: Env { _env }
     public var pos: Pos { _pos }

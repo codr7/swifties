@@ -7,7 +7,7 @@ public class AnyType: Definition, Equatable {
     public typealias IterValue = (_ value: Any) -> Slot
     public typealias ValueIsTrue = (_ value: Any) -> Bool
     
-    typealias ParentTypes = Set<TypeId>
+    public typealias ParentTypes = Set<TypeId>
 
     public static func == (lhs: AnyType, rhs: AnyType) -> Bool {
         return lhs === rhs
