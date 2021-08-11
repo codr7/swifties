@@ -1,11 +1,9 @@
 import Foundation
 
-public class Macro: Equatable {
+public class Macro {
     public typealias Body = (_ pos: Pos, _ args: [Form]) throws -> Form
 
     public var name: String { _name }
-    
-    public static func == (lhs: Macro, rhs: Macro) -> Bool { lhs === rhs }
     
     public init(env: Env, name: String, _ body: @escaping Body) {
         _env = env
@@ -16,6 +14,8 @@ public class Macro: Equatable {
     public func expand(pos: Pos, args: [Form]) throws -> Form {
         try _body(pos, args)
     }
+    
+    public func dump() -> String { "Macro\(_name)" }
     
     private let _env: Env
     private let _name: String

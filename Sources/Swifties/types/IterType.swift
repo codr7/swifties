@@ -1,9 +1,8 @@
 import Foundation
 
-public class MetaType: Type<AnyType> {
+public class IterType: Type<Iter> {
     public override init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
         super.init(env, pos: pos, name: name, parentTypes: parentTypes)
-        dumpValue = {v in (v as! AnyType).name}
-        equalValues = {lhs, rhs in lhs as! AnyType === rhs as! AnyType}
+        dumpValue = {v in "Iter(\(v))"}
     }
 }

@@ -1,9 +1,7 @@
 import Foundation
 
-public class Func: Definition, Equatable {
+public class Func: Definition {
     public typealias Body = (_ pos: Pos, _ self: Func, _ ret: Op) throws -> Void
-
-    public static func == (lhs: Func, rhs: Func) -> Bool { lhs === rhs }
     
     public var env: Env { _env }
     public var pos: Pos { _pos }
@@ -52,6 +50,8 @@ public class Func: Definition, Equatable {
 
     public func call(pos: Pos, ret: Op) throws { try _body!(pos, self, ret) }
         
+    public func dump() -> String { "Func\(_name)" }
+    
     private let _pos: Pos
     private let _env: Env
     private let _name: String

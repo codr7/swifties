@@ -16,7 +16,8 @@ public class StackType: Type<Stack> {
             out += "]"
             return out
         }
-        
+ 
+        equalValues = {lhs, rhs in lhs as! Stack == rhs as! Stack}
         valueIsTrue = {v in (v as! Stack).count > 0}
     }
 }

@@ -26,6 +26,8 @@ public class Prim: Definition, Equatable {
         try _body(pos, args)
     }
         
+    public func dump() -> String { "Prim\(_name)" }
+    
     private let _env: Env
     private let _name: String
     private let _args: (Int, Int)

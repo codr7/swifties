@@ -13,11 +13,9 @@ public class FuncType: Type<Func> {
             
             try f.call(pos: pos, ret: ret)
         }
- 
-        dumpValue = {v in
-            let f = v as! Func
-            return "Func\(f.name)"
-        }
+
+        dumpValue = { v in (v as! Func).dump() }        
+        equalValues = {lhs, rhs in lhs as! Func === rhs as! Func}
     }
 }
 

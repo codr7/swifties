@@ -1,8 +1,6 @@
 import Foundation
 
-public class Cont: Equatable {
-    public static func == (lhs: Cont, rhs: Cont) -> Bool { lhs === rhs }
-    
+public class Cont {
     init(env: Env, pc: Pc) {
         _env = env
         _scope = env._scope

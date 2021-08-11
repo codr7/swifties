@@ -4,6 +4,7 @@ public class AnyType: Definition, Equatable {
     public typealias CallValue = (_ target: Any, _ pos: Pos, _ ret: Op, _ check: Bool) throws -> Void
     public typealias DumpValue = (_ value: Any) -> String
     public typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
+    public typealias IterValue = (_ value: Any) -> Slot
     public typealias ValueIsTrue = (_ value: Any) -> Bool
     
     typealias ParentTypes = Set<TypeId>
@@ -20,6 +21,7 @@ public class AnyType: Definition, Equatable {
     public var callValue: CallValue?
     public var dumpValue: DumpValue?
     public var equalValues: EqualValues?
+    public var iterValue: IterValue?
     public var valueIsTrue: ValueIsTrue
     
     public init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {

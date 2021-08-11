@@ -7,6 +7,7 @@ public class CoreLib: Lib {
     public let contType: ContType
     public let funcType: FuncType
     public let intType: IntType
+    public let iterType: IterType
     public let macroType: MacroType
     public let metaType: MetaType
     public let primType: PrimType
@@ -19,7 +20,8 @@ public class CoreLib: Lib {
         boolType = BoolType(env, pos: pos, name: "Bool", parentTypes: [anyType])
         contType = ContType(env, pos: pos, name: "Cont", parentTypes: [anyType])
         funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType])
-        intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType])
+        iterType = IterType(env, pos: pos, name: "Iter", parentTypes: [anyType])
+        intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType, iterType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         metaType = MetaType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType])
@@ -152,7 +154,7 @@ public class CoreLib: Lib {
     }
     
     public override func bind(pos: Pos, _ names: [String]) throws {
-        define(anyType, boolType, contType, funcType, intType, macroType, metaType, primType, registerType, stackType)
+        define(anyType, boolType, contType, funcType, intType, iterType, macroType, metaType, primType, registerType, stackType)
         
         define("t", boolType, true)
         define("f", boolType, false)

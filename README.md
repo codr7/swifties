@@ -39,8 +39,8 @@ env.openScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 Functions may alternatively be instantiated with `Form`-bodies, which emits operations behind the scenes and generates a function containing the code required to evaluate them.
 
 ```swift
-let f = try Func(env: env, pos: p, name: "foo", args: [], rets: [env.coreLib!.intType])
-try f.compileBody(LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
+let f = try Func(env: env, pos: pos, name: "foo", args: [], rets: [env.coreLib!.intType])
+try f.compileBody(LiteralForm(env: env, pos: pos, env.coreLib!.intType, 42))
 ```
 
 ### types
@@ -73,9 +73,9 @@ for f in parser.forms { try f.emit() }
 env.emit(STOP)
 try env.eval(0)
 
-XCTAssertEqual(Slot(env.coreLib!.intType, 3), env.pop()!) 
-XCTAssertEqual(Slot(env.coreLib!.intType, 2), env.pop()!) 
-XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop()!) 
+XCTAssertEqual(Slot(env.coreLib!.intType, 3), env.pop(pos: pos)) 
+XCTAssertEqual(Slot(env.coreLib!.intType, 2), env.pop(pos: pos)) 
+XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop(pos: pos)) 
 ```
 
 #### readers
@@ -146,12 +146,12 @@ let v = Slot(env.coreLib!.intType, 42)
 env.emit(Push(pc: env.pc, v))
 env.emit(STOP)
 try env.eval(0)
-XCTAssertEqual(v, env.pop()!)
+XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- add stack arg to form/prim emit
-    - push/pop to imitate runtime stack effect
+- add for prim
+- implement iterValue for String/Stack
 - add suspend prim
     - (suspend ...)
     - emit goto
