@@ -31,7 +31,7 @@ public class Parser {
         return nil
     }
 
-    public func popForm() throws -> Form? { _forms.popLast() }
+    public func popForm() -> Form? { _forms.popLast() }
     
     public func slurp(_ input: String) throws {
         _input = String(input.reversed()) + _input
