@@ -105,6 +105,12 @@ open class Env {
         return v!
     }
 
+    @discardableResult
+    open func drop(pos: Pos, count: Int = 1) throws -> [Slot] {
+        if _stack.count < count { throw EvalError(pos, "Stack is empty") }
+        return _stack.dropLast(count)
+    }
+    
     open func reset() { _stack.removeAll() }
     
     open func load(pos: Pos, index i: Register) throws {
