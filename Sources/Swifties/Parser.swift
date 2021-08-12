@@ -10,18 +10,18 @@ public class Parser {
     public var pos: Pos { _pos }
     public var forms: [Form] { _forms }
     
-    public init(env: Env, source: String, readers: [Reader], suffixes: [Reader]) {
+    public init(env: Env, source: String, prefix: [Reader], suffix: [Reader]) {
         _env = env
         _pos = Pos(source)
-        _readers = readers
-        _suffixes = suffixes
+        _prefix = prefix
+        _suffix = suffix
     }
 
     public func getc() -> Character? { _input.popLast() }
     public func ungetc(_ c: Character) { _input.append(c) }
     
     public func readForm() throws -> Bool {
-        for r in _readers {
+        for r in _prefix {
             if let f = try r.readForm(self) {
                 _forms.append(f)
                 try readSuffix()
@@ -34,7 +34,7 @@ public class Parser {
 
     @discardableResult
     public func readSuffix() throws -> Bool {
-        for r in _suffixes {
+        for r in _suffix {
             if let f = try r.readForm(self) {
                 _forms.append(f)
                 try readSuffix()
@@ -72,6 +72,6 @@ public class Parser {
     private let _env: Env
     private var _input: String = ""
     private var _pos: Pos
-    private var _readers, _suffixes: [Reader]
+    private var _prefix, _suffix: [Reader]
     private var _forms: [Form] = []
 }

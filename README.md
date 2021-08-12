@@ -67,7 +67,8 @@ let env = Env()
 try env.initCoreLib(pos: pos)
 
 let parser = Parser(env: env, source: "test",
-                    spaceReader, intReader)
+                    prefix: [spaceReader, intReader],
+                    suffix: [])
                     
 try parser.slurp("1 2 3")
 for f in parser.forms { try f.emit() }
