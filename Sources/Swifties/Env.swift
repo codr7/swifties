@@ -32,10 +32,6 @@ public class Env {
         
         let s = _scope!
         _scope = s.outer
-        
-        if (_registers.count < s.registerCount) {
-            _registers += Array(repeating: nil, count: s.registerCount - _registers.count)
-        }
     }
 
     @discardableResult
@@ -118,6 +114,7 @@ public class Env {
     }
     
     public func store(pos: Pos, index i: Register) throws {
+        if (_registers.count <= i) { _registers += Array(repeating: nil, count: i-_registers.count+1) }
         _registers[i] = try pop(pos: pos)
     }
     
