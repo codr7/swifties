@@ -71,11 +71,6 @@ open class CoreLib: Lib {
     open func _do(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
     }
-    
-    open func drop(pos: Pos, self: Func, ret: Op) throws {
-        try env.pop(pos: pos)
-        try ret.eval()
-    }
  
     open func _for(pos: Pos, args: [Form]) throws {
         var src = args[0]
@@ -198,7 +193,6 @@ open class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "and", (2, 2), self.and))
         define(Prim(env: env, pos: self.pos, name: "bench", (1, -1), self.bench))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
-        define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
         define(Prim(env: env, pos: self.pos, name: "for", (1, -1), self._for))
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
         define(Prim(env: env, pos: self.pos, name: "if", (3, 3), self._if))
