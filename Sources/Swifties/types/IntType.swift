@@ -11,7 +11,7 @@ public class IntType: Type<Int> {
             let max = v as! Int
             var i = 0
             
-            return Slot(env.coreLib!.iterType, {
+            return {
                 if i < max {
                     let out = Slot(env.coreLib!.intType, i)
                     i += 1
@@ -19,7 +19,7 @@ public class IntType: Type<Int> {
                 }
                 
                 return nil
-            })
+            }
         }
         
         valueIsTrue = {v in (v as! Int) != 0}

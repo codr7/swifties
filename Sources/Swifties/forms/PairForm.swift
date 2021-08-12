@@ -1,6 +1,9 @@
 import Foundation
 
 public class PairForm: Form {
+    public var left: Form { _values.0 }
+    public var right: Form { _values.1 }
+
     public override var slot: Slot? { _slot }
 
     public init(env: Env, pos: Pos, _ values: (Form, Form)) {

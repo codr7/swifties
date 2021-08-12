@@ -76,6 +76,27 @@ public class CoreLib: Lib {
         try env.pop(pos: pos)
         try ret.eval()
     }
+ 
+    public func _for(pos: Pos, args: [Form]) throws {
+        var src = args[0]
+        var bindId: String?
+        var bindReg: Register = -1
+        
+        if src is PairForm {
+            let p = src as! PairForm
+            bindId = (p.left as! IdForm).name
+            bindReg = try env.scope!.nextRegister(pos: pos, id: bindId!)
+            src = p.right
+        }
+        
+        try src.emit()
+        let forPc = env.emit(STOP)
+        if bindId != nil { env.emit(Store(env: env, pos: pos, pc: env.pc, index: bindReg)) }
+        for a in args[1...] { try a.emit() }
+        env.emit(STOP)
+        env.emit(For(env: env, pos: pos, pc: forPc, nextPc: env.pc), pc: forPc)
+        if bindId != nil { try env.scope!.unbind(pos: pos, bindId!) }
+    }
     
     public func _func(pos: Pos, args: [Form]) throws {
         let name = (args[0] as! IdForm).name
@@ -178,6 +199,7 @@ public class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "bench", (1, -1), self.bench))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
         define(Func(env: env, pos: self.pos, name: "drop", args: [anyType], rets: [], self.drop))
+        define(Prim(env: env, pos: self.pos, name: "for", (1, -1), self._for))
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
         define(Prim(env: env, pos: self.pos, name: "if", (3, 3), self._if))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))

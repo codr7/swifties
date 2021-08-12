@@ -4,7 +4,7 @@ public class AnyType: Definition, Equatable {
     public typealias CallValue = (_ target: Any, _ pos: Pos, _ ret: Op, _ check: Bool) throws -> Void
     public typealias DumpValue = (_ value: Any) -> String
     public typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
-    public typealias IterValue = (_ value: Any) -> Slot
+    public typealias IterValue = (_ value: Any) -> Iter
     public typealias ValueIsTrue = (_ value: Any) -> Bool
     
     public typealias ParentTypes = Set<TypeId>
