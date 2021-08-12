@@ -10,14 +10,11 @@ public class Parser {
     public var pos: Pos { _pos }
     public var forms: [Form] { _forms }
     
-    public convenience init(env: Env, source: String, _ readers: Reader...) {
-        self.init(env: env, source: source, readers: readers)
-    }
-    
-    public init(env: Env, source: String, readers: [Reader]) {
+    public init(env: Env, source: String, readers: [Reader], suffixes: [Reader]) {
         _env = env
         _pos = Pos(source)
         _readers = readers
+        _suffixes = suffixes
     }
 
     public func getc() -> Character? { _input.popLast() }
@@ -27,6 +24,20 @@ public class Parser {
         for r in _readers {
             if let f = try r.readForm(self) {
                 _forms.append(f)
+                try readSuffix()
+                return true
+            }
+        }
+  
+        return false
+    }
+
+    @discardableResult
+    public func readSuffix() throws -> Bool {
+        for r in _suffixes {
+            if let f = try r.readForm(self) {
+                _forms.append(f)
+                try readSuffix()
                 return true
             }
         }
@@ -61,6 +72,6 @@ public class Parser {
     private let _env: Env
     private var _input: String = ""
     private var _pos: Pos
-    private var _readers: [Reader]
+    private var _readers, _suffixes: [Reader]
     private var _forms: [Form] = []
 }
