@@ -23,12 +23,15 @@ public class Parser {
     public func getc() -> Character? { _input.popLast() }
     public func ungetc(_ c: Character) { _input.append(c) }
     
-    public func readForm() throws -> Form? {
+    public func readForm() throws -> Bool {
         for r in _readers {
-            if let f = try r.readForm(self) { return f }
+            if let f = try r.readForm(self) {
+                _forms.append(f)
+                return true
+            }
         }
   
-        return nil
+        return false
     }
 
     public func popForm() -> Form? { _forms.popLast() }
@@ -38,7 +41,7 @@ public class Parser {
         let (inputCopy, posCopy, formsCopy) = (_input, _pos, _forms)
 
         do {
-            while let f = try readForm() { _forms.append(f) }
+            while try readForm() {}
         } catch let e {
             _input = inputCopy
             _pos = posCopy
