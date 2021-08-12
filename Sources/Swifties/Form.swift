@@ -1,6 +1,6 @@
 import Foundation
 
-public class Form: Equatable {
+open class Form: Equatable {
     public static func == (lhs: Form, rhs: Form) -> Bool { lhs === rhs }
     
     public var env: Env { _env }

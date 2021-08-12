@@ -1,6 +1,6 @@
 import Foundation
 
-public class IdForm: Form {
+open class IdForm: Form {
     public var name: String { _name }
     
     public override var slot: Slot? {
