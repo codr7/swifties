@@ -127,6 +127,7 @@ Forms emit operations, which are the basic building blocks that are eventually e
 - Branch - Branches conditionally
 - Call - Calls specified value
 - Goto - Resumes evaluation from specified `Pc`
+- For - Repeats code for each value in sequence on top of stack
 - Load - Loads value from specified register
 - Push - Pushes specified value on stack
 - PushDown - Pushes top of stack onto next item
@@ -154,7 +155,6 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- test/debug for loop with binding
 - add support for binding func arg names
 - implement iterValue for String/Stack
 - add suspend prim
