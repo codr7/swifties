@@ -17,14 +17,7 @@ public class Scope {
     public func bind<T>(pos: Pos, id: String, _ type: Type<T>, _ value: T) throws {
         try bind(pos: pos, id: id, Slot(type, value))
     }
-    
-    public func unbind(pos: Pos, _ id: String) throws {
-        let s = _bindings.removeValue(forKey: id)
-        if s == nil { throw EmitError(pos, "Failed unbinding: \(id)") }
-        precondition(s!.type == _env.coreLib!.registerType, "Unbinding non register slot: \(s!.type.name)")
-        _nextRegister = min(_nextRegister, s!.value as! Register)
-    }
-    
+        
     public func find(_ id: String) -> Slot? {
         var found = _bindings[id]
         

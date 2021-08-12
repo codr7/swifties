@@ -95,7 +95,6 @@ public class CoreLib: Lib {
         for a in args[1...] { try a.emit() }
         env.emit(STOP)
         env.emit(For(env: env, pos: pos, pc: forPc, nextPc: env.pc), pc: forPc)
-        if bindId != nil { try env.scope!.unbind(pos: pos, bindId!) }
     }
     
     public func _func(pos: Pos, args: [Form]) throws {
@@ -124,7 +123,6 @@ public class CoreLib: Lib {
     public func _let(pos: Pos, args: [Form]) throws {
         let bindings = Array((args[0] as! StackForm).items.reversed())
         let scope = env.scope!
-        var ids: [String] = []
         var i = 0
         
         while i+1 < bindings.count {
@@ -132,12 +130,10 @@ public class CoreLib: Lib {
             try v.emit()
             let register = try scope.nextRegister(pos: pos, id: id.name)
             env.emit(Store(env: env, pos: pos, pc: env.pc, index: register))
-            ids.append(id.name)
             i += 2
         }
         
         for a in args[1...] { try a.emit() }
-        for id in ids { try scope.unbind(pos: pos, id) }
     }
 
     public func not(pos: Pos, self: Func, ret: Op) throws {

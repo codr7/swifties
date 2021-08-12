@@ -153,6 +153,8 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
+- test/debug for loop with binding
+- add support for binding func arg names
 - implement iterValue for String/Stack
 - add suspend prim
     - (suspend ...)
