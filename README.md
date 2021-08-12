@@ -53,6 +53,7 @@ Two levels of types are used, `ÀnyType`, and it's direct parameterized subclass
 - Int - Integer values
 - Macro - Macros as values
 - Meta - Types as values
+- Pair - Pairs of values
 - Prim - Primitives as values
 - Register - Register references as values
 - Stack - Stack values
@@ -115,6 +116,7 @@ Code is parsed into forms, which is what primitives and macros operate on.
 - Do - Emits args in sequence
 - Id - Emits the value of specified binding and calls it if possible
 - Literal - Emits code to push specified value
+- Pair - Emits code to push specified pair
 - Stack - Emits code to push a stack with specified items
 
 ### operations
@@ -131,10 +133,11 @@ Forms emit operations, which are the basic building blocks that are eventually e
 - Reset - Clears stack
 - Restore - Restores continuation
 - Return - Pops frame from call stack and resumes evaluation from it's return pc
-- Splat - Replaces top item with it's items
+- Splat - Replaces top of stack with it's items
 - Stop - Stops evaluation without error
 - Store - Stores value in specified register
 - Suspend - Pushes continuation
+- Zip - Replaces top two stack items with pair
 
 Operations may be manually emitted at any point using `Env.emit(Op)`.
 
