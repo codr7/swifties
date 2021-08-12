@@ -1,9 +1,9 @@
 import Foundation
 
 open class IdForm: Form {
-    public var name: String { _name }
+    open var name: String { _name }
     
-    public override var slot: Slot? {
+    open override var slot: Slot? {
         get {
             if let found = env.scope!.find(self._name) {
                 if found.type != env.coreLib!.registerType {
@@ -20,7 +20,7 @@ open class IdForm: Form {
         super.init(env: env, pos: pos)
     }
   
-    public override func expand() throws -> Form {
+    open override func expand() throws -> Form {
         if let found = env.scope!.find(self._name) {
             if found.type == env.coreLib!.macroType {
                 return try (found.value as! Macro).expand(pos: pos, args: [])
@@ -30,7 +30,7 @@ open class IdForm: Form {
         return self
     }
         
-    public override func emit() throws {
+    open override func emit() throws {
         if let found = env.scope!.find(_name) {
             if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pos: pos, pc: env.pc, index: found.value as! Int))

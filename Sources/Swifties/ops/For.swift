@@ -1,6 +1,6 @@
 import Foundation
 
-public class For: Op {
+open class For: Op {
     public init(env: Env, pos: Pos, pc: Pc, nextPc: Pc) {
         _env = env
         _pos = pos
@@ -8,12 +8,12 @@ public class For: Op {
         _nextPc = nextPc
     }
 
-    public func prepare() {
+    open func prepare() {
         _firstOp = _env.ops[_pc+1]
         _nextOp = _env.ops[_nextPc]
     }
     
-    public func eval() throws {
+    open func eval() throws {
         let src = try _env.pop(pos: _pos)        
         if src.type.iterValue == nil { throw EvalError(_pos, "Value is not iterable: \(src.type.name)")}
         let iter = src.type.iterValue!(src.value)

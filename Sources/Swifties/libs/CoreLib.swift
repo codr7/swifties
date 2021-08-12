@@ -1,6 +1,6 @@
 import Foundation
 
-public class CoreLib: Lib {
+open class CoreLib: Lib {
     public let anyType: AnyType
 
     public let boolType: BoolType
@@ -33,26 +33,26 @@ public class CoreLib: Lib {
         super.init(env: env, pos: pos)
     }
 
-    public func nop(pos: Pos, args: [Form]) {}
+    open func nop(pos: Pos, args: [Form]) {}
 
-    public func equals(pos: Pos, self: Func, ret: Op) throws {
+    open func equals(pos: Pos, self: Func, ret: Op) throws {
         let y = try env.pop(pos: pos)
         let x = try env.peek(pos: pos)
         try env.poke(pos: pos, env.coreLib!.boolType, (x.type == y.type) && x.type.equalValues!(x.value, y.value))
         try ret.eval()
     }
 
-    public func equalsZero(pos: Pos, self: Func, ret: Op) throws {
+    open func equalsZero(pos: Pos, self: Func, ret: Op) throws {
         try env.poke(pos: pos, env.coreLib!.boolType, env.peek(pos: pos).value as! Int == 0)
         try ret.eval()
     }
 
-    public func equalsOne(pos: Pos, self: Func, ret: Op) throws {
+    open func equalsOne(pos: Pos, self: Func, ret: Op) throws {
         try env.poke(pos: pos, env.coreLib!.boolType, env.peek(pos: pos).value as! Int == 1)
         try ret.eval()
     }
 
-    public func and(pos: Pos, args: [Form]) throws {
+    open func and(pos: Pos, args: [Form]) throws {
         try args[0].emit()
         let branchPc = env.emit(STOP)
         env.emit(Drop(env: env, pos: pos, pc: env.pc))
@@ -60,7 +60,7 @@ public class CoreLib: Lib {
         env.emit(Branch(env: env, pos: pos, truePc: branchPc+1, falsePc: env.pc, pop: false), pc: branchPc)
     }
 
-    public func bench(pos: Pos, args: [Form]) throws {
+    open func bench(pos: Pos, args: [Form]) throws {
         let reps = (args[0] as! LiteralForm).slot!.value as! Int
         let i = env.emit(STOP)
         let startPc = env.pc
@@ -68,16 +68,16 @@ public class CoreLib: Lib {
         env.emit(Bench(env: env, reps: reps, startPc: startPc, endPc: env.pc), pc: i)
     }
     
-    public func _do(pos: Pos, args: [Form]) throws {
+    open func _do(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
     }
     
-    public func drop(pos: Pos, self: Func, ret: Op) throws {
+    open func drop(pos: Pos, self: Func, ret: Op) throws {
         try env.pop(pos: pos)
         try ret.eval()
     }
  
-    public func _for(pos: Pos, args: [Form]) throws {
+    open func _for(pos: Pos, args: [Form]) throws {
         var src = args[0]
         var bindId: String?
         var bindReg: Register = -1
@@ -98,7 +98,7 @@ public class CoreLib: Lib {
         if bindId != nil { try env.scope!.unbind(pos: pos, bindId!) }
     }
     
-    public func _func(pos: Pos, args: [Form]) throws {
+    open func _func(pos: Pos, args: [Form]) throws {
         let name = (args[0] as! IdForm).name
         let ats = try (args[1] as! StackForm).items.map(getType)
         let rts = try (args[2] as! StackForm).items.map(getType)
@@ -107,7 +107,7 @@ public class CoreLib: Lib {
         try f.compileBody(DoForm(env: env, pos: pos, body: Array(args[3...])))
     }
   
-    public func _if(pos: Pos, args: [Form]) throws {
+    open func _if(pos: Pos, args: [Form]) throws {
         let cond = args[0]
         try cond.emit()
         let trueBranch = args[1]
@@ -121,7 +121,7 @@ public class CoreLib: Lib {
         env.emit(Branch(env: env, pos: pos, truePc: truePc, falsePc: branchPc+1), pc: branchPc)
     }
     
-    public func _let(pos: Pos, args: [Form]) throws {
+    open func _let(pos: Pos, args: [Form]) throws {
         let bindings = Array((args[0] as! StackForm).items.reversed())
         let scope = env.scope!
         var ids: [String] = []
@@ -140,13 +140,13 @@ public class CoreLib: Lib {
         for id in ids { try scope.unbind(pos: pos, id) }
     }
 
-    public func not(pos: Pos, self: Func, ret: Op) throws {
+    open func not(pos: Pos, self: Func, ret: Op) throws {
         let s = try env.peek(pos: pos)
         try env.poke(pos: pos, env.coreLib!.boolType, !s.type.valueIsTrue(s.value))
         try ret.eval()
     }
     
-    public func or(pos: Pos, args: [Form]) throws {
+    open func or(pos: Pos, args: [Form]) throws {
         try args[0].emit()
         let branchPc = env.emit(STOP)
         env.emit(Drop(env: env, pos: pos, pc: env.pc))
@@ -154,30 +154,30 @@ public class CoreLib: Lib {
         env.emit(Branch(env: env, pos: pos, truePc: env.pc, falsePc: branchPc+1, pop: false), pc: branchPc)
     }
     
-    public func recall(pos: Pos, args: [Form]) throws {
+    open func recall(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
         env.emit(Recall(env: env, pos: pos, check: true))
     }
 
-    public func reset(pos: Pos, args: [Form]) {
+    open func reset(pos: Pos, args: [Form]) {
         env.emit(Reset(env: env, pc: env.pc))
     }
     
-    public func stash(pos: Pos, self: Func, ret: Op) throws {
+    open func stash(pos: Pos, self: Func, ret: Op) throws {
         let tmp = env.stack
         env.reset()
         env.push(env.coreLib!.stackType, tmp)
         try ret.eval()
     }
     
-    public func splat(pos: Pos, args: [Form]) throws {
+    open func splat(pos: Pos, args: [Form]) throws {
         for a in args {
             try a.emit()
             env.emit(Splat(env: env, pos: pos, pc: env.pc))
         }
     }
     
-    public override func bind(pos: Pos, _ names: [String]) throws {
+    open override func bind(pos: Pos, _ names: [String]) throws {
         define(anyType,
                boolType,
                contType,

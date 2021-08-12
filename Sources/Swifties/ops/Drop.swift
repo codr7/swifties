@@ -1,15 +1,15 @@
 import Foundation
 
-public class Drop: Op {
+open class Drop: Op {
     public init(env: Env, pos: Pos, pc: Pc) {
         _env = env
         _pos = pos
         _pc = pc
     }
 
-    public func prepare() { _nextOp = _env.ops[_pc+1] }
+    open func prepare() { _nextOp = _env.ops[_pc+1] }
 
-    public func eval() throws {
+    open func eval() throws {
         try _env.pop(pos: _pos)
         try _nextOp!.eval()
     }

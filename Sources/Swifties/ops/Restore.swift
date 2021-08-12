@@ -1,15 +1,15 @@
 import Foundation
 
-public class Restore: Op {
+open class Restore: Op {
     public init(env: Env, pos: Pos, pc: Pc) {
         _env = env
         _pos = pos
         _pc = pc
     }
 
-    public func prepare() {}
+    open func prepare() {}
 
-    public func eval() throws {
+    open func eval() throws {
         let s = try _env.pop(pos: _pos)
         let c = s.value as! Cont
         try _env.eval(c.restore(), prepare: false)

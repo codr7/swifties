@@ -2,9 +2,9 @@ import Foundation
 
 public let intReader = IntReader()
 
-public class IntReader: Reader {
+open class IntReader: Reader {
     @discardableResult
-    public func readForm(_ p: Parser) throws -> Form? {
+    open func readForm(_ p: Parser) throws -> Form? {
         let fpos = p.pos
         var v = 0
         

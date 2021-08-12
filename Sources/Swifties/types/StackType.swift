@@ -1,6 +1,6 @@
 import Foundation
 
-public class StackType: Type<Stack> {
+open class StackType: Type<Stack> {
     public override init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
         super.init(env, pos: pos, name: name, parentTypes: parentTypes)
         

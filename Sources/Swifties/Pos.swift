@@ -13,11 +13,11 @@ public struct Pos: Equatable {
         self._column = column
     }
     
-    mutating public func nextColumn() {
+    public mutating func nextColumn() {
         self._column += 1
     }
     
-    mutating public func newLine() {
+    public mutating func newLine() {
         self._line += 1
         self._column = 0
     }

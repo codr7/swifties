@@ -90,8 +90,8 @@ It's trivial to extend the framework with custom readers.
 Just make sure to return `nil` if you can't find what you're looking for, since each reader is tried in sequence for every new position.
 
 ```swift
-public class IdReader: Reader {
-    public func readForm(_ p: Parser) throws -> Form? {
+open class IdReader: Reader {
+    open func readForm(_ p: Parser) throws -> Form? {
         let fpos = p.pos
         var out = ""
         

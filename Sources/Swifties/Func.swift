@@ -1,14 +1,14 @@
 import Foundation
 
-public class Func: Definition {
+open class Func: Definition {
     public typealias Body = (_ pos: Pos, _ self: Func, _ ret: Op) throws -> Void
     
-    public var env: Env { _env }
-    public var pos: Pos { _pos }
-    public var name: String { _name }
-    public var args: [AnyType] { _args }
-    public var rets: [AnyType] { _rets }
-    public var slot: Slot { Slot(_env.coreLib!.funcType, self) }
+    open var env: Env { _env }
+    open var pos: Pos { _pos }
+    open var name: String { _name }
+    open var args: [AnyType] { _args }
+    open var rets: [AnyType] { _rets }
+    open var slot: Slot { Slot(_env.coreLib!.funcType, self) }
     
     public init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: Body? = nil) {
         _env = env
@@ -19,7 +19,7 @@ public class Func: Definition {
         _body = body
     }
 
-    public func compileBody(_ form: Form) throws {
+    open func compileBody(_ form: Form) throws {
         let skip = _env.emit(STOP)
         let startPc = _env.pc
         let scope = _env.begin()
@@ -39,7 +39,7 @@ public class Func: Definition {
         }
     }
     
-    public func isApplicable() -> Bool {
+    open func isApplicable() -> Bool {
         for i in 0..<_args.count {
             let v = _env.tryPeek(offset: _args.count - i - 1)
             if v == nil || !v!.type.isa(_args[i]) { return false }
@@ -48,9 +48,9 @@ public class Func: Definition {
         return true
     }
 
-    public func call(pos: Pos, ret: Op) throws { try _body!(pos, self, ret) }
+    open func call(pos: Pos, ret: Op) throws { try _body!(pos, self, ret) }
         
-    public func dump() -> String { "Func\(_name)" }
+    open func dump() -> String { "Func\(_name)" }
     
     private let _pos: Pos
     private let _env: Env

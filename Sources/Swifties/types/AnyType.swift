@@ -1,6 +1,6 @@
 import Foundation
 
-public class AnyType: Definition, Equatable {
+open class AnyType: Definition, Equatable {
     public typealias CallValue = (_ target: Any, _ pos: Pos, _ ret: Op, _ check: Bool) throws -> Void
     public typealias DumpValue = (_ value: Any) -> String
     public typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
@@ -13,16 +13,16 @@ public class AnyType: Definition, Equatable {
         return lhs === rhs
     }
 
-    public var env: Env { _env }
-    public var pos: Pos { _pos }
-    public var name: String { _name }
-    public var slot: Slot { Slot(_env.coreLib!.metaType, self) }
+    open var env: Env { _env }
+    open var pos: Pos { _pos }
+    open var name: String { _name }
+    open var slot: Slot { Slot(_env.coreLib!.metaType, self) }
     
-    public var callValue: CallValue?
-    public var dumpValue: DumpValue?
-    public var equalValues: EqualValues?
-    public var iterValue: IterValue?
-    public var valueIsTrue: ValueIsTrue
+    open var callValue: CallValue?
+    open var dumpValue: DumpValue?
+    open var equalValues: EqualValues?
+    open var iterValue: IterValue?
+    open var valueIsTrue: ValueIsTrue
     
     public init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
         _env = env
@@ -43,7 +43,7 @@ public class AnyType: Definition, Equatable {
         valueIsTrue = {_ in true}
     }
 
-    public func isa(_ other: AnyType) -> Bool {
+    open func isa(_ other: AnyType) -> Bool {
         return other == self || _parentTypes.contains(other._id)
     }
     

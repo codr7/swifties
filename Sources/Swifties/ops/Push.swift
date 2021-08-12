@@ -1,7 +1,7 @@
 import Foundation
 
-public class Push: Op {
-    public var env: Env { _slot.type.env }
+open class Push: Op {
+    open var env: Env { _slot.type.env }
 
     public init(pc: Pc, _ slot: Slot) {
         _pc = pc
@@ -10,9 +10,9 @@ public class Push: Op {
 
     public convenience init<T>(pc: Pc, _ type: Type<T>, _ value: T) { self.init(pc: pc, Slot(type, value)) }
 
-    public func prepare() { _nextOp = env.ops[_pc+1] }
+    open func prepare() { _nextOp = env.ops[_pc+1] }
     
-    public func eval() throws {
+    open func eval() throws {
         env.push(_slot)
         try _nextOp!.eval()
     }

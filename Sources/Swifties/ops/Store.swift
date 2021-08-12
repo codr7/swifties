@@ -1,6 +1,6 @@
 import Foundation
 
-public class Store: Op {
+open class Store: Op {
     public init(env: Env, pos: Pos, pc: Pc, index: Register) {
         _env = env
         _pos = pos
@@ -8,9 +8,9 @@ public class Store: Op {
         _index = index
     }
     
-    public func prepare() { _nextOp = _env.ops[_pc+1] }
+    open func prepare() { _nextOp = _env.ops[_pc+1] }
     
-    public func eval() throws {
+    open func eval() throws {
         try _env.store(pos: _pos, index: _index)
         try _nextOp!.eval()
     }

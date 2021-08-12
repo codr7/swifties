@@ -1,12 +1,12 @@
 import Foundation
 
-public class Prim: Definition {
+open class Prim: Definition {
     public typealias Body = (_ pos: Pos, _ args: [Form]) throws -> Void
 
-    public var env: Env { _env }
-    public var pos: Pos { _pos }
-    public var name: String { _name }
-    public var slot: Slot { Slot(_env.coreLib!.primType, self) }
+    open var env: Env { _env }
+    open var pos: Pos { _pos }
+    open var name: String { _name }
+    open var slot: Slot { Slot(_env.coreLib!.primType, self) }
     
     public init(env: Env, pos: Pos, name: String, _ args: (Int, Int), _ body: @escaping Body) {
         _env = env
@@ -16,7 +16,7 @@ public class Prim: Definition {
         _body = body
     }
     
-    public func emit(pos: Pos, args: [Form]) throws {
+    open func emit(pos: Pos, args: [Form]) throws {
         if args.count < _args.0 || (_args.1 != -1 && args.count > _args.1) {
             throw EmitError(pos, "Wrong number of arguments: \(_name)")
         }
@@ -24,7 +24,7 @@ public class Prim: Definition {
         try _body(pos, args)
     }
         
-    public func dump() -> String { "Prim\(_name)" }
+    open func dump() -> String { "Prim\(_name)" }
     
     private let _env: Env
     private let _name: String

@@ -1,15 +1,15 @@
 import Foundation
 
-public class Splat: Op {
+open class Splat: Op {
     public init(env: Env, pos: Pos, pc: Pc) {
         _env = env
         _pos = pos
         _pc = pc
     }
 
-    public func prepare() { _nextOp = _env.ops[_pc+1] }
+    open func prepare() { _nextOp = _env.ops[_pc+1] }
 
-    public func eval() throws {
+    open func eval() throws {
         _env.reset()
         let ss = try _env.pop(pos: _pos)
         if ss.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(ss.type.name)") }

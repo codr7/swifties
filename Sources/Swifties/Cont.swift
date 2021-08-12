@@ -1,6 +1,6 @@
 import Foundation
 
-public class Cont {
+open class Cont {
     init(env: Env, pc: Pc) {
         _env = env
         _scope = env._scope

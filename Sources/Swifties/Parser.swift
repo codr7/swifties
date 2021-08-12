@@ -4,11 +4,11 @@ public protocol Reader {
     func readForm(_ p: Parser) throws -> Form?
 }
 
-public class Parser {
-    public var env: Env { _env }
-    public var input: String { _input }
-    public var pos: Pos { _pos }
-    public var forms: [Form] { _forms }
+open class Parser {
+    open var env: Env { _env }
+    open var input: String { _input }
+    open var pos: Pos { _pos }
+    open var forms: [Form] { _forms }
     
     public init(env: Env, source: String, prefix: [Reader], suffix: [Reader]) {
         _env = env
@@ -17,10 +17,10 @@ public class Parser {
         _suffix = suffix
     }
 
-    public func getc() -> Character? { _input.popLast() }
-    public func ungetc(_ c: Character) { _input.append(c) }
+    open func getc() -> Character? { _input.popLast() }
+    open func ungetc(_ c: Character) { _input.append(c) }
     
-    public func readForm() throws -> Bool {
+    open func readForm() throws -> Bool {
         for r in _prefix {
             if let f = try r.readForm(self) {
                 _forms.append(f)
@@ -33,7 +33,7 @@ public class Parser {
     }
 
     @discardableResult
-    public func readSuffix() throws -> Bool {
+    open func readSuffix() throws -> Bool {
         for r in _suffix {
             if let f = try r.readForm(self) {
                 _forms.append(f)
@@ -45,9 +45,9 @@ public class Parser {
         return false
     }
 
-    public func popForm() -> Form? { _forms.popLast() }
+    open func popForm() -> Form? { _forms.popLast() }
     
-    public func slurp(_ input: String) throws {
+    open func slurp(_ input: String) throws {
         _input = String(input.reversed()) + _input
         let (inputCopy, posCopy, formsCopy) = (_input, _pos, _forms)
 
@@ -61,10 +61,10 @@ public class Parser {
         }
     }
     
-    public func nextColumn() { _pos.nextColumn() }
-    public func newLine() { _pos.newLine() }
+    open func nextColumn() { _pos.nextColumn() }
+    open func newLine() { _pos.newLine() }
         
-    public func reset() {
+    open func reset() {
         _forms = []
         _pos = Pos(pos.source)
     }

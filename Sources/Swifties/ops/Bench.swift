@@ -1,6 +1,6 @@
 import Foundation
 
-public class Bench: Op {
+open class Bench: Op {
     public init(env: Env, reps: Int, startPc: Pc, endPc: Pc) {
         _env = env
         _reps = reps
@@ -8,9 +8,9 @@ public class Bench: Op {
         _endPc = endPc
     }
 
-    public func prepare() { _endOp = _env.ops[_endPc] }
+    open func prepare() { _endOp = _env.ops[_endPc] }
     
-    public func eval() throws {
+    open func eval() throws {
         let stack = _env._stack
         _env._stack = []
         let t1 = DispatchTime.now()

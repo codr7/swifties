@@ -2,7 +2,7 @@ import Foundation
 
 public typealias Pair = (Slot, Slot)
 
-public class PairType: Type<Pair> {
+open class PairType: Type<Pair> {
     public override init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
         super.init(env, pos: pos, name: name, parentTypes: parentTypes)
         

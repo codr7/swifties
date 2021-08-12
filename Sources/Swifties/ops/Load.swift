@@ -1,6 +1,6 @@
 import Foundation
 
-public class Load: Op {
+open class Load: Op {
     public init(env: Env, pos: Pos, pc: Pc, index: Register) {
         _env = env
         _pos = pos
@@ -8,9 +8,9 @@ public class Load: Op {
         _index = index
     }
         
-    public func prepare() { _nextOp = _env.ops[_pc+1] }
+    open func prepare() { _nextOp = _env.ops[_pc+1] }
     
-    public func eval() throws {
+    open func eval() throws {
         try _env.load(pos: _pos, index: _index)
         try _nextOp!.eval()
     }

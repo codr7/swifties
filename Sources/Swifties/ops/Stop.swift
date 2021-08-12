@@ -2,7 +2,7 @@ import Foundation
 
 public let STOP = Stop()
 
-public class Stop: Op {
-    public func prepare() {}
-    public func eval() {}
+open class Stop: Op {
+    open func prepare() {}
+    open func eval() {}
 }

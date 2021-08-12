@@ -1,10 +1,10 @@
 import Foundation
 
-public class PairForm: Form {
-    public var left: Form { _values.0 }
-    public var right: Form { _values.1 }
+open class PairForm: Form {
+    open var left: Form { _values.0 }
+    open var right: Form { _values.1 }
 
-    public override var slot: Slot? { _slot }
+    open override var slot: Slot? { _slot }
 
     public init(env: Env, pos: Pos, _ values: (Form, Form)) {
         _values = values
@@ -19,7 +19,7 @@ public class PairForm: Form {
         super.init(env: env, pos: pos)
     }
     
-    public override func emit() throws {
+    open override func emit() throws {
         if _slot == nil {
             try _values.0.emit()
             try _values.1.emit()

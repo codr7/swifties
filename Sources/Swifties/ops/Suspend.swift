@@ -1,15 +1,15 @@
 import Foundation
 
-public class Suspend: Op {
+open class Suspend: Op {
     public init(env: Env, pc: Pc, retPc: @escaping () -> Pc) {
         _env = env
         _pc = pc
         _retPc = retPc
     }
 
-    public func prepare() {}
+    open func prepare() {}
 
-    public func eval() throws {
+    open func eval() throws {
         _env.push(_env.coreLib!.contType, _env.suspend(pc: _pc+1))
         try _env.eval(_retPc(), prepare: false)
     }

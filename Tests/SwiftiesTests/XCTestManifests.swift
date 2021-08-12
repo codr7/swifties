@@ -1,7 +1,7 @@
 import XCTest
 
 #if !canImport(ObjectiveC)
-public func allTests() -> [XCTestCaseEntry] {
+open func allTests() -> [XCTestCaseEntry] {
     return [
         testCase(swifuTests.allTests),
     ]

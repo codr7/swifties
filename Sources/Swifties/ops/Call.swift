@@ -1,6 +1,6 @@
 import Foundation
 
-public class Call: Op {
+open class Call: Op {
     public init(env: Env, pos: Pos, pc: Pc, target: Slot?, check: Bool) {
         _env = env
         _pos = pos
@@ -9,9 +9,9 @@ public class Call: Op {
         _check = check
     }
         
-    public func prepare() { _retOp = _env.ops[_pc+1] }
+    open func prepare() { _retOp = _env.ops[_pc+1] }
 
-    public func eval() throws {
+    open func eval() throws {
         var t = _target
         if t == nil { t = try _env.pop(pos: _pos)}
         if t!.type.callValue == nil { throw EvalError(_pos, "Invalid target: \(t!)") }

@@ -1,6 +1,6 @@
 import Foundation
 
-public class Branch: Op {
+open class Branch: Op {
     public init(env: Env, pos: Pos, truePc: Pc, falsePc: Pc, pop: Bool = true) {
         _env = env
         _pos = pos
@@ -9,12 +9,12 @@ public class Branch: Op {
         _pop = pop
     }
 
-    public func prepare() {
+    open func prepare() {
         _trueOp = _env.ops[_truePc]
         _falseOp = _env.ops[_falsePc]
     }
     
-    public func eval() throws {
+    open func eval() throws {
         let v = _pop ? try _env.pop(pos: _pos) : try _env.peek(pos: _pos)
         try (v.type.valueIsTrue(v.value) ? _trueOp : _falseOp)!.eval()
     }

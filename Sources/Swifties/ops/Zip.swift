@@ -1,15 +1,15 @@
 import Foundation
 
-public class Zip: Op {
+open class Zip: Op {
     public init(env: Env, pos: Pos, pc: Pc) {
         _env = env
         _pos = pos
         _pc = pc
     }
 
-    public func prepare() { _nextOp = _env.ops[_pc+1] }
+    open func prepare() { _nextOp = _env.ops[_pc+1] }
 
-    public func eval() throws {
+    open func eval() throws {
         let l = try _env.pop(pos: _pos)
         let r = try _env.peek(pos: _pos)
         try _env.poke(pos: _pos, _env.coreLib!.pairType, (l, r))
