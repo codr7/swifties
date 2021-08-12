@@ -22,12 +22,12 @@ public class Env {
     public init() {}
     
     @discardableResult
-    public func openScope() -> Scope {
+    public func begin() -> Scope {
         _scope = Scope(env: self, outer: _scope)
         return _scope!
     }
     
-    public func closeScope() {
+    public func end() {
         precondition(_scope != nil, "No open scopes")
         
         let s = _scope!

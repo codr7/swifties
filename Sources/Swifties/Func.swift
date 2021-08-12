@@ -22,10 +22,10 @@ public class Func: Definition {
     public func compileBody(_ form: Form) throws {
         let skip = _env.emit(STOP)
         let startPc = _env.pc
-        let scope = _env.openScope()
+        let scope = _env.begin()
 
         do {
-            defer { _env.closeScope() }
+            defer { _env.end() }
             try form.emit()
         }
 

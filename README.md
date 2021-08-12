@@ -155,6 +155,7 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ### todo
 - add for prim
     - if first arg is a pair-form bind argument
+    - add iteration to repl readme
 - implement iterValue for String/Stack
 - add suspend prim
     - (suspend ...)
