@@ -99,8 +99,8 @@ open class Env {
     }
     
     @discardableResult
-    open func pop(pos: Pos) throws -> Slot {
-        let v = _stack.popLast()
+    open func pop(pos: Pos, offset: Int = 0) throws -> Slot {
+        let v = (offset == 0) ? _stack.popLast() : _stack.remove(at: offset)
         if v == nil { throw EvalError(pos, "Stack is empty") }
         return v!
     }
@@ -118,9 +118,9 @@ open class Env {
         push(v!)
     }
     
-    open func store(pos: Pos, index i: Register) throws {
+    open func store(pos: Pos, index i: Register, offset: Int) throws {
         if (_registers.count <= i) { _registers += Array(repeating: nil, count: i-_registers.count+1) }
-        _registers[i] = try pop(pos: pos)
+        _registers[i] = try pop(pos: pos, offset: offset)
     }
     
     open func eval(_ pc: Pc, prepare: Bool = true) throws {
@@ -130,6 +130,13 @@ open class Env {
     
     open func suspend(pc: Pc) -> Cont { Cont(env: self, pc: pc) }
         
+    open func getType(pos: Pos, _ name: String) throws -> AnyType {
+        let found = _scope!.find(name)
+        if found == nil { throw EmitError(pos, "Invalid type: \(name)") }
+        if found!.type != _coreLib!.metaType { throw EmitError(pos, "Invalid type: \(found!)") }
+        return found!.value as! AnyType
+    }
+
     var _scope: Scope?
     var _stack: Stack = []
     var _registers: Registers = []

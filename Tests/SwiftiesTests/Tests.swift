@@ -50,7 +50,7 @@ final class Tests: XCTestCase {
         try env.initCoreLib(pos: p)
         env.begin()
 
-        let f = Func(env: env, pos: p, name: "foo", args: [env.coreLib!.intType], rets: [env.coreLib!.intType],
+        let f = Func(env: env, pos: p, name: "foo", args: [(nil, env.coreLib!.intType)], rets: [env.coreLib!.intType],
                      {(pos: Pos, self: Func, ret: Op) in
                         env.push(env.coreLib!.intType, try env.pop(pos: p).value as! Int + 7)
             try ret.eval()

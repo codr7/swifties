@@ -95,9 +95,9 @@ open class CoreLib: Lib {
     
     open func _func(pos: Pos, args: [Form]) throws {
         let name = (args[0] as! IdForm).name
-        let ats = try (args[1] as! StackForm).items.map(getType)
-        let rts = try (args[2] as! StackForm).items.map(getType)
-        let f = Func(env: env, pos: pos, name: name, args: ats, rets: rts)
+        let fargs = try (args[1] as! StackForm).items.map({f in try Func.getArg(env: env, pos: pos, f)})
+        let frets = try (args[2] as! StackForm).items.map({f in try Func.getRet(env: env, pos: pos, f)})
+        let f = Func(env: env, pos: pos, name: name, args: fargs, rets: frets)
         try env.scope!.bind(pos: pos, id: name, env.coreLib!.funcType, f)
         try f.compileBody(DoForm(env: env, pos: pos, body: Array(args[3...])))
     }
@@ -187,9 +187,9 @@ open class CoreLib: Lib {
         define("f", boolType, false)
         
         define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.nop))
-        define(Func(env: env, pos: self.pos, name: "=", args: [anyType, anyType], rets: [boolType], self.equals))
-        define(Func(env: env, pos: self.pos, name: "=0", args: [intType], rets: [boolType], self.equalsZero))
-        define(Func(env: env, pos: self.pos, name: "=1", args: [intType], rets: [boolType], self.equalsOne))
+        define(Func(env: env, pos: self.pos, name: "=", args: [("lhs", anyType), ("rhs", anyType)], rets: [boolType], self.equals))
+        define(Func(env: env, pos: self.pos, name: "=0", args: [("val", intType)], rets: [boolType], self.equalsZero))
+        define(Func(env: env, pos: self.pos, name: "=1", args: [("val", intType)], rets: [boolType], self.equalsOne))
         define(Prim(env: env, pos: self.pos, name: "and", (2, 2), self.and))
         define(Prim(env: env, pos: self.pos, name: "bench", (1, -1), self.bench))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))
@@ -197,7 +197,7 @@ open class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
         define(Prim(env: env, pos: self.pos, name: "if", (3, 3), self._if))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
-        define(Func(env: env, pos: self.pos, name: "not", args: [anyType], rets: [boolType], self.not))
+        define(Func(env: env, pos: self.pos, name: "not", args: [("val", anyType)], rets: [boolType], self.not))
         define(Prim(env: env, pos: self.pos, name: "or", (2, 2), self.or))
         define(Prim(env: env, pos: self.pos, name: "recall", (0, -1), self.recall))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
@@ -205,13 +205,5 @@ open class CoreLib: Lib {
         define(Func(env: env, pos: self.pos, name: "stash", args: [], rets: [stackType], self.stash))
         
         try super.bind(pos: pos, names)
-    }
-    
-    private func getType(f: Form) throws -> AnyType {
-        let name = (f as! IdForm).name
-        let found = env.scope!.find(name)
-        if found == nil { throw EmitError(f.pos, "Invalid type: \(name)") }
-        if found!.type != env.coreLib!.metaType { throw EmitError(f.pos, "Invalid type: \(found!)") }
-        return found!.value as! AnyType
-    }
+    }    
 }

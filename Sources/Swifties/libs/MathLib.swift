@@ -42,14 +42,28 @@ open class MathLib: Lib {
     }
 
     open override func bind(pos: Pos, _ names: [String]) throws {
-        define(Func(env: env, pos: self.pos, name: "-1", args: [env.coreLib!.intType], rets: [env.coreLib!.intType], self.minusOne))
-        define(Func(env: env, pos: self.pos, name: "-2", args: [env.coreLib!.intType], rets: [env.coreLib!.intType], self.minusTwo))
+        define(Func(env: env, pos: self.pos, name: "-1", args: [("val", env.coreLib!.intType)], rets: [env.coreLib!.intType], self.minusOne))
+        define(Func(env: env, pos: self.pos, name: "-2", args: [("val", env.coreLib!.intType)], rets: [env.coreLib!.intType], self.minusTwo))
 
-        define(Func(env: env, pos: self.pos, name: "+", args: [env.coreLib!.intType, env.coreLib!.intType], rets: [env.coreLib!.intType], self.plusInt))
-        define(Func(env: env, pos: self.pos, name: "-", args: [env.coreLib!.intType, env.coreLib!.intType], rets: [env.coreLib!.intType], self.minusInt))
+        define(Func(env: env, pos: self.pos, name: "+",
+                    args: [("lhs", env.coreLib!.intType), ("rhs", env.coreLib!.intType)],
+                    rets: [env.coreLib!.intType],
+                    self.plusInt))
+        
+        define(Func(env: env, pos: self.pos, name: "-",
+                    args: [("lhs", env.coreLib!.intType), ("rhs", env.coreLib!.intType)],
+                    rets: [env.coreLib!.intType],
+                    self.minusInt))
 
-        define(Func(env: env, pos: self.pos, name: "<", args: [env.coreLib!.intType, env.coreLib!.intType], rets: [env.coreLib!.boolType], self.ltInt))
-        define(Func(env: env, pos: self.pos, name: ">", args: [env.coreLib!.intType, env.coreLib!.intType], rets: [env.coreLib!.boolType], self.gtInt))
+        define(Func(env: env, pos: self.pos, name: "<",
+                    args: [("lhs", env.coreLib!.intType), ("rhs", env.coreLib!.intType)],
+                    rets: [env.coreLib!.boolType],
+                    self.ltInt))
+        
+        define(Func(env: env, pos: self.pos, name: ">",
+                    args: [("lhs", env.coreLib!.intType), ("rhs", env.coreLib!.intType)],
+                    rets: [env.coreLib!.boolType],
+                    self.gtInt))
 
         try super.bind(pos: pos, names)
     }

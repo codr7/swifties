@@ -155,8 +155,11 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- add support for binding func arg names
+- append <Int Int> to func names in constructor
+    - skip if no args
+    - adapt call form
 - implement iterValue for String/Stack
+- extract alang from repl
 - add suspend prim
     - (suspend ...)
     - emit goto

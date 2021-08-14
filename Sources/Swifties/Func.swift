@@ -1,16 +1,40 @@
 import Foundation
 
 open class Func: Definition {
+    public typealias Arg = (String?, AnyType)
+    public typealias Ret = AnyType
     public typealias Body = (_ pos: Pos, _ self: Func, _ ret: Op) throws -> Void
     
+    public static func getArg(env: Env, pos: Pos, _ f: Form) throws -> Arg {
+        var l: String?
+        var r: String
+        
+        switch f {
+        case let f as IdForm:
+            r = f.name
+        case let f as PairForm:
+            l = (f.left as! IdForm).name
+            r = (f.right as! IdForm).name
+        default:
+            throw EmitError(pos, "Invalid func argument: #\(f)")
+        }
+        
+        return (l, try env.getType(pos: pos, r))
+    }
+
+    public static func getRet(env: Env, pos: Pos, _ f: Form) throws -> Ret {
+        if !(f is IdForm) { throw EmitError(pos, "Invalid func result: #\(f)") }
+        return try env.getType(pos: pos, (f as! IdForm).name)
+    }
+
     open var env: Env { _env }
     open var pos: Pos { _pos }
     open var name: String { _name }
-    open var args: [AnyType] { _args }
-    open var rets: [AnyType] { _rets }
+    open var args: [Arg] { _args }
+    open var rets: [Ret] { _rets }
     open var slot: Slot { Slot(_env.coreLib!.funcType, self) }
     
-    public init(env: Env, pos: Pos, name: String, args: [AnyType], rets: [AnyType], _ body: Body? = nil) {
+    public init(env: Env, pos: Pos, name: String, args: [Arg], rets: [Ret], _ body: Body? = nil) {
         _env = env
         _pos = pos
         _name = name
@@ -26,6 +50,17 @@ open class Func: Definition {
 
         do {
             defer { _env.end() }
+            var offset = 0
+            
+            for (n, _) in args.reversed() {
+                if n != nil {
+                    let i = try scope.nextRegister(pos: pos, id: n!)
+                    env.emit(Store(env: _env, pos: _pos, pc: env.pc, index: i, offset: offset))
+                } else {
+                    offset += 1
+                }
+            }
+            
             try form.emit()
         }
 
@@ -42,7 +77,7 @@ open class Func: Definition {
     open func isApplicable() -> Bool {
         for i in 0..<_args.count {
             let v = _env.tryPeek(offset: _args.count - i - 1)
-            if v == nil || !v!.type.isa(_args[i]) { return false }
+            if v == nil || !v!.type.isa(_args[i].1) { return false }
         }
 
         return true
@@ -55,6 +90,7 @@ open class Func: Definition {
     private let _pos: Pos
     private let _env: Env
     private let _name: String
-    private let _args, _rets: [AnyType]
+    private let _args: [Arg]
+    private let _rets: [Ret]
     private var _body: Body?
 }
