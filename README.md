@@ -48,6 +48,7 @@ Two levels of types are used, `ÀnyType`, and it's direct parameterized subclass
 
 - Any - Any kind of value
 - Bool - Boolean values
+- Char - Character values
 - Cont - Continuations as values
 - Func - Functions as values
 - Int - Integer values
@@ -57,6 +58,7 @@ Two levels of types are used, `ÀnyType`, and it's direct parameterized subclass
 - Prim - Primitives as values
 - Register - Register references as values
 - Stack - Stack values
+- String - String values
 
 ### parsing
 `Parser` may be used to simplify the process of turning code into forms.
@@ -126,8 +128,9 @@ Forms emit operations, which are the basic building blocks that are eventually e
 - Bench - Repeats body specified number of times and pushes elapsed time in milliseconds
 - Branch - Branches conditionally
 - Call - Calls specified value
-- Goto - Resumes evaluation from specified `Pc`
+- Drop - Drops specified number of items from stack
 - For - Repeats code for each value in sequence on top of stack
+- Goto - Resumes evaluation from specified `Pc`
 - Load - Loads value from specified register
 - Push - Pushes specified value on stack
 - PushDown - Pushes top of stack onto next item
