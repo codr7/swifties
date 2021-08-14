@@ -52,12 +52,12 @@ open class Func: Definition {
             defer { _env.end() }
             var offset = 0
             
-            for (n, _) in args.reversed() {
-                if n != nil {
-                    let i = try scope.nextRegister(pos: pos, id: n!)
-                    env.emit(Store(env: _env, pos: _pos, pc: env.pc, index: i, offset: offset))
-                } else {
+            for (n, _) in _args.reversed() {
+                if n == nil {
                     offset += 1
+                } else {
+                    let i = try scope.nextRegister(pos: pos, id: n!)
+                    env.emit(Store(env: _env, pos: _pos, pc: _env.pc, index: i, offset: offset))
                 }
             }
             
@@ -76,7 +76,7 @@ open class Func: Definition {
     
     open func isApplicable() -> Bool {
         for i in 0..<_args.count {
-            let v = _env.tryPeek(offset: _args.count - i - 1)
+            let v = _env.tryPeek(offset: _args.count-i-1)
             if v == nil || !v!.type.isa(_args[i].1) { return false }
         }
 

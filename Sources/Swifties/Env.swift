@@ -101,7 +101,7 @@ open class Env {
     @discardableResult
     open func pop(pos: Pos, offset: Int = 0) throws -> Slot {
         if offset >= _stack.count { throw EvalError(pos, "Stack is empty") }
-        let v = (offset == 0) ? _stack.popLast() : _stack.remove(at: _stack.count-offset)
+        let v = (offset == 0) ? _stack.popLast() : _stack.remove(at: _stack.count-offset-1)
         return v!
     }
 

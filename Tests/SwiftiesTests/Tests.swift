@@ -69,15 +69,15 @@ final class Tests: XCTestCase {
         try env.initCoreLib(pos: p)
         env.begin()
 
-        let f = Func(env: env, pos: p, name: "foo", args: [], rets: [env.coreLib!.intType])
-        try f.compileBody(LiteralForm(env: env, pos: p, env.coreLib!.intType, 42))
+        let f = Func(env: env, pos: p, name: "foo", args: [("bar", env.coreLib!.intType)], rets: [env.coreLib!.intType])
+        try f.compileBody(IdForm(env: env, pos: p, name: "bar"))
         
+        env.push(env.coreLib!.intType, 42)
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
         env.emit(STOP)
-        env.push(env.coreLib!.intType, 7)
         try env.eval(0)
+        
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), try env.pop(pos: p))
-        XCTAssertEqual(Slot(env.coreLib!.intType, 7), try env.pop(pos: p))
         XCTAssertEqual(nil, env.tryPeek())
     }
     
