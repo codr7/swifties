@@ -18,6 +18,16 @@ open class StackType: Type<Stack> {
         }
  
         equalValues = {lhs, rhs in lhs as! Stack == rhs as! Stack}
+ 
+        iterValue = {v in
+            var s = (v as! Stack).makeIterator()
+            
+            return {
+                if let v = s.next() { return v }
+                return nil
+            }
+        }
+
         valueIsTrue = {v in (v as! Stack).count > 0}
     }
 }

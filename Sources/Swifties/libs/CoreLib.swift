@@ -4,6 +4,7 @@ open class CoreLib: Lib {
     public let anyType: AnyType
 
     public let boolType: BoolType
+    public let charType: CharType
     public let contType: ContType
     public let funcType: FuncType
     public let intType: IntType
@@ -14,21 +15,25 @@ open class CoreLib: Lib {
     public let primType: PrimType
     public let registerType: RegisterType
     public let stackType: StackType
+    public let stringType: StringType
 
     public override init(env: Env, pos: Pos) {
         anyType = AnyType(env, pos: pos, name: "Any", parentTypes: [])
-
         boolType = BoolType(env, pos: pos, name: "Bool", parentTypes: [anyType])
+        charType = CharType(env, pos: pos, name: "Char", parentTypes: [anyType])
         contType = ContType(env, pos: pos, name: "Cont", parentTypes: [anyType])
         funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType])
+
         iterType = IterType(env, pos: pos, name: "Iter", parentTypes: [anyType])
+
         intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType, iterType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         metaType = MetaType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         pairType = PairType(env, pos: pos, name: "Pair", parentTypes: [anyType])
         primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType])
         registerType = RegisterType(env, pos: pos, name: "Register", parentTypes: [anyType])
-        stackType = StackType(env, pos: pos, name: "Stack", parentTypes: [anyType])
+        stackType = StackType(env, pos: pos, name: "Stack", parentTypes: [anyType, iterType])
+        stringType = StringType(env, pos: pos, name: "String", parentTypes: [anyType, iterType])
 
         super.init(env: env, pos: pos)
     }
@@ -175,13 +180,13 @@ open class CoreLib: Lib {
     open override func bind(pos: Pos, _ names: [String]) throws {
         define(anyType,
                boolType,
-               contType,
+               charType, contType,
                funcType,
                intType, iterType,
                macroType, metaType,
                pairType, primType,
                registerType,
-               stackType)
+               stackType, stringType)
         
         define("t", boolType, true)
         define("f", boolType, false)

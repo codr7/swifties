@@ -155,11 +155,12 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- append <Int Int> to func names in constructor
-    - skip if no args
-    - adapt call form
-- implement iterValue for String/Stack
-- extract alang from repl
+- add multi
+    - gofu
+    - check binding in func prim
+    - create multi when needed
+- add map/filter iters
+    - funcs that act on iters
 - add suspend prim
     - (suspend ...)
     - emit goto
@@ -168,10 +169,6 @@ XCTAssertEqual(v, env.pop(pos: pos))
     - emit stop
 - implement callValue for Cont
     - env.restore
-- add Nil type/Maybe type
-- add multi
-- make suggestions based on edit distance for missing ids
-    - recursive like find
 - add unsafe prim
     - add Env.safetyLevel = 0
     - add Unsafe op
@@ -182,3 +179,5 @@ XCTAssertEqual(v, env.pop(pos: pos))
     - skip result check in Frame.restore if env.unsafe
 - add return prim
     - emit args & Return
+- make suggestions based on edit distance for missing ids
+    - recursive like find
