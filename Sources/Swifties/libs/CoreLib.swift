@@ -35,21 +35,21 @@ open class CoreLib: Lib {
 
     open func nop(pos: Pos, args: [Form]) {}
 
-    open func equals(pos: Pos, self: Func, ret: Op) throws {
+    open func equals(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         let y = try env.pop(pos: pos)
         let x = try env.peek(pos: pos)
         try env.poke(pos: pos, env.coreLib!.boolType, (x.type == y.type) && x.type.equalValues!(x.value, y.value))
-        try ret.eval()
+        return ret
     }
 
-    open func equalsZero(pos: Pos, self: Func, ret: Op) throws {
+    open func equalsZero(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         try env.poke(pos: pos, env.coreLib!.boolType, env.peek(pos: pos).value as! Int == 0)
-        try ret.eval()
+        return ret
     }
 
-    open func equalsOne(pos: Pos, self: Func, ret: Op) throws {
+    open func equalsOne(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         try env.poke(pos: pos, env.coreLib!.boolType, env.peek(pos: pos).value as! Int == 1)
-        try ret.eval()
+        return ret
     }
 
     open func and(pos: Pos, args: [Form]) throws {
@@ -112,7 +112,7 @@ open class CoreLib: Lib {
         let skipTrue = env.emit(STOP)
         let truePc = env.pc
         try trueBranch.emit()
-        env.emit(Goto(env: env, pc: env.pc), pc: skipTrue)
+        env.emit(Goto(pc: env.pc), pc: skipTrue)
         env.emit(Branch(env: env, pos: pos, truePc: truePc, falsePc: branchPc+1), pc: branchPc)
     }
     
@@ -135,10 +135,10 @@ open class CoreLib: Lib {
         for id in ids { try scope.unbind(pos: pos, id) }
     }
 
-    open func not(pos: Pos, self: Func, ret: Op) throws {
+    open func not(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         let s = try env.peek(pos: pos)
         try env.poke(pos: pos, env.coreLib!.boolType, !s.type.valueIsTrue(s.value))
-        try ret.eval()
+        return ret
     }
     
     open func or(pos: Pos, args: [Form]) throws {
@@ -158,11 +158,11 @@ open class CoreLib: Lib {
         env.emit(Reset(env: env, pc: env.pc))
     }
     
-    open func stash(pos: Pos, self: Func, ret: Op) throws {
+    open func stash(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         let tmp = env.stack
         env.reset()
         env.push(env.coreLib!.stackType, tmp)
-        try ret.eval()
+        return ret
     }
     
     open func splat(pos: Pos, args: [Form]) throws {

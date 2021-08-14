@@ -3,7 +3,7 @@ import Foundation
 open class Func: Definition {
     public typealias Arg = (String?, AnyType)
     public typealias Ret = AnyType
-    public typealias Body = (_ pos: Pos, _ self: Func, _ ret: Op) throws -> Void
+    public typealias Body = (_ pos: Pos, _ self: Func, _ ret: Pc) throws -> Pc
     
     public static func getArg(env: Env, pos: Pos, _ f: Form) throws -> Arg {
         var l: String?
@@ -64,13 +64,12 @@ open class Func: Definition {
             try form.emit()
         }
 
-        _env.emit(Return(env: env, pos: form.pos))
-        _env.emit(Goto(env: env, pc: env.pc), pc: skip)
-        let startOp = _env.ops[startPc]
+        _env.emit(Return(env: _env, pos: form.pos))
+        _env.emit(Goto(pc: env.pc), pc: skip)
         
         _body = {p, f, ret in
-            self._env.pushFrame(pos: p, _func: f, scope: scope, startOp: startOp, ret: ret)
-            try startOp.eval()
+            self._env.pushFrame(pos: p, _func: f, scope: scope, startPc: startPc, ret: ret)
+            return startPc
         }
     }
     
@@ -83,7 +82,7 @@ open class Func: Definition {
         return true
     }
 
-    open func call(pos: Pos, ret: Op) throws { try _body!(pos, self, ret) }
+    open func call(pos: Pos, ret: Pc) throws -> Pc { try _body!(pos, self, ret) }
         
     open func dump() -> String { "Func\(_name)" }
     

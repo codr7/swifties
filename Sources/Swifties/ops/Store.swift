@@ -9,11 +9,9 @@ open class Store: Op {
         _offset = offset
     }
     
-    open func prepare() { _nextOp = _env.ops[_pc+1] }
-    
-    open func eval() throws {
+    open func eval() throws -> Pc {
         try _env.store(pos: _pos, index: _index, offset: _offset)
-        try _nextOp!.eval()
+        return _pc+1
     }
     
     private let _env: Env
@@ -21,5 +19,4 @@ open class Store: Op {
     private let _pc: Pc
     private let _index: Register
     private let _offset: Int
-    private var _nextOp: Op?
 }

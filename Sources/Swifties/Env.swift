@@ -35,17 +35,17 @@ open class Env {
     }
 
     @discardableResult
-    open func pushFrame(pos: Pos, _func: Func, scope: Scope, startOp: Op, ret: Op) -> Frame {
-        let f = Frame(env: self, pos: pos, _func: _func, scope: scope, startOp: startOp, ret: ret)
+    open func pushFrame(pos: Pos, _func: Func, scope: Scope, startPc: Pc, ret: Pc) -> Frame {
+        let f = Frame(env: self, pos: pos, _func: _func, scope: scope, startPc: startPc, ret: ret)
         _frames.append(f)
         return f
     }
 
     open func peekFrame() -> Frame? { _frames.last }
     
-    open func popFrame(pos: Pos) throws {
+    open func popFrame(pos: Pos) throws -> Pc {
         if _frames.count == 0 { throw EvalError(pos, "No calls in progress") }
-        try _frames.popLast()!.restore()
+        return try _frames.popLast()!.restore()
     }
 
     @discardableResult
@@ -123,9 +123,9 @@ open class Env {
         _registers[i] = try pop(pos: pos, offset: offset)
     }
     
-    open func eval(_ pc: Pc, prepare: Bool = true) throws {
-        if prepare { for i in pc..<_ops.count { _ops[i].prepare() } }
-        try _ops[pc].eval()
+    open func eval(_ startPc: Pc) throws {
+        var pc = startPc
+        repeat { try pc = _ops[pc].eval() } while pc != STOP_PC
     }
     
     open func suspend(pc: Pc) -> Cont { Cont(env: self, pc: pc) }

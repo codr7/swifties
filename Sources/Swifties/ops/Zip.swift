@@ -7,17 +7,14 @@ open class Zip: Op {
         _pc = pc
     }
 
-    open func prepare() { _nextOp = _env.ops[_pc+1] }
-
-    open func eval() throws {
+    open func eval() throws -> Pc {
         let l = try _env.pop(pos: _pos)
         let r = try _env.peek(pos: _pos)
         try _env.poke(pos: _pos, _env.coreLib!.pairType, (l, r))
-        try _nextOp!.eval()
+        return _pc+1
     }
     
     private let _env: Env
     private let _pos: Pos
     private let _pc: Pc
-    private var _nextOp: Op?
 }

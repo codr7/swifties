@@ -8,16 +8,13 @@ open class Load: Op {
         _index = index
     }
         
-    open func prepare() { _nextOp = _env.ops[_pc+1] }
-    
-    open func eval() throws {
+    open func eval() throws -> Pc {
         try _env.load(pos: _pos, index: _index)
-        try _nextOp!.eval()
+        return _pc+1
     }
     
     private let _env: Env
     private let _pos: Pos
     private let _pc: Pc
     private let _index: Register
-    private var _nextOp: Op?
 }

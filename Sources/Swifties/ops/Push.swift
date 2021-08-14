@@ -10,14 +10,11 @@ open class Push: Op {
 
     public convenience init<T>(pc: Pc, _ type: Type<T>, _ value: T) { self.init(pc: pc, Slot(type, value)) }
 
-    open func prepare() { _nextOp = env.ops[_pc+1] }
-    
-    open func eval() throws {
+    open func eval() throws -> Pc {
         env.push(_slot)
-        try _nextOp!.eval()
+        return _pc+1
     }
     
     private let _pc: Pc
     private let _slot: Slot
-    private var _nextOp: Op?
 }

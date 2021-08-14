@@ -8,16 +8,13 @@ open class Drop: Op {
         _count = count
     }
 
-    open func prepare() { _nextOp = _env.ops[_pc+1] }
-
-    open func eval() throws {
+    open func eval() throws -> Pc {
         try _env.drop(pos: _pos, count: _count)
-        try _nextOp!.eval()
+        return _pc+1
     }
     
     private let _env: Env
     private let _pos: Pos
     private let _pc: Pc
     private let _count: Int
-    private var _nextOp: Op?
 }

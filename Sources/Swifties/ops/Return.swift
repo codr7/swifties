@@ -6,8 +6,7 @@ open class Return: Op {
         _pos = pos
     }
 
-    open func prepare() {}
-    open func eval() throws { try _env.popFrame(pos: _pos) }
+    open func eval() throws -> Pc { try _env.popFrame(pos: _pos) }
     
     private let _env: Env
     private let _pos: Pos

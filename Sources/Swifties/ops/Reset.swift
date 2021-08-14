@@ -6,14 +6,11 @@ open class Reset: Op {
         _pc = pc
     }
 
-    open func prepare() { _nextOp = _env.ops[_pc+1] }
-
-    open func eval() throws {
+    open func eval() throws -> Pc {
         _env.reset()
-        try _nextOp!.eval()
+        return _pc+1
     }
     
     private let _env: Env
     private let _pc: Pc
-    private var _nextOp: Op?
 }

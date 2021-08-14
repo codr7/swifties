@@ -11,7 +11,7 @@ open class FuncType: Type<Func> {
                 throw NotApplicable(pos: pos, target: f, stack: self.env.stack)
             }
             
-            try f.call(pos: pos, ret: ret)
+            return try f.call(pos: pos, ret: ret)
         }
 
         dumpValue = { v in (v as! Func).dump() }        

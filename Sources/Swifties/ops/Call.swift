@@ -8,14 +8,12 @@ open class Call: Op {
         _target = target
         _check = check
     }
-        
-    open func prepare() { _retOp = _env.ops[_pc+1] }
-
-    open func eval() throws {
+    
+    open func eval() throws -> Pc {
         var t = _target
         if t == nil { t = try _env.pop(pos: _pos)}
         if t!.type.callValue == nil { throw EvalError(_pos, "Invalid target: \(t!)") }
-        try t!.type.callValue!(t!.value, _pos, _retOp!, _check)
+        return try t!.type.callValue!(t!.value, _pos, _pc+1, _check)
     }
     
     private let _env: Env
@@ -23,5 +21,4 @@ open class Call: Op {
     private let _pc: Pc
     private let _target: Slot?
     private let _check: Bool
-    private var _retOp: Op?
 }

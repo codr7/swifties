@@ -7,18 +7,15 @@ open class Splat: Op {
         _pc = pc
     }
 
-    open func prepare() { _nextOp = _env.ops[_pc+1] }
-
-    open func eval() throws {
+    open func eval() throws -> Pc {
         _env.reset()
         let ss = try _env.pop(pos: _pos)
         if ss.type != _env.coreLib!.stackType { throw EvalError(_pos, "Invalid stack: \(ss.type.name)") }
         _env.push(ss.value as! Stack)
-        try _nextOp!.eval()
+        return _pc+1
     }
     
     private let _env: Env
     private let _pos: Pos
     private let _pc: Pc
-    private var _nextOp: Op?
 }

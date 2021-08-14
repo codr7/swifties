@@ -7,13 +7,8 @@ open class For: Op {
         _pc = pc
         _nextPc = nextPc
     }
-
-    open func prepare() {
-        _firstOp = _env.ops[_pc+1]
-        _nextOp = _env.ops[_nextPc]
-    }
     
-    open func eval() throws {
+    open func eval() throws -> Pc {
         let src = try _env.pop(pos: _pos)        
         if src.type.iterValue == nil { throw EvalError(_pos, "Value is not iterable: \(src.type.name)")}
         let iter = src.type.iterValue!(src.value)
@@ -22,14 +17,13 @@ open class For: Op {
             let v = iter()
             if v == nil { break }
             _env.push(v!)
-            try _firstOp!.eval()
+            try _env.eval(_pc+1)
         }
             
-        try _nextOp!.eval()
+        return _nextPc
     }
     
     private let _env: Env
     private let _pos: Pos
     private let _pc, _nextPc: Pc
-    private var _firstOp, _nextOp: Op?
 }

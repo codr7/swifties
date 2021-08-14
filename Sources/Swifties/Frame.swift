@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Frame {
-    public init(env: Env, pos: Pos, _func: Func, scope: Scope, startOp: Op, ret: Op) {
+    public init(env: Env, pos: Pos, _func: Func, scope: Scope, startPc: Pc, ret: Pc) {
         _env = env
         _pos = pos
         self._func = _func
@@ -9,12 +9,12 @@ public struct Frame {
         _env._stack = Stack(s.dropFirst(s.count-_func.args.count))
         _stack = s.dropLast(_func.args.count)
         _registers = _env._registers
-        _startOp = startOp
+        _startPc = startPc
         (_scope, _env._scope) = (_env._scope!, scope)
         _ret = ret
     }
  
-    public func restore() throws {
+    public func restore() throws -> Pc {
         let n = _env._stack.count
         if n < _func.rets.count { throw EvalError(_pos, "Missing results: \(_func.name) \(_env._stack)")}
         let rstack = _env._stack.dropFirst(n-_func.rets.count)
@@ -28,12 +28,12 @@ public struct Frame {
         _env._stack.append(contentsOf: rstack)
         _env._registers = _registers
         _env._scope = _scope
-        try _ret.eval()
+        return _ret
     }
     
-    public func recall(pos: Pos, check: Bool) throws {
+    public func recall(pos: Pos, check: Bool) throws -> Pc {
         if check && !_func.isApplicable() { throw NotApplicable(pos: pos, target: _func, stack: _env._stack) }
-        try _startOp.eval()
+        return _startPc
     }
     
     private let _env: Env
@@ -42,5 +42,5 @@ public struct Frame {
     private let _scope: Scope
     private let _stack: Stack
     private let _registers: Registers
-    private let _startOp, _ret: Op
+    private let _startPc, _ret: Pc
 }

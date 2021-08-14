@@ -1,7 +1,7 @@
 import Foundation
 
 open class AnyType: Definition, Equatable {
-    public typealias CallValue = (_ target: Any, _ pos: Pos, _ ret: Op, _ check: Bool) throws -> Void
+    public typealias CallValue = (_ target: Any, _ pos: Pos, _ ret: Pc, _ check: Bool) throws -> Pc
     public typealias DumpValue = (_ value: Any) -> String
     public typealias EqualValues = (_ lhs: Any, _ rhs: Any) -> Bool
     public typealias IterValue = (_ value: Any) -> Iter

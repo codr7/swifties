@@ -8,20 +8,14 @@ open class Branch: Op {
         _falsePc = falsePc
         _pop = pop
     }
-
-    open func prepare() {
-        _trueOp = _env.ops[_truePc]
-        _falseOp = _env.ops[_falsePc]
-    }
     
-    open func eval() throws {
+    open func eval() throws -> Pc {
         let v = _pop ? try _env.pop(pos: _pos) : try _env.peek(pos: _pos)
-        try (v.type.valueIsTrue(v.value) ? _trueOp : _falseOp)!.eval()
+        return v.type.valueIsTrue(v.value) ? _truePc : _falsePc
     }
     
     private let _env: Env
     private let _pos: Pos
     private let _truePc, _falsePc: Pc
-    private var _trueOp, _falseOp: Op?
     private let _pop: Bool
 }

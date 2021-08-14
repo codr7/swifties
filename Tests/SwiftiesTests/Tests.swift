@@ -51,10 +51,10 @@ final class Tests: XCTestCase {
         env.begin()
 
         let f = Func(env: env, pos: p, name: "foo", args: [(nil, env.coreLib!.intType)], rets: [env.coreLib!.intType],
-                     {(pos: Pos, self: Func, ret: Op) in
+                     {(pos, self, ret) in
                         env.push(env.coreLib!.intType, try env.pop(pos: p).value as! Int + 7)
-            try ret.eval()
-        })
+                        return ret
+                     })
         
         env.emit(Push(pc: env.pc, env.coreLib!.intType, 35))
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))
