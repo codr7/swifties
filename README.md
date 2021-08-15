@@ -85,8 +85,10 @@ XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop(pos: pos))
 #### readers
 Readers specialize in parsing a specific kind of form.
 
-- Int - Reads Int forms
+- Id - Reads identifiers
+- Int - Reads integers
 - Space - Skips whitespace
+- String - Reads strings
 
 It's trivial to extend the framework with custom readers. 
 Just make sure to return `nil` if you can't find what you're looking for, since each reader is tried in sequence for every new position.
@@ -158,6 +160,11 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
+- add char-arg to string reader
+- add charReader
+- add support for \n & \t in stringReader
+- add string interpolation
+    - swift syntax
 - add multi
     - gofu
     - check binding in func prim
