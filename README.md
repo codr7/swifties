@@ -158,6 +158,7 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
+- simplify Reader to func type like Iter
 - add multi
     - gofu
     - check binding in func prim

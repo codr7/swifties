@@ -1,8 +1,6 @@
 import Foundation
 
-public protocol Reader {
-    func readForm(_ p: Parser) throws -> Form?
-}
+public typealias Reader = (_ p: Parser) throws -> Form?
 
 open class Parser {
     open var env: Env { _env }
@@ -22,7 +20,7 @@ open class Parser {
     
     open func readForm() throws -> Bool {
         for r in _prefix {
-            if let f = try r.readForm(self) {
+            if let f = try r(self) {
                 _forms.append(f)
                 try readSuffix()
                 return true
@@ -35,7 +33,7 @@ open class Parser {
     @discardableResult
     open func readSuffix() throws -> Bool {
         for r in _suffix {
-            if let f = try r.readForm(self) {
+            if let f = try r(self) {
                 _forms.append(f)
                 try readSuffix()
                 return true
