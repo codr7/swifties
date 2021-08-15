@@ -94,23 +94,22 @@ It's trivial to extend the framework with custom readers.
 Just make sure to return `nil` if you can't find what you're looking for, since each reader is tried in sequence for every new position.
 
 ```swift
-open class IdReader: Reader {
-    open func readForm(_ p: Parser) throws -> Form? {
-        let fpos = p.pos
-        var out = ""
+func intReader(_ p: Parser) throws -> Form? {
+    let fpos = p.pos
+    var v = 0
         
-        while let c = p.getc() {
-            if c.isWhitespace || c == "(" || c == ")" {
-                p.ungetc(c)
-                break
-            }
-            
-            out.append(c)
-            p.nextColumn()
+    while let c = p.getc() {
+        if !c.isNumber {
+            p.ungetc(c)
+            break
         }
-        
-        return (out.count == 0) ? nil : IdForm(env: p.env, pos: fpos, name: out)
+            
+        v *= 10
+        v += c.hexDigitValue!
+        p.nextColumn()
     }
+        
+    return (p.pos == fpos) ? nil : LiteralForm(env: p.env, pos: p.pos, p.env.coreLib!.intType, v)
 }
 ```
 
