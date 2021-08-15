@@ -3,7 +3,7 @@ import Foundation
 open class StringType: Type<String> {
     public override init(_ env: Env, pos: Pos, name: String, parentTypes: [AnyType]) {
         super.init(env, pos: pos, name: name, parentTypes: parentTypes)
-        dumpValue = {v in "\"(v as! String)\""}
+        dumpValue = {v in "\"\(v as! String)\""}
  
         equalValues = {lhs, rhs in lhs as! String == rhs as! String}
 
