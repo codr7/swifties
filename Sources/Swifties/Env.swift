@@ -128,7 +128,7 @@ open class Env {
         repeat { try pc = _ops[pc].eval() } while pc != STOP_PC
     }
     
-    open func suspend(pc: Pc) -> Cont { Cont(env: self, pc: pc) }
+    open func suspend(_ restorePc: Pc) -> Cont { Cont(env: self, restorePc: restorePc) }
         
     open func getType(pos: Pos, _ name: String) throws -> AnyType {
         let found = _scope!.find(name)

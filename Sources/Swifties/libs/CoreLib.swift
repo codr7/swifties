@@ -176,7 +176,14 @@ open class CoreLib: Lib {
             env.emit(Splat(env: env, pos: pos, pc: env.pc))
         }
     }
-    
+
+    open func suspend(pos: Pos, args: [Form]) throws {
+        let suspendPc = env.emit(STOP)
+        for a in args { try a.emit() }
+        env.emit(STOP)
+        env.emit(Suspend(env: env, pc: suspendPc, restorePc: env.pc), pc: suspendPc)
+    }
+        
     open override func bind(pos: Pos, _ names: [String]) throws {
         define(anyType,
                boolType,
@@ -208,7 +215,8 @@ open class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Prim(env: env, pos: self.pos, name: "splat", (1, -1), self.splat))
         define(Func(env: env, pos: self.pos, name: "stash", args: [], rets: [stackType], self.stash))
-        
+        define(Prim(env: env, pos: self.pos, name: "suspend", (-1, -1), self.suspend))
+
         try super.bind(pos: pos, names)
     }    
 }
