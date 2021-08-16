@@ -163,6 +163,10 @@ open class CoreLib: Lib {
         env.emit(Reset(env: env, pc: env.pc))
     }
     
+    open func restore(pos: Pos, self: Func, ret: Pc) throws -> Pc {
+        try (env.pop(pos: pos).value as! Cont).restore()
+    }
+
     open func stash(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         let tmp = env.stack
         env.reset()
@@ -213,6 +217,7 @@ open class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "or", (2, 2), self.or))
         define(Prim(env: env, pos: self.pos, name: "recall", (0, -1), self.recall))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
+        define(Func(env: env, pos: self.pos, name: "restore", args: [("cont", contType)], rets: [], self.restore))
         define(Prim(env: env, pos: self.pos, name: "splat", (1, -1), self.splat))
         define(Func(env: env, pos: self.pos, name: "stash", args: [], rets: [stackType], self.stash))
         define(Prim(env: env, pos: self.pos, name: "suspend", (-1, -1), self.suspend))
