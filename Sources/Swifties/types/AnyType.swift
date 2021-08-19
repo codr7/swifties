@@ -8,13 +8,14 @@ open class AnyType: Definition, Equatable {
     public typealias ValueIsTrue = (_ value: Any) -> Bool
     
     public typealias ParentTypes = Set<TypeId>
-
+    
     public static func == (lhs: AnyType, rhs: AnyType) -> Bool {
         return lhs === rhs
     }
 
     open var env: Env { _env }
     open var pos: Pos { _pos }
+    open var id: TypeId { _id }
     open var name: String { _name }
     open var slot: Slot { Slot(_env.coreLib!.metaType, self) }
     
@@ -29,27 +30,22 @@ open class AnyType: Definition, Equatable {
         _pos = pos
         _id = env.nextTypeId()
         _name = name
-        var pts: ParentTypes = []
-        
-        for pt in parentTypes {
-            pts.insert(pt._id)
-            
-            for ppid in pt._parentTypes {
-                pts.insert(ppid)
-            }
-        }
-        
-        _parentTypes = pts
         valueIsTrue = {_ in true}
+        for pt in parentTypes { addParent(pt) }
     }
 
-    open func isa(_ other: AnyType) -> Bool {
-        return other == self || _parentTypes.contains(other._id)
+    open func addParent(_ parent: AnyType) {
+        _parentTypes.insert(parent._id)
+        for pid in parent._parentTypes { _parentTypes.insert(pid) }
+    }
+    
+    open func isa(_ parent: AnyType) -> Bool {
+        return parent == self || _parentTypes.contains(parent._id)
     }
     
     private let _env: Env
     private let _pos: Pos
     private let _id: TypeId
     private let _name: String
-    private let _parentTypes: ParentTypes
+    private var _parentTypes: ParentTypes = []
 }

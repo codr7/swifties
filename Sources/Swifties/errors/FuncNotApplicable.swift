@@ -1,6 +1,6 @@
 import Foundation
 
-public struct NotApplicable: Error {
+public struct FuncNotApplicable: Error {
     public init(pos: Pos, target: Func, stack: Stack) {
         _pos = pos
         _target = target

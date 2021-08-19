@@ -8,7 +8,7 @@ open class FuncType: Type<Func> {
             let f = target as! Func
             
             if check && !f.isApplicable() {
-                throw NotApplicable(pos: pos, target: f, stack: self.env.stack)
+                throw FuncNotApplicable(pos: pos, target: f, stack: self.env.stack)
             }
             
             return try f.call(pos: pos, ret: ret)

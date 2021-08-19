@@ -11,6 +11,7 @@ open class CoreLib: Lib {
     public let iterType: IterType
     public let macroType: MacroType
     public let metaType: MetaType
+    public let multiType: MultiType
     public let pairType: PairType
     public let primType: PrimType
     public let registerType: RegisterType
@@ -29,6 +30,7 @@ open class CoreLib: Lib {
         intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType, iterType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         metaType = MetaType(env, pos: pos, name: "Meta", parentTypes: [anyType])
+        multiType = MultiType(env, pos: pos, name: "Multi", parentTypes: [anyType])
         pairType = PairType(env, pos: pos, name: "Pair", parentTypes: [anyType])
         primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType])
         registerType = RegisterType(env, pos: pos, name: "Register", parentTypes: [anyType])
@@ -194,7 +196,7 @@ open class CoreLib: Lib {
                charType, contType,
                funcType,
                intType, iterType,
-               macroType, metaType,
+               macroType, metaType, multiType,
                pairType, primType,
                registerType,
                stackType, stringType)

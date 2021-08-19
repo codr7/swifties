@@ -64,7 +64,7 @@ final class Tests: XCTestCase {
     }
     
     func testCompileFunc() throws {
-        let p = Pos("testCompileFunc", line: -1, column: -1)
+        let p = Pos("testCompileFunc")
         let env = Env()
         try env.initCoreLib(pos: p)
         env.begin()
@@ -81,8 +81,36 @@ final class Tests: XCTestCase {
         XCTAssertEqual(nil, env.tryPeek())
     }
     
+    func testMulti() throws {
+        let p = Pos("testMulti")
+        let env = Env()
+        try env.initCoreLib(pos: p)
+        env.begin()
+
+        let f1 = Func(env: env, pos: p, name: "foo", args: [(nil, env.coreLib!.anyType)], rets: [],
+                     {(pos, self, ret) in
+                        try env.pop(pos: pos)
+                        return ret
+                     })
+        
+        let f2 = Func(env: env, pos: p, name: "foo", args: [(nil, env.coreLib!.intType)], rets: [],
+                     {(pos, self, ret) in
+                        return ret
+                     })
+        
+        let m = Multi(env: env, name: "foo")
+        m.addFunc(f1)
+        m.addFunc(f2)
+        
+        env.emit(Push(pc: env.pc, env.coreLib!.intType, 42))
+        env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.multiType, m), check: true))
+        env.emit(STOP)
+        try env.eval(0)
+        XCTAssertEqual(Slot(env.coreLib!.intType, 42), try env.pop(pos: p))
+    }
+    
     func testIf() throws {
-        let pos = Pos("testIf", line: -1, column: -1)
+        let pos = Pos("testIf")
         let env = Env()
         env.begin()
         try env.initCoreLib(pos: pos).bind(pos: pos)

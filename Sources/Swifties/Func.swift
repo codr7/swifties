@@ -2,9 +2,10 @@ import Foundation
 
 open class Func: Definition {
     public typealias Arg = (String?, AnyType)
-    public typealias Ret = AnyType
     public typealias Body = (_ pos: Pos, _ self: Func, _ ret: Pc) throws -> Pc
-    
+    public typealias Ret = AnyType
+    public typealias Weight = UInt
+
     public static func getArg(env: Env, pos: Pos, _ f: Form) throws -> Arg {
         var l: String?
         var r: String
@@ -31,6 +32,7 @@ open class Func: Definition {
     open var pos: Pos { _pos }
     open var name: String { _name }
     open var args: [Arg] { _args }
+    open var weight: Weight { _weight }
     open var rets: [Ret] { _rets }
     open var slot: Slot { Slot(_env.coreLib!.funcType, self) }
     
@@ -39,6 +41,7 @@ open class Func: Definition {
         _pos = pos
         _name = name
         _args = args
+        _weight = args.map({a in a.1.id}).reduce(0, +)
         _rets = rets
         _body = body
     }
@@ -90,6 +93,7 @@ open class Func: Definition {
     private let _env: Env
     private let _name: String
     private let _args: [Arg]
+    private let _weight: Weight
     private let _rets: [Ret]
     private var _body: Body?
 }

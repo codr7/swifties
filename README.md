@@ -39,8 +39,16 @@ env.openScope().bind(pos: pos, id: "foo", env.coreLib!.funcType, f)
 Functions may alternatively be instantiated with `Form`-bodies, which emits operations behind the scenes and generates a function containing the code required to evaluate them.
 
 ```swift
-let f = try Func(env: env, pos: pos, name: "foo", args: [], rets: [env.coreLib!.intType])
+let f = Func(env: env, pos: pos, name: "foo", args: [], rets: [env.coreLib!.intType])
 try f.compileBody(LiteralForm(env: env, pos: pos, env.coreLib!.intType, 42))
+```
+
+### multimethods
+Multimethods are sets of functions sharing the same name sorted from most specific to least that delegate to the most specific applicable function when called.
+
+```swift
+let m = Multi(env: env, pos: pos, name: "foo")
+f.addFunc(f)
 ```
 
 ### types
@@ -161,15 +169,14 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
+- add multi
+    - check binding in func prim
+        - create multi when needed
+- add map/filter iters
+    - funcs that act on iters
 - add support for \n & \t to char/stringReader
 - add string interpolation
     - swift syntax
-- add multi
-    - gofu
-    - check binding in func prim
-    - create multi when needed
-- add map/filter iters
-    - funcs that act on iters
 - add unsafe prim
     - add Env.safetyLevel = 0
     - add Unsafe op
