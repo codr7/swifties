@@ -58,6 +58,8 @@ open class Func: Definition {
             for (n, _) in _args.reversed() {
                 if n == nil {
                     offset += 1
+                } else if n == "_" {
+                    env.emit(Drop(env: _env, pos: _pos, pc: _env.pc, offset: offset))
                 } else {
                     let i = try scope.nextRegister(pos: pos, id: n!)
                     env.emit(Store(env: _env, pos: _pos, pc: _env.pc, index: i, offset: offset))
