@@ -172,7 +172,7 @@ open class CoreLib: Lib {
             if let v = try it(pos) {
                 self.env.push(v)
      
-                if try fn.type.callValue!(v.value, pos, -1, true) != -1 {
+                if try fn.type.callValue!(fn.value, pos, -1, true) != -1 {
                     throw EvalError(pos, "Jump from iterator")
                 }
      
