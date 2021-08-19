@@ -3,7 +3,7 @@ import XCTest
 
 final class Tests: XCTestCase {
     func testPush() throws {
-        let p = Pos("testPush", line: -1, column: -1)
+        let p = Pos("testPush")
         let env = Env()
         
         try env.initCoreLib(pos: p)
@@ -17,7 +17,7 @@ final class Tests: XCTestCase {
     }
 
     func testStaticBinding() throws {
-        let p = Pos("testStaticBinding", line: -1, column: -1)
+        let p = Pos("testStaticBinding")
         let env = Env()
         try env.initCoreLib(pos: p)
         let v = Slot(env.coreLib!.intType, 42)
@@ -29,7 +29,7 @@ final class Tests: XCTestCase {
     }
     
     func testDynamicBinding() throws {
-        let pos = Pos("testDynamicBinding", line: -1, column: -1)
+        let pos = Pos("testDynamicBinding")
         let env = Env()
         try env.initCoreLib(pos: pos)
         let scope = env.begin()
@@ -45,7 +45,7 @@ final class Tests: XCTestCase {
     }
     
     func testFunc() throws {
-        let p = Pos("testFunc", line: -1, column: -1)
+        let p = Pos("testFunc")
         let env = Env()
         try env.initCoreLib(pos: p)
         env.begin()
@@ -127,5 +127,23 @@ final class Tests: XCTestCase {
         XCTAssertEqual(Slot(env.coreLib!.intType, 1), try env.pop(pos: pos))
         XCTAssertEqual(Slot(env.coreLib!.intType, 42), try env.pop(pos: pos))
         XCTAssertEqual(nil, env.tryPeek())
+    }
+    
+    func testMap() throws {
+        let pos = Pos("testMap")
+        let env = Env()
+        env.begin()
+        try env.initCoreLib(pos: pos).bind(pos: pos)
+        let m = MathLib(env: env, pos: pos)
+        try m.bind(pos: pos)
+        env.push(env.scope!.find("+1")!)
+        env.push(env.coreLib!.stackType, [Slot(env.coreLib!.intType, 1), Slot(env.coreLib!.intType, 2), Slot(env.coreLib!.intType, 3)])
+        let map = env.scope!.find("map")
+        XCTAssertEqual(-1, try map!.type.callValue!(map!.value, pos, -1, true))
+        let out = try env.pop(pos: pos)
+        let it = out.value as! Iter
+        XCTAssertEqual(Slot(env.coreLib!.intType, 2), try it(pos))
+        XCTAssertEqual(Slot(env.coreLib!.intType, 3), try it(pos))
+        XCTAssertEqual(Slot(env.coreLib!.intType, 4), try it(pos))
     }
 }

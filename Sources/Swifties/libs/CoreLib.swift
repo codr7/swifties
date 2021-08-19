@@ -34,7 +34,7 @@ open class CoreLib: Lib {
         intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType, seqType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         metaType = MetaType(env, pos: pos, name: "Meta", parentTypes: [anyType])
-        multiType = MultiType(env, pos: pos, name: "Multi", parentTypes: [anyType])
+        multiType = MultiType(env, pos: pos, name: "Multi", parentTypes: [anyType, targetType])
         pairType = PairType(env, pos: pos, name: "Pair", parentTypes: [anyType])
         primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType, targetType])
         registerType = RegisterType(env, pos: pos, name: "Register", parentTypes: [anyType])
