@@ -9,13 +9,13 @@ open class Scope {
         _outer = outer
     }
     
-    open func bind(pos: Pos, id: String, _ slot: Slot) throws {
-        if _bindings.keys.contains(id) { throw DupBinding(pos: pos, id: id) }
+    open func bind(pos: Pos, id: String, _ slot: Slot, force: Bool = false) throws {
+        if !force && _bindings.keys.contains(id) { throw DupBinding(pos: pos, id: id) }
         _bindings[id] = slot
     }
 
-    open func bind<T>(pos: Pos, id: String, _ type: Type<T>, _ value: T) throws {
-        try bind(pos: pos, id: id, Slot(type, value))
+    open func bind<T>(pos: Pos, id: String, _ type: Type<T>, _ value: T, force: Bool = false) throws {
+        try bind(pos: pos, id: id, Slot(type, value), force: force)
     }
         
     open func unbind(pos: Pos, _ id: String) throws {

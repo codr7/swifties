@@ -62,6 +62,7 @@ Two levels of types are used, `ÀnyType`, and it's direct parameterized subclass
 - Int - Integer values
 - Macro - Macros as values
 - Meta - Types as values
+- Multi - Multimethods as values
 - Pair - Pairs of values
 - Prim - Primitives as values
 - Register - Register references as values
@@ -169,9 +170,6 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- add multi
-    - check binding in func prim
-        - create multi when needed
 - add map/filter iters
     - funcs that act on iters
 - add support for \n & \t to char/stringReader

@@ -105,7 +105,24 @@ open class CoreLib: Lib {
         let fargs = try (args[1] as! StackForm).items.map({f in try Func.getArg(env: env, pos: pos, f)})
         let frets = try (args[2] as! StackForm).items.map({f in try Func.getRet(env: env, pos: pos, f)})
         let f = Func(env: env, pos: pos, name: name, args: fargs, rets: frets)
-        try env.scope!.bind(pos: pos, id: name, env.coreLib!.funcType, f)
+
+        if let exists = env.scope!.find(name) {
+            switch exists.type {
+            case env.coreLib!.multiType:
+                let m = exists.value as! Multi
+                m.addFunc(f)
+            case env.coreLib!.funcType:
+                let m = Multi(env: env, name: name)
+                m.addFunc(exists.value as! Func)
+                m.addFunc(f)
+                try env.scope!.bind(pos: pos, id: name, env.coreLib!.multiType, m, force: true)
+            default:
+                throw EmitError(pos, "Invalid func binding: \(exists.type.name)")
+            }
+        } else {
+            try env.scope!.bind(pos: pos, id: name, env.coreLib!.funcType, f)
+        }
+
         try f.compileBody(DoForm(env: env, pos: pos, body: Array(args[3...])))
     }
   
