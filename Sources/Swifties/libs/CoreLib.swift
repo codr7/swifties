@@ -1,7 +1,7 @@
 import Foundation
 
 open class CoreLib: Lib {
-    public let anyType: AnyType
+    public let anyType, seqType, targetType: AnyType
 
     public let boolType: BoolType
     public let charType: CharType
@@ -20,22 +20,26 @@ open class CoreLib: Lib {
 
     public override init(env: Env, pos: Pos) {
         anyType = AnyType(env, pos: pos, name: "Any", parentTypes: [])
+
+        seqType = AnyType(env, pos: pos, name: "Seq", parentTypes: [anyType])
+        targetType = AnyType(env, pos: pos, name: "Target", parentTypes: [anyType])
+
         boolType = BoolType(env, pos: pos, name: "Bool", parentTypes: [anyType])
         charType = CharType(env, pos: pos, name: "Char", parentTypes: [anyType])
         contType = ContType(env, pos: pos, name: "Cont", parentTypes: [anyType])
-        funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType])
+        funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType, targetType])
 
         iterType = IterType(env, pos: pos, name: "Iter", parentTypes: [anyType])
 
-        intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType, iterType])
+        intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType, seqType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         metaType = MetaType(env, pos: pos, name: "Meta", parentTypes: [anyType])
         multiType = MultiType(env, pos: pos, name: "Multi", parentTypes: [anyType])
         pairType = PairType(env, pos: pos, name: "Pair", parentTypes: [anyType])
-        primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType])
+        primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType, targetType])
         registerType = RegisterType(env, pos: pos, name: "Register", parentTypes: [anyType])
-        stackType = StackType(env, pos: pos, name: "Stack", parentTypes: [anyType, iterType])
-        stringType = StringType(env, pos: pos, name: "String", parentTypes: [anyType, iterType])
+        stackType = StackType(env, pos: pos, name: "Stack", parentTypes: [anyType, seqType])
+        stringType = StringType(env, pos: pos, name: "String", parentTypes: [anyType, seqType])
 
         super.init(env: env, pos: pos)
     }
@@ -159,6 +163,28 @@ open class CoreLib: Lib {
         for id in ids { try scope.unbind(pos: pos, id) }
     }
 
+    open func map(pos: Pos, self: Func, ret: Pc) throws -> Pc {
+        let src = try env.pop(pos: pos)
+        let fn = try env.pop(pos: pos)
+        let it = src.type.iterValue!(src.value)
+     
+        env.push(env.coreLib!.iterType, { pos in
+            if let v = try it(pos) {
+                self.env.push(v)
+     
+                if try fn.type.callValue!(v.value, pos, -1, true) != -1 {
+                    throw EvalError(pos, "Jump from iterator")
+                }
+     
+                return try self.env.pop(pos: pos)
+            }
+
+            return nil
+        })
+     
+        return ret
+    }
+    
     open func not(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         let s = try env.peek(pos: pos)
         try env.poke(pos: pos, env.coreLib!.boolType, !s.type.valueIsTrue(s.value))
@@ -216,7 +242,8 @@ open class CoreLib: Lib {
                macroType, metaType, multiType,
                pairType, primType,
                registerType,
-               stackType, stringType)
+               seqType, stackType, stringType,
+               targetType)
         
         define("t", boolType, true)
         define("f", boolType, false)
@@ -232,6 +259,7 @@ open class CoreLib: Lib {
         define(Prim(env: env, pos: self.pos, name: "func", (3, -1), self._func))
         define(Prim(env: env, pos: self.pos, name: "if", (3, 3), self._if))
         define(Prim(env: env, pos: self.pos, name: "let", (1, -1), self._let))
+        define(Func(env: env, pos: self.pos, name: "map", args: [("fn", targetType), ("src", seqType)], rets: [iterType], self.map))
         define(Func(env: env, pos: self.pos, name: "not", args: [("val", anyType)], rets: [boolType], self.not))
         define(Prim(env: env, pos: self.pos, name: "or", (2, 2), self.or))
         define(Prim(env: env, pos: self.pos, name: "recall", (0, -1), self.recall))

@@ -11,7 +11,7 @@ open class IntType: Type<Int> {
             let max = v as! Int
             var i = 0
             
-            return {
+            return { pos in
                 if i < max {
                     let out = Slot(env.coreLib!.intType, i)
                     i += 1

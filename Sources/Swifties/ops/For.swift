@@ -14,7 +14,7 @@ open class For: Op {
         let iter = src.type.iterValue!(src.value)
         
         while true {
-            let v = iter()
+            let v = try iter(_pos)
             if v == nil { break }
             _env.push(v!)
             try _env.eval(_pc+1)

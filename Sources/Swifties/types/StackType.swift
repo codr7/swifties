@@ -22,7 +22,7 @@ open class StackType: Type<Stack> {
         iterValue = {v in
             var s = (v as! Stack).makeIterator()
             
-            return {
+            return { pos in
                 if let v = s.next() { return v }
                 return nil
             }

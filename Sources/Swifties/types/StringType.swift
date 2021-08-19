@@ -10,7 +10,7 @@ open class StringType: Type<String> {
         iterValue = {v in
             var s = (v as! String).makeIterator()
             
-            return {
+            return { pos in
                 if let c = s.next() { return Slot(env.coreLib!.charType, c) }
                 return nil
             }

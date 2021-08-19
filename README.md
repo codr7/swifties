@@ -170,8 +170,7 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- add map/filter iters
-    - funcs that act on iters
+- add filter like map
 - add support for \n & \t to char/stringReader
 - add string interpolation
     - swift syntax
