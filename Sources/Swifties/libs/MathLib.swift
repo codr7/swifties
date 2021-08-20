@@ -7,19 +7,9 @@ open class MathLib: Lib {
         try env.poke(pos: pos, env.coreLib!.intType, (env.peek(pos: pos).value as! Int)+1, offset: 0)
         return ret
     }
-
-    open func plusTwo(pos: Pos, self: Func, ret: Pc) throws -> Pc{
-        try env.poke(pos: pos, env.coreLib!.intType, (env.peek(pos: pos).value as! Int)+2, offset: 0)
-        return ret
-    }
     
     open func minusOne(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         try env.poke(pos: pos, env.coreLib!.intType, (env.peek(pos: pos).value as! Int)-1, offset: 0)
-        return ret
-    }
-
-    open func minusTwo(pos: Pos, self: Func, ret: Pc) throws -> Pc{
-        try env.poke(pos: pos, env.coreLib!.intType, (env.peek(pos: pos).value as! Int)-2, offset: 0)
         return ret
     }
 
@@ -52,10 +42,8 @@ open class MathLib: Lib {
     }
 
     open override func bind(pos: Pos, _ names: [String]) throws {
-        define(Func(env: env, pos: self.pos, name: "+1", args: [("val", env.coreLib!.intType)], rets: [env.coreLib!.intType], self.plusOne))
-        define(Func(env: env, pos: self.pos, name: "+2", args: [("val", env.coreLib!.intType)], rets: [env.coreLib!.intType], self.plusTwo))
-        define(Func(env: env, pos: self.pos, name: "-1", args: [("val", env.coreLib!.intType)], rets: [env.coreLib!.intType], self.minusOne))
-        define(Func(env: env, pos: self.pos, name: "-2", args: [("val", env.coreLib!.intType)], rets: [env.coreLib!.intType], self.minusTwo))
+        define(Func(env: env, pos: self.pos, name: "++", args: [("val", env.coreLib!.intType)], rets: [env.coreLib!.intType], self.plusOne))
+        define(Func(env: env, pos: self.pos, name: "--", args: [("val", env.coreLib!.intType)], rets: [env.coreLib!.intType], self.minusOne))
 
         define(Func(env: env, pos: self.pos, name: "+",
                     args: [("lhs", env.coreLib!.intType), ("rhs", env.coreLib!.intType)],

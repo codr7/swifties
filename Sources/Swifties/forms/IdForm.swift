@@ -30,7 +30,7 @@ open class IdForm: Form {
         return self
     }
         
-    open func emitRef(name: String) throws {
+    open func emit(name: String) throws {
         if let found = env.scope!.find(name) {
             if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pos: pos, pc: env.pc, index: found.value as! Int))
@@ -43,17 +43,7 @@ open class IdForm: Form {
     }
     
     open override func emit() throws {
-        if let found = env.scope!.find(_name) {
-            if found.type == env.coreLib!.primType {
-                try (found.value as! Prim).emit(pos: pos, args: [])
-            } else if let _ = found.type.callValue {
-                env.emit(Call(env: env, pos: pos, pc: env.pc, target: found, check: true))
-            } else {
-                try emitRef(name: _name)
-            }
-        } else {
-            throw EmitError(pos, "Unknown identifier: \(_name)")
-        }
+        try emit(name: _name)
     }
 
     private let _name: String

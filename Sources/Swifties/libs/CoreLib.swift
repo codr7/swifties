@@ -53,12 +53,12 @@ open class CoreLib: Lib {
         return ret
     }
 
-    open func equalsZero(pos: Pos, self: Func, ret: Pc) throws -> Pc {
+    open func isZero(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         try env.poke(pos: pos, env.coreLib!.boolType, env.peek(pos: pos).value as! Int == 0)
         return ret
     }
 
-    open func equalsOne(pos: Pos, self: Func, ret: Pc) throws -> Pc {
+    open func isOne(pos: Pos, self: Func, ret: Pc) throws -> Pc {
         try env.poke(pos: pos, env.coreLib!.boolType, env.peek(pos: pos).value as! Int == 1)
         return ret
     }
@@ -250,8 +250,8 @@ open class CoreLib: Lib {
         
         define(Prim(env: env, pos: self.pos, name: "_", (0, 0), self.nop))
         define(Func(env: env, pos: self.pos, name: "=", args: [("lhs", anyType), ("rhs", anyType)], rets: [boolType], self.equals))
-        define(Func(env: env, pos: self.pos, name: "=0", args: [("val", intType)], rets: [boolType], self.equalsZero))
-        define(Func(env: env, pos: self.pos, name: "=1", args: [("val", intType)], rets: [boolType], self.equalsOne))
+        define(Func(env: env, pos: self.pos, name: "z?", args: [("val", intType)], rets: [boolType], self.isZero))
+        define(Func(env: env, pos: self.pos, name: "one?", args: [("val", intType)], rets: [boolType], self.isOne))
         define(Prim(env: env, pos: self.pos, name: "and", (2, 2), self.and))
         define(Prim(env: env, pos: self.pos, name: "bench", (1, -1), self.bench))
         define(Prim(env: env, pos: self.pos, name: "do", (0, -1), self._do))

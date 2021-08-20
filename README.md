@@ -170,6 +170,12 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
+- add lambdas
+    - extract subclass from Func
+    - add type
+    - trap stack target in call form
+        - push lambda
+        - ([x y z] [] ...)
 - add filter like map
 - add support for \n & \t to char/stringReader
 - add string interpolation
@@ -186,3 +192,7 @@ XCTAssertEqual(v, env.pop(pos: pos))
     - emit args & Return
 - make suggestions based on edit distance for missing ids
     - recursive like find
+- rename env.ops to bin
+    - add bin type
+    - add Op.dump
+    - add compile prim

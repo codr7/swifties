@@ -136,7 +136,7 @@ final class Tests: XCTestCase {
         try env.initCoreLib(pos: pos).bind(pos: pos)
         let m = MathLib(env: env, pos: pos)
         try m.bind(pos: pos)
-        env.push(env.scope!.find("+1")!)
+        env.push(env.scope!.find("++")!)
         env.push(env.coreLib!.stackType, [Slot(env.coreLib!.intType, 1), Slot(env.coreLib!.intType, 2), Slot(env.coreLib!.intType, 3)])
         let map = env.scope!.find("map")
         XCTAssertEqual(-1, try map!.type.callValue!(map!.value, pos, -1, true))

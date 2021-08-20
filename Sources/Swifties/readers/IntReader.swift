@@ -9,7 +9,14 @@ public func intReader(_ p: Parser) throws -> Form? {
     if c == nil { return nil }
     
     if c == "-" {
-        neg = true
+        if let c = p.getc() {
+            if c.isNumber {
+                neg = true
+            } else {
+                p.ungetc(c)
+                p.ungetc("-")
+            }
+        }
     } else {
         p.ungetc(c!)
     }
