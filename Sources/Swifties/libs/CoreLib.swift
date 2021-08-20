@@ -6,7 +6,9 @@ open class CoreLib: Lib {
     public let boolType: BoolType
     public let charType: CharType
     public let contType: ContType
+    public let formType: FormType
     public let funcType: FuncType
+    public let idType: IdType
     public let intType: IntType
     public let iterType: IterType
     public let macroType: MacroType
@@ -27,6 +29,7 @@ open class CoreLib: Lib {
         boolType = BoolType(env, pos: pos, name: "Bool", parentTypes: [anyType])
         charType = CharType(env, pos: pos, name: "Char", parentTypes: [anyType])
         contType = ContType(env, pos: pos, name: "Cont", parentTypes: [anyType])
+        formType = FormType(env, pos: pos, name: "Form", parentTypes: [anyType])
         funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType, targetType])
 
         iterType = IterType(env, pos: pos, name: "Iter", parentTypes: [anyType, seqType])
@@ -39,7 +42,9 @@ open class CoreLib: Lib {
         primType = PrimType(env, pos: pos, name: "Prim", parentTypes: [anyType, targetType])
         registerType = RegisterType(env, pos: pos, name: "Register", parentTypes: [anyType])
         stackType = StackType(env, pos: pos, name: "Stack", parentTypes: [anyType, seqType])
+        
         stringType = StringType(env, pos: pos, name: "String", parentTypes: [anyType, seqType])
+        idType = IdType(env, pos: pos, name: "Id", parentTypes: [anyType, stringType])
 
         super.init(env: env, pos: pos)
     }
@@ -199,6 +204,10 @@ open class CoreLib: Lib {
         env.emit(Branch(env: env, pos: pos, truePc: env.pc, falsePc: branchPc+1, pop: false), pc: branchPc)
     }
     
+    open func quote(pos: Pos, args: [Form]) throws {
+        env.emit(Push(pc: env.pc, args.first!.quote()))
+    }
+    
     open func recall(pos: Pos, args: [Form]) throws {
         for a in args { try a.emit() }
         env.emit(Recall(env: env, pos: pos, check: true))
@@ -237,8 +246,8 @@ open class CoreLib: Lib {
         define(anyType,
                boolType,
                charType, contType,
-               funcType,
-               intType, iterType,
+               formType, funcType,
+               idType, intType, iterType,
                macroType, metaType, multiType,
                pairType, primType,
                registerType,
@@ -262,6 +271,7 @@ open class CoreLib: Lib {
         define(Func(env: env, pos: self.pos, name: "map", args: [("fn", targetType), ("src", seqType)], rets: [iterType], self.map))
         define(Func(env: env, pos: self.pos, name: "not", args: [("val", anyType)], rets: [boolType], self.not))
         define(Prim(env: env, pos: self.pos, name: "or", (2, 2), self.or))
+        define(Prim(env: env, pos: self.pos, name: "quote", (1, 1), self.quote))
         define(Prim(env: env, pos: self.pos, name: "recall", (0, -1), self.recall))
         define(Prim(env: env, pos: self.pos, name: "reset", (0, 0), self.reset))
         define(Func(env: env, pos: self.pos, name: "restore", args: [("cont", contType)], rets: [], self.restore))

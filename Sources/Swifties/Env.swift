@@ -5,7 +5,6 @@ public typealias Ops = [Op]
 public typealias Pc = Int
 public typealias Register = Int
 public typealias Registers = [Slot?]
-public typealias Stack = [Slot]
 public typealias TypeId = UInt
 
 public let STOP_PC: Pc = -1
@@ -149,19 +148,4 @@ open class Env {
     private var _nextTypeId: TypeId = 1
     private var _coreLib: CoreLib?
     private var _ops: Ops = []
-}
-
-extension Stack {
-    public func dump() -> String {
-        var out = "["
-        let ss = self.map {s in s.type.dumpValue!(s.value)}
-
-        for i in 0..<ss.count {
-            if i > 0 { out += " " }
-            out += ss[i]
-        }
-    
-        out += "]"
-        return out
-    }
 }

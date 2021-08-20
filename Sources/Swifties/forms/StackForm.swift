@@ -1,13 +1,15 @@
 import Foundation
 
 open class StackForm: Form {
-    open var items: [Form] { _items }
+    open var items: Forms { _items }
     
-    public init(env: Env, pos: Pos, items: [Form]) {
+    public init(env: Env, pos: Pos, items: Forms) {
         _items = items
         super.init(env: env, pos: pos)
     }
     
+    open override func dump() -> String { "[\(_items.dump())]" }
+
     open override func expand() throws -> Form {
         let newItems = try _items.map {it in try it.expand()}
         if newItems != _items { return try StackForm(env: env, pos: pos, items: newItems).expand() }
@@ -23,5 +25,5 @@ open class StackForm: Form {
         }
     }
 
-    private let _items: [Form]
+    private let _items: Forms
 }

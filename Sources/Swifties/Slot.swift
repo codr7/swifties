@@ -15,6 +15,8 @@ public struct Slot: Equatable {
         self._value = value
     }
     
+    public func dump() -> String { _type.dumpValue!(_value) }
+    
     private let _type: AnyType
     private let _value: Any
 }

@@ -20,6 +20,8 @@ open class IdForm: Form {
         super.init(env: env, pos: pos)
     }
   
+    open override func dump() -> String { "'\(_name)" }
+
     open override func expand() throws -> Form {
         if let found = env.scope!.find(self._name) {
             if found.type == env.coreLib!.macroType {
@@ -42,9 +44,8 @@ open class IdForm: Form {
         }
     }
     
-    open override func emit() throws {
-        try emit(name: _name)
-    }
+    open override func emit() throws { try emit(name: _name) }
+    open override func quote() -> Slot { Slot(env.coreLib!.idType, _name) }
 
     private let _name: String
 }

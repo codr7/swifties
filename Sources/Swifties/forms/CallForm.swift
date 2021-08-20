@@ -44,5 +44,5 @@ open class CallForm: Form {
     }
 
     private let _target: Form
-    private let _args: [Form]
+    private let _args: Forms
 }
