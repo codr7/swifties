@@ -3,7 +3,17 @@ import Foundation
 public func intReader(_ p: Parser) throws -> Form? {
     let fpos = p.pos
     var v = 0
-        
+    var neg = false
+    
+    let c = p.getc()
+    if c == nil { return nil }
+    
+    if c == "-" {
+        neg = true
+    } else {
+        p.ungetc(c!)
+    }
+    
     while let c = p.getc() {
         if !c.isNumber {
             p.ungetc(c)
@@ -15,5 +25,5 @@ public func intReader(_ p: Parser) throws -> Form? {
         p.nextColumn()
     }
         
-    return (p.pos == fpos) ? nil : LiteralForm(env: p.env, pos: p.pos, p.env.coreLib!.intType, v)
+    return (p.pos == fpos) ? nil : LiteralForm(env: p.env, pos: p.pos, p.env.coreLib!.intType, neg ? -v : v)
 }

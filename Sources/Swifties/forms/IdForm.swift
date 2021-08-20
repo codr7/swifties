@@ -30,16 +30,26 @@ open class IdForm: Form {
         return self
     }
         
-    open override func emit() throws {
+    open func emitRef() throws {
         if let found = env.scope!.find(_name) {
             if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pos: pos, pc: env.pc, index: found.value as! Int))
-            } else if found.type == env.coreLib!.primType {
+            } else {
+                env.emit(Push(pc: env.pc, found))
+            }
+        } else {
+            throw EmitError(pos, "Unknown identifier: \(_name)")
+        }
+    }
+    
+    open override func emit() throws {
+        if let found = env.scope!.find(_name) {
+            if found.type == env.coreLib!.primType {
                 try (found.value as! Prim).emit(pos: pos, args: [])
             } else if let _ = found.type.callValue {
                 env.emit(Call(env: env, pos: pos, pc: env.pc, target: found, check: true))
             } else {
-                env.emit(Push(pc: env.pc, found))
+                try emitRef()
             }
         } else {
             throw EmitError(pos, "Unknown identifier: \(_name)")

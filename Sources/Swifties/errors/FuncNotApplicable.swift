@@ -1,7 +1,7 @@
 import Foundation
 
-public struct FuncNotApplicable: LocalizedError {
-    public var errorDescription: String? { "Func not applicable: \(_target.name) \(_stack.dump())" }
+public struct FuncNotApplicable: Error {
+    public var localizedDescription: String { "Func not applicable: \(_target.name) \(_stack.dump())" }
     
     public init(pos: Pos, target: Func, stack: Stack) {
         _pos = pos
