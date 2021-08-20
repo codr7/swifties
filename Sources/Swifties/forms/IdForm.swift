@@ -20,7 +20,7 @@ open class IdForm: Form {
         super.init(env: env, pos: pos)
     }
   
-    open override func dump() -> String { "'\(_name)" }
+    open override func dump() -> String { _name }
 
     open override func expand() throws -> Form {
         if let found = env.scope!.find(self._name) {
