@@ -3,8 +3,12 @@ import Foundation
 open class LiteralForm: Form {
     open override var slot: Slot? { _slot }
 
-    public init<T>(env: Env, pos: Pos, _ type: Type<T>, _ value: T) {
-        _slot = Slot(type, value)
+    public convenience init<T>(env: Env, pos: Pos, _ type: Type<T>, _ value: T) {
+        self.init(env: env, pos: pos, Slot(type, value))
+    }
+    
+    public init(env: Env, pos: Pos, _ slot: Slot) {
+        _slot = slot
         super.init(env: env, pos: pos)
     }
     

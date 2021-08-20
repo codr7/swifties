@@ -8,7 +8,7 @@ public typealias Registers = [Slot?]
 public typealias TypeId = UInt
 
 public let STOP_PC: Pc = -1
-public let SWIFTIES_VERSION = 4
+public let SWIFTIES_VERSION = 5
 
 open class Env {
     open var coreLib: CoreLib? { _coreLib }
