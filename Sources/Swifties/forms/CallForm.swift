@@ -7,6 +7,8 @@ open class CallForm: Form {
         super.init(env: env, pos: pos)
     }
     
+    open override func dump() -> String { "(\(_target.dump()) \(_args.dump()))" }
+
     open override func expand() throws -> Form {
         let newTarget = try _target.expand()
         let newArgs = try _args.map {a in try a.expand()}
