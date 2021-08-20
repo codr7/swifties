@@ -29,7 +29,7 @@ open class CoreLib: Lib {
         contType = ContType(env, pos: pos, name: "Cont", parentTypes: [anyType])
         funcType = FuncType(env, pos: pos, name: "Func", parentTypes: [anyType, targetType])
 
-        iterType = IterType(env, pos: pos, name: "Iter", parentTypes: [anyType])
+        iterType = IterType(env, pos: pos, name: "Iter", parentTypes: [anyType, seqType])
 
         intType = IntType(env, pos: pos, name: "Int", parentTypes: [anyType, seqType])
         macroType = MacroType(env, pos: pos, name: "Meta", parentTypes: [anyType])

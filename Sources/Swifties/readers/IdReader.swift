@@ -1,6 +1,6 @@
 import Foundation
 
-public func idReader (_ cs: Character...) -> Reader {
+public func idReader(_ cs: Character...) -> Reader {
     let stops = Set<Character>(cs)
     
     return {p in
