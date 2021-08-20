@@ -170,6 +170,15 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
+- add unquote with ,
+    - add UnquoteForm
+    - eval on quote & return result
+- add parse func String -> [Form]
+- add compile func Seq -> Bin
+    - track pc & cut
+    - (compile (parse "42"))
+    - add (asm Bin) func
+    - add Op.dump
 - add lambdas
     - extract subclass from Func
     - add type
@@ -192,7 +201,3 @@ XCTAssertEqual(v, env.pop(pos: pos))
     - emit args & Return
 - make suggestions based on edit distance for missing ids
     - recursive like find
-- rename env.ops to bin
-    - add bin type
-    - add Op.dump
-    - add compile prim

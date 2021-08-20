@@ -1,7 +1,7 @@
 import Foundation
 
 public typealias Frames = [Frame]
-public typealias Ops = [Op]
+public typealias Bin = [Op]
 public typealias Pc = Int
 public typealias Register = Int
 public typealias Registers = [Slot?]
@@ -11,9 +11,9 @@ public let STOP_PC: Pc = -1
 public let SWIFTIES_VERSION = 5
 
 open class Env {
+    open var bin: Bin { _bin }
     open var coreLib: CoreLib? { _coreLib }
-    open var ops: Ops { _ops }
-    open var pc: Pc { _ops.count }
+    open var pc: Pc { _bin.count }
     open var scope: Scope? { _scope }
     open var stack: Stack { _stack }
     open var registers: Registers { _registers }
@@ -65,12 +65,12 @@ open class Env {
     @discardableResult
     open func emit(_ op: Op, pc: Int? = nil) -> Pc {
         if let i = pc {
-            _ops[i] = op
+            _bin[i] = op
             return i
         }
 
-        _ops.append(op)
-        return _ops.count-1
+        _bin.append(op)
+        return _bin.count-1
     }
 
     open func push(_ slots: Slot...) { push(slots) }
@@ -128,7 +128,7 @@ open class Env {
     
     open func eval(_ startPc: Pc) throws {
         var pc = startPc
-        repeat { try pc = _ops[pc].eval() } while pc != STOP_PC
+        repeat { try pc = _bin[pc].eval() } while pc != STOP_PC
     }
     
     open func suspend(_ restorePc: Pc) -> Cont { Cont(env: self, restorePc: restorePc) }
@@ -147,5 +147,5 @@ open class Env {
     
     private var _nextTypeId: TypeId = 1
     private var _coreLib: CoreLib?
-    private var _ops: Ops = []
+    private var _bin: Bin = []
 }
