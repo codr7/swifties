@@ -205,7 +205,7 @@ open class CoreLib: Lib {
     }
     
     open func quote(pos: Pos, args: [Form]) throws {
-        env.emit(Push(pc: env.pc, args.first!.quote()))
+        env.emit(Push(pc: env.pc, try args.first!.quote()))
     }
     
     open func recall(pos: Pos, args: [Form]) throws {

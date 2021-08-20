@@ -12,6 +12,8 @@ open class LiteralForm: Form {
         super.init(env: env, pos: pos)
     }
     
+    open override func dump() -> String { _slot.dump() }
+
     open override func emit() throws {
         env.emit(Push(pc: env.pc, _slot))
     }

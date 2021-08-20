@@ -140,6 +140,7 @@ open class Env {
         return found!.value as! AnyType
     }
 
+    var _bin: Bin = []
     var _scope: Scope?
     var _stack: Stack = []
     var _registers: Registers = []
@@ -147,5 +148,4 @@ open class Env {
     
     private var _nextTypeId: TypeId = 1
     private var _coreLib: CoreLib?
-    private var _bin: Bin = []
 }

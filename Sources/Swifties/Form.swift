@@ -12,14 +12,11 @@ open class Form: Equatable {
         _pos = pos
     }
 
-    open func dump() -> String {
-        if let s = slot { return s.dump() }
-        return "*?*"
-    }
+    open func dump() -> String { "*?*" }
     open func expand() throws -> Form { self }
     open func emit() throws {}
-    open func quote() -> Slot { Slot(env.coreLib!.formType, self) }
-    
+    open func quote() throws -> Slot { Slot(env.coreLib!.formType, self) }
+    open func unquote() throws -> Form { self }
     private let _env: Env
     private let _pos: Pos
 }

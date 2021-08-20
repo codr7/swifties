@@ -25,5 +25,14 @@ open class StackForm: Form {
         }
     }
 
-    private let _items: Forms
+    open override func quote() throws -> Slot {
+        return Slot(env.coreLib!.formType, try unquote())
+    }
+
+    open override func unquote() throws -> Form {
+        for i in 0..<_items.count { _items[i] = try _items[i].unquote() }
+        return self
+    }
+    
+    private var _items: Forms
 }
