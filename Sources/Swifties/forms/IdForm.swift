@@ -46,7 +46,9 @@ open class IdForm: Form {
         } else if isSwap {
             env.emit(Swap(env: env, pos: pos, pc: env.pc, count: name.count))
         } else if let found = env.scope!.find(name) {
-            if found.type == env.coreLib!.registerType {
+            if isRef {
+                try emit(name: String(name.dropFirst()))
+            } else if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pos: pos, pc: env.pc, index: found.value as! Int))
             } else {
                 env.emit(Push(pc: env.pc, found))
@@ -62,8 +64,6 @@ open class IdForm: Form {
                 try (found.value as! Prim).emit(pos: pos, args: [])
             } else if let _ = found.type.callValue {
                 env.emit(Call(env: env, pos: pos, pc: env.pc, target: found, check: true))
-            } else if isRef {
-                try emit(name: String(name.dropFirst()))
             } else {
                 try emit(name: _name)
             }
