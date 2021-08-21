@@ -158,7 +158,7 @@ Forms emit operations, which are the basic building blocks that are eventually e
 - Reset - Clears stack
 - Restore - Restores continuation
 - Return - Pops frame from call stack and resumes evaluation from it's return pc
-- Splat - Replaces top of stack with it's items
+- Splat - Replaces top of stack (which has to be iterable) with it's items
 - Stop - Stops evaluation without error
 - Store - Stores value in specified register
 - Suspend - Pushes continuation

@@ -8,7 +8,6 @@ open class Splat: Op {
     }
 
     open func eval() throws -> Pc {
-        _env.reset()
         let s = try _env.pop(pos: _pos)
         if s.type.iterValue == nil { throw EvalError(_pos, "Not iterable: \(s.type.name)") }
         let it = s.type.iterValue!(s.value)
