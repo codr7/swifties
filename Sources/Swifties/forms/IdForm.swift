@@ -45,8 +45,6 @@ open class IdForm: Form {
             env.emit(Drop(env: env, pos: pos, pc: env.pc, count: name.count))
         } else if isSwap {
             env.emit(Swap(env: env, pos: pos, pc: env.pc, count: name.count))
-        } else if isRef {
-            try emit(name: String(name.dropFirst()))
         } else if let found = env.scope!.find(name) {
             if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pos: pos, pc: env.pc, index: found.value as! Int))
@@ -59,7 +57,9 @@ open class IdForm: Form {
     }
     
     open override func emit() throws {
-        if let found = env.scope!.find(name) {
+        if isRef {
+            try emit(name: String(_name.dropFirst()))
+        } else if let found = env.scope!.find(name) {
             if found.type == env.coreLib!.primType {
                 try (found.value as! Prim).emit(pos: pos, args: [])
             } else if let _ = found.type.callValue {
