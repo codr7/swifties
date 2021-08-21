@@ -147,6 +147,21 @@ final class Tests: XCTestCase {
         XCTAssertEqual(Slot(env.coreLib!.intType, 4), try it(pos))
     }
     
+    func testRef() throws {
+        let pos = Pos("testRef")
+        let env = Env()
+        env.begin()
+        try env.initCoreLib(pos: pos).bind(pos: pos)
+        
+        try IdForm(env: env, pos: pos, name: "&stash").emit()
+        env.emit(STOP)
+        try env.eval(0)
+        
+        let f = try env.pop(pos: pos).value as! Func
+        XCTAssertEqual("stash", f.name)
+        XCTAssertEqual(nil, env.tryPeek())
+    }
+    
     func testQuote() throws {
         let pos = Pos("testQuote")
         let env = Env()
