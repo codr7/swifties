@@ -29,11 +29,10 @@ open class StackForm: Form {
         for i in 0..<_items.count { _items[i] = try _items[i].quote1() }
         return self
     }
-    
-    open override func quote2() throws -> Slot {
-        var v: Stack = []
-        for f in _items { v.append(try f.quote2()) }
-        return Slot(env.coreLib!.stackType, v)
+
+    open override func quote2(depth: Int) throws -> Form {
+        for i in 0..<_items.count { _items[i] = try _items[i].quote2(depth: depth) }
+        return self
     }
     
     private var _items: Forms

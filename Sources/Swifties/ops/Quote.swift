@@ -8,7 +8,7 @@ open class Quote: Op {
    }
 
     open func eval() throws -> Pc {
-        _env.push(try _form.quote2())
+        _env.push(try _form.quote3(depth: 0))
         return _pc+1
     }
     

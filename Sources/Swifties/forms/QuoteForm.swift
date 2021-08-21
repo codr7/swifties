@@ -24,7 +24,10 @@ open class QuoteForm: Form {
         return self
     }
     
-    open override func quote2() throws -> Slot { try _form.quote2() }
+    open override func quote2(depth: Int) throws -> Form {
+        _form = try _form.quote2(depth: depth+1)
+        return self
+    }
 
     private var _form: Form
 }

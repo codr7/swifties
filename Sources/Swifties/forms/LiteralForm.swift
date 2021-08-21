@@ -18,7 +18,7 @@ open class LiteralForm: Form {
         env.emit(Push(pc: env.pc, _slot))
     }
        
-    open override func quote2() -> Slot { _slot }
+    open override func quote3(depth: Int) -> Slot { _slot }
 
     private let _slot: Slot
 }

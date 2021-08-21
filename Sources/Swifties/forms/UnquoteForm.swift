@@ -27,11 +27,22 @@ open class UnquoteForm: Form {
         return self
     }
     
-    open override func quote2() throws -> Slot {
+    open override func quote2(depth: Int) throws -> Form {
+        if depth == 1 {
+            try env.eval(_startPc!)
+            return LiteralForm(env: env, pos: pos, try env.pop(pos: pos))
+        } else {
+            _form = try _form.quote2(depth: depth-1)
+        }
+
+        return self
+    }
+
+    open override func quote3(depth: Int) throws -> Slot {
         try env.eval(_startPc!)
         return try env.pop(pos: pos)
     }
 
-    private let _form: Form
+    private var _form: Form
     private var _startPc: Pc?
 }
