@@ -19,8 +19,9 @@ open class UnquoteForm: Form {
     }
     
     open override func quote2() throws -> Slot {
-        print("unquote2 stack \(env.stack.dump())")
+        print("unquote2 stack1 \(env.stack.dump())")
         try env.eval(_startPc!)
+        print("unquote2 stack2 \(env.stack.dump())")
         return try env.pop(pos: pos)
     }
     
