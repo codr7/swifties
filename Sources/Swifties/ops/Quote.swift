@@ -4,11 +4,11 @@ open class Quote: Op {
     public init(env: Env, pc: Pc, form: Form) throws {
         _env = env
         _pc = pc
-        _form = try form.unquote()
+        _form = try form.quote1()
     }
 
     open func eval() throws -> Pc {
-        _env.push(try _form.quote())
+        _env.push(try _form.quote2())
         return _pc+1
     }
     

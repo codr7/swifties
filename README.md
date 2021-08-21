@@ -170,7 +170,7 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- implement unuote in all forms
+- implement quote1/2 in all forms like stack
 - add lambdas
     - extract subclass from Func
     - add type

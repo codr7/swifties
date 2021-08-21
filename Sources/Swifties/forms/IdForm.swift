@@ -45,7 +45,7 @@ open class IdForm: Form {
     }
     
     open override func emit() throws { try emit(name: _name) }
-    open override func quote() -> Slot { Slot(env.coreLib!.idType, _name) }
+    open override func quote2() -> Slot { Slot(env.coreLib!.idType, _name) }
 
     private let _name: String
 }
