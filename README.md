@@ -206,9 +206,3 @@ XCTAssertEqual(v, env.pop(pos: pos))
     - emit args & Return
 - make suggestions based on edit distance for missing ids
     - recursive like find
-- add parse func String -> [Form]
-- add compile func Seq -> Bin
-    - track pc & cut
-    - (compile (parse "42"))
-    - add (asm Bin) func
-    - add Op.dump
