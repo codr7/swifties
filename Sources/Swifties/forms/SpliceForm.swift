@@ -29,18 +29,17 @@ open class SpliceForm: Form {
     
     open override func quote2(depth: Int) throws -> Form {
         if depth == 1 {
+            let prevCount = env._stack.count
             try env.eval(_startPc!)
-            return LiteralForm(env: env, pos: pos, try env.pop(pos: pos))
+            var fs: Forms = []
+            let n = env._stack.count-prevCount
+            for _ in 0..<n { fs.append(LiteralForm(env: env, pos: pos, try env.pop(pos: pos))) }
+            return (fs.count == 1) ? fs.first! : DoForm(env: env, pos: pos, body: fs)
         } else {
             _form = try _form.quote2(depth: depth-1)
         }
 
         return self
-    }
-
-    open override func quote3(depth: Int) throws -> Slot {
-        try env.eval(_startPc!)
-        return try env.pop(pos: pos)
     }
 
     private var _form: Form
