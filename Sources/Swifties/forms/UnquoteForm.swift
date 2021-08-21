@@ -26,7 +26,7 @@ open class UnquoteForm: Form {
     open override func quote1() throws -> Form {
         let skipPc = env.emit(STOP)
         _startPc = env.pc
-        try _form.emit()
+        try _form.quote1().emit()
         env.emit(STOP)
         env.emit(Goto(pc: env.pc), pc: skipPc)
         return self
