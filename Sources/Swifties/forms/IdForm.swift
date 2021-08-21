@@ -2,9 +2,13 @@ import Foundation
 
 open class IdForm: Form {
     open var name: String { _name }
-    
+    open var isDrop: Bool { _name.allSatisfy({c in c == "d"}) }
+    open var isRef: Bool { _name.first == "&" }
+
     open override var slot: Slot? {
         get {
+            if isDrop { return nil }
+            
             if let found = env.scope!.find(self._name) {
                 if found.type != env.coreLib!.registerType {
                     return found
@@ -44,7 +48,24 @@ open class IdForm: Form {
         }
     }
     
-    open override func emit() throws { try emit(name: _name) }
+    open override func emit() throws {
+        if let found = env.scope!.find(name) {
+            if found.type == env.coreLib!.primType {
+                try (found.value as! Prim).emit(pos: pos, args: [])
+            } else if let _ = found.type.callValue {
+                env.emit(Call(env: env, pos: pos, pc: env.pc, target: found, check: true))
+            } else if isDrop {
+                env.emit(Drop(env: env, pos: pos, pc: env.pc, count: name.count))
+            } else if isRef {
+                try emit(name: String(name.dropFirst()))
+            } else {
+                try emit(name: _name)
+            }
+        } else {
+            throw EmitError(pos, "Unknown identifier: \(name)")
+        }
+    }
+    
     open override func quote3(depth: Int) -> Slot { Slot(env.coreLib!.idType, _name) }
 
     private let _name: String
