@@ -28,8 +28,6 @@ open class UnquoteForm: Form {
     }
     
     open override func quote2(depth: Int) throws -> Form {
-        print("unquote: \(depth)")
-        
         if depth == 1 {
             try env.eval(_startPc!)
             return LiteralForm(env: env, pos: pos, try env.pop(pos: pos))
