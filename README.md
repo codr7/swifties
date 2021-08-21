@@ -178,11 +178,6 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- add support for cccc / ssss
-   - copy / swap part of stack
-- add cp/swap prims/ops
-    - add to readme/stack
-    - bench fibrecs
 - add filter like map
     - add odd?/even? to math
 - add lambdas

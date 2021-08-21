@@ -104,12 +104,28 @@ open class Env {
         return v!
     }
 
+    open func copy(pos: Pos, count: Int = 1) throws {
+        if _stack.count < count { throw EvalError(pos, "Stack is empty") }
+        _stack.append(contentsOf: _stack[_stack.count-count..<_stack.count])
+    }
+    
     open func drop(pos: Pos, offset: Int = 0, count: Int = 1) throws {
         if _stack.count < count { throw EvalError(pos, "Stack is empty") }
         if offset == 0 {
             _stack = _stack.dropLast(count)
         } else {
             for _ in 0..<count { _stack.remove(at: offset) }
+        }
+    }
+    
+    open func swap(pos: Pos, count: Int = 1) throws {
+        if _stack.count < count*2 { throw EvalError(pos, "Stack is empty") }
+        let n = _stack.count
+        
+        for i in 0..<count {
+            let tmp = _stack[n-i]
+            _stack[n-i] = _stack[n-count-i]
+            _stack[n-count-i] = tmp
         }
     }
     
