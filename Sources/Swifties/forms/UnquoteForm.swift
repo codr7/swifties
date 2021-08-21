@@ -28,7 +28,7 @@ open class UnquoteForm: Form {
         _startPc = env.pc
         try _form.emit()
         env.emit(STOP)
-        env.emit(Goto(pc: skipPc), pc: skipPc)
+        env.emit(Goto(pc: env.pc), pc: skipPc)
         return self
     }
 
