@@ -27,8 +27,8 @@ open class StackForm: Form {
         _emitScope = env.scope!
     }
 
-    open override func unquote(scope: Scope) throws -> Form {
-        for i in 0..<_items.count { _items[i] = try _items[i].unquote(scope: scope) }
+    open override func unquote() throws -> Form {
+        for i in 0..<_items.count { _items[i] = try _items[i].unquote() }
         return self
     }
     

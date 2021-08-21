@@ -4,7 +4,7 @@ open class Quote: Op {
     public init(env: Env, pc: Pc, form: Form) throws {
         _env = env
         _pc = pc
-        _form = try form.unquote(scope: env.scope!)
+        _form = try form.unquote()
     }
 
     open func eval() throws -> Pc {
