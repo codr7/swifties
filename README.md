@@ -170,15 +170,15 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- debug call unquote
-- implement quote1/2 for all forms like stack
+- implement quote1/2/3 for all forms like stack/call
+- add filter like map
 - add lambdas
     - extract subclass from Func
     - add type
     - trap stack target in call form
         - push lambda
         - ([x y z] [] ...)
-- add filter like map
+- finish macros
 - add support for \n & \t to char/stringReader
 - add string interpolation
     - swift syntax
