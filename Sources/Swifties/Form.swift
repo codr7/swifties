@@ -15,8 +15,8 @@ open class Form: Equatable {
     open func dump() -> String { "*?*" }
     open func expand() throws -> Form { self }
     open func emit() throws {}
-    open func quote2() throws -> Slot { Slot(env.coreLib!.formType, self) }
     open func quote1() throws -> Form { self }
+    open func quote2() throws -> Slot { Slot(env.coreLib!.formType, self) }
     private let _env: Env
     private let _pos: Pos
 }

@@ -25,15 +25,15 @@ open class StackForm: Form {
         }
     }
 
+    open override func quote1() throws -> Form {
+        for i in 0..<_items.count { _items[i] = try _items[i].quote1() }
+        return self
+    }
+    
     open override func quote2() throws -> Slot {
         var v: Stack = []
         for f in _items { v.append(try f.quote2()) }
         return Slot(env.coreLib!.stackType, v)
-    }
-    
-    open override func quote1() throws -> Form {
-        for i in 0..<_items.count { _items[i] = try _items[i].quote1() }
-        return self
     }
     
     private var _items: Forms

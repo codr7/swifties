@@ -18,11 +18,6 @@ open class UnquoteForm: Form {
         throw EmitError(pos, "Unquote outside of quoted context")
     }
     
-    open override func quote2() throws -> Slot {
-        try env.eval(_startPc!)
-        return try env.pop(pos: pos)
-    }
-    
     open override func quote1() throws -> Form {
         let skipPc = env.emit(STOP)
         _startPc = env.pc
@@ -30,6 +25,11 @@ open class UnquoteForm: Form {
         env.emit(STOP)
         env.emit(Goto(pc: env.pc), pc: skipPc)
         return self
+    }
+    
+    open override func quote2() throws -> Slot {
+        try env.eval(_startPc!)
+        return try env.pop(pos: pos)
     }
 
     private let _form: Form

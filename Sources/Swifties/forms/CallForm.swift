@@ -45,6 +45,18 @@ open class CallForm: Form {
         }
     }
 
-    private let _target: Form
-    private let _args: Forms
+    open override func quote1() throws -> Form {
+        _target = try _target.quote1()
+        for i in 0..<_args.count { _args[i] = try _args[i].quote1() }
+        return self
+    }
+    
+    open override func quote2() throws -> Slot {
+        _target = LiteralForm(env: env, pos: pos, try _target.quote2())
+        for i in 0..<_args.count { _args[i] = LiteralForm(env: env, pos: pos, try _args[i].quote2()) }
+        return Slot(env.coreLib!.formType, self)
+    }
+    
+    private var _target: Form
+    private var _args: Forms
 }
