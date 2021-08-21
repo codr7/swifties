@@ -170,7 +170,7 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- debug dup value on stack in stack unquote
+- implement quote1/2 for all forms like stack
 - add lambdas
     - extract subclass from Func
     - add type
