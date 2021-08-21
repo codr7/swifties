@@ -45,10 +45,10 @@ open class IdForm: Form {
             env.emit(Drop(env: env, pos: pos, pc: env.pc, count: name.count))
         } else if isSwap {
             env.emit(Swap(env: env, pos: pos, pc: env.pc, count: name.count))
+        } else if isRef {
+            try emit(name: String(name.dropFirst()))
         } else if let found = env.scope!.find(name) {
-            if isRef {
-                try emit(name: String(name.dropFirst()))
-            } else if found.type == env.coreLib!.registerType {
+            if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pos: pos, pc: env.pc, index: found.value as! Int))
             } else {
                 env.emit(Push(pc: env.pc, found))
