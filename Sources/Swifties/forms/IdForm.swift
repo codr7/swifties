@@ -39,15 +39,15 @@ open class IdForm: Form {
     }
         
     open func emit(name: String) throws {
-        if let found = env.scope!.find(name) {
+        if isCopy {
+            env.emit(Copy(env: env, pos: pos, pc: env.pc, count: name.count))
+        } else if isDrop {
+            env.emit(Drop(env: env, pos: pos, pc: env.pc, count: name.count))
+        } else if isSwap {
+            env.emit(Swap(env: env, pos: pos, pc: env.pc, count: name.count))
+        } else if let found = env.scope!.find(name) {
             if found.type == env.coreLib!.registerType {
                 env.emit(Load(env: env, pos: pos, pc: env.pc, index: found.value as! Int))
-            } else if isCopy {
-                env.emit(Copy(env: env, pos: pos, pc: env.pc, count: name.count))
-            } else if isDrop {
-                env.emit(Drop(env: env, pos: pos, pc: env.pc, count: name.count))
-            } else if isSwap {
-                env.emit(Swap(env: env, pos: pos, pc: env.pc, count: name.count))
             } else {
                 env.emit(Push(pc: env.pc, found))
             }
@@ -68,7 +68,7 @@ open class IdForm: Form {
                 try emit(name: _name)
             }
         } else {
-            throw EmitError(pos, "Unknown identifier: \(name)")
+            try emit(name: _name)
         }
     }
     
