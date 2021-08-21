@@ -19,6 +19,8 @@ open class PairForm: Form {
         super.init(env: env, pos: pos)
     }
     
+    open override func dump() -> String { "\(left.dump()):\(right.dump())" }
+    
     open override func emit() throws {
         if _slot == nil {
             try _values.0.emit()
@@ -29,6 +31,16 @@ open class PairForm: Form {
         }
     }
         
-    private let _values: (Form, Form)
+    open override func quote1() throws -> Form {
+        _values = (try left.quote1(), try right.quote1())
+        return self
+    }
+
+    open override func quote2(depth: Int) throws -> Form {
+        _values = (try left.quote2(depth: depth), try right.quote2(depth: depth))
+        return self
+    }
+    
+    private var _values: (Form, Form)
     private let _slot: Slot?
 }

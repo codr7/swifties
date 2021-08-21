@@ -18,5 +18,15 @@ open class DoForm: Form {
         for f in _body{ try f.emit() }
     }
     
-    private let _body: Forms
+    open override func quote1() throws -> Form {
+        for i in 0..<_body.count { _body[i] = try _body[i].quote1() }
+        return self
+    }
+
+    open override func quote2(depth: Int) throws -> Form {
+        for i in 0..<_body.count { _body[i] = try _body[i].quote2(depth: depth) }
+        return self
+    }
+
+    private var _body: Forms
 }

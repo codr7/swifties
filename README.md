@@ -170,7 +170,6 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
-- implement quote1/2/3 for all forms like stack/call
 - add filter like map
 - add lambdas
     - extract subclass from Func
