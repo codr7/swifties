@@ -170,6 +170,7 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
+- implement unuote in all forms
 - add lambdas
     - extract subclass from Func
     - add type

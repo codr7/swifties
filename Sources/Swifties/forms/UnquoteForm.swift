@@ -24,9 +24,11 @@ open class UnquoteForm: Form {
     }
     
     open override func unquote() throws -> Form {
+        let skipPc = env.emit(STOP)
         _startPc = env.pc
         try _form.emit()
         env.emit(STOP)
+        env.emit(Goto(pc: skipPc), pc: skipPc)
         return self
     }
 
