@@ -70,7 +70,7 @@ final class Tests: XCTestCase {
         env.begin()
 
         let f = Func(env: env, pos: p, name: "foo", args: [("bar", env.coreLib!.intType)], rets: [env.coreLib!.intType])
-        try f.compileBody(IdForm(env: env, pos: p, name: "bar"))
+        try f.compileBody(IdForm(env: env, pos: p, name: "$bar"))
         
         env.push(env.coreLib!.intType, 42)
         env.emit(Call(env: env, pos: p, pc: env.pc, target: Slot(env.coreLib!.funcType, f), check: true))

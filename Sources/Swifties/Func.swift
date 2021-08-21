@@ -61,7 +61,7 @@ open class Func: Definition {
                 } else if n == "_" {
                     env.emit(Drop(env: _env, pos: _pos, pc: _env.pc, offset: offset))
                 } else {
-                    let i = try scope.nextRegister(pos: pos, id: n!)
+                    let i = try scope.nextRegister(pos: pos, id: "$\(n!)")
                     env.emit(Store(env: _env, pos: _pos, pc: _env.pc, index: i, offset: offset))
                 }
             }

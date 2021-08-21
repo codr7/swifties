@@ -156,11 +156,11 @@ open class CoreLib: Lib {
         var i = 0
         
         while i+1 < bindings.count {
-            let (v, id) = (bindings[i], bindings[i+1] as! IdForm)
+            let (v, id) = (bindings[i], "$\((bindings[i+1] as! IdForm).name)")
             try v.emit()
-            let register = try scope.nextRegister(pos: pos, id: id.name)
+            let register = try scope.nextRegister(pos: pos, id: id)
             env.emit(Store(env: env, pos: pos, pc: env.pc, index: register))
-            ids.append(id.name)
+            ids.append(id)
             i += 2
         }
         
