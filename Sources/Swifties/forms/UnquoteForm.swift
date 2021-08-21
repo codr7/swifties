@@ -3,7 +3,6 @@ import Foundation
 open class UnquoteForm: Form {
     public init(env: Env, pos: Pos, form: Form) {
         _form = form
-        _scope = env.scope!
         super.init(env: env, pos: pos)
     }
     
@@ -19,10 +18,10 @@ open class UnquoteForm: Form {
         throw EmitError(pos, "Unquote outside of quoted context")
     }
     
-    open override func unquote() throws -> Form {
+    open override func unquote(scope: Scope) throws -> Form {
         let startPc = env.pc
         let prevScope = env._scope
-        env._scope = _scope
+        env._scope = scope
         try _form.emit()
         env._scope = prevScope
         env.end()
@@ -33,5 +32,4 @@ open class UnquoteForm: Form {
     }
 
     private let _form: Form
-    private let _scope: Scope
 }

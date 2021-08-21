@@ -23,16 +23,19 @@ open class StackForm: Form {
             try it.emit()
             env.emit(PushDown(env: env, pos: pos, pc: env.pc))
         }
+        
+        _emitScope = env.scope!
     }
 
     open override func quote() throws -> Slot {
-        return Slot(env.coreLib!.formType, try unquote())
+        return Slot(env.coreLib!.formType, try unquote(scope: _emitScope!))
     }
 
-    open override func unquote() throws -> Form {
-        for i in 0..<_items.count { _items[i] = try _items[i].unquote() }
+    open override func unquote(scope: Scope) throws -> Form {
+        for i in 0..<_items.count { _items[i] = try _items[i].unquote(scope: scope) }
         return self
     }
     
     private var _items: Forms
+    private var _emitScope: Scope?
 }
