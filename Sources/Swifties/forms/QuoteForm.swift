@@ -24,5 +24,7 @@ open class QuoteForm: Form {
         return self
     }
     
+    open override func quote2() throws -> Slot { try _form.quote2() }
+
     private var _form: Form
 }
