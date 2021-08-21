@@ -58,16 +58,21 @@ Two levels of types are used, `ÀnyType`, and it's direct parameterized subclass
 - Bool - Boolean values
 - Char - Character values
 - Cont - Continuations as values
+- Form - Forms as values
 - Func - Functions as values
+- Id - Quoted identifiers
 - Int - Integer values
+- Iter - Iterators
 - Macro - Macros as values
 - Meta - Types as values
 - Multi - Multimethods as values
 - Pair - Pairs of values
 - Prim - Primitives as values
 - Register - Register references as values
+- Seq - Iterable values
 - Stack - Stack values
 - String - String values
+- Target - Callable values
 
 ### parsing
 `Parser` may be used to simplify the process of turning code into forms.
@@ -132,7 +137,9 @@ Code is parsed into forms, which is what primitives and macros operate on.
 - Id - Emits the value of specified binding and calls it if possible
 - Literal - Emits code to push specified value
 - Pair - Emits code to push specified pair
+- Quote - Emits code to push quoted form
 - Stack - Emits code to push a stack with specified items
+- Unquote - Emits result of evaluating form if quoted depth is `1`
 
 ### operations
 Forms emit operations, which are the basic building blocks that are eventually evaluated in sequence to get the desired result.
@@ -146,6 +153,7 @@ Forms emit operations, which are the basic building blocks that are eventually e
 - Load - Loads value from specified register
 - Push - Pushes specified value on stack
 - PushDown - Pushes top of stack onto next item
+- Quote - Quotes and pushes specified form
 - Recall - Restarts current function without pushing frame
 - Reset - Clears stack
 - Restore - Restores continuation
@@ -171,6 +179,7 @@ XCTAssertEqual(v, env.pop(pos: pos))
 
 ### todo
 - add filter like map
+    - add odd?/even? to math
 - add lambdas
     - extract subclass from Func
     - add type
