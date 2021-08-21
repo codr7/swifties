@@ -34,7 +34,7 @@ open class SpliceForm: Form {
             var fs: Forms = []
             let n = env._stack.count-prevCount
             for _ in 0..<n { fs.append(LiteralForm(env: env, pos: pos, try env.pop(pos: pos))) }
-            return (fs.count == 1) ? fs.first! : DoForm(env: env, pos: pos, body: fs)
+            return (fs.count == 1) ? fs.first! : DoForm(env: env, pos: pos, body: Forms(fs.reversed()))
         } else {
             _form = try _form.quote2(depth: depth-1)
         }
