@@ -1,11 +1,11 @@
 import Foundation
 
 open class Quote: Op {
-    public init(env: Env, pc: Pc, form: Form) throws {
+    public init(env: Env, pc: Pc, form: Form) {
         _env = env
         _pc = pc
-        _form = try form.quote1()
-    }
+        _form = form
+   }
 
     open func eval() throws -> Pc {
         _env.push(try _form.quote2())

@@ -15,7 +15,8 @@ open class QuoteForm: Form {
     }
 
     open override func emit() throws {
-        env.emit(try Quote(env: env, pc: env.pc, form: _form))
+        let f = try _form.quote1()
+        env.emit(Quote(env: env, pc: env.pc, form: f))
     }
     
     open override func quote1() throws -> Form {
