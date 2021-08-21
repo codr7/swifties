@@ -5,7 +5,7 @@
 [Swifties](https://github.com/codr7/swifties) aims to provide a flexible toolkit for creating custom languages in Swift.
 
 ### demo
-A custom Lisp with REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
+A custom Lisp REPL is [provided](https://github.com/codr7/swifties-repl) for demonstration purposes.
 
 ### primitives
 Primitives are called at compile time and may take any number (min/max are specified in the constructor) of forms as arguments and emit operations. 
