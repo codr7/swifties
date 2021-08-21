@@ -99,12 +99,16 @@ XCTAssertEqual(Slot(env.coreLib!.intType, 1), env.pop(pos: pos))
 #### readers
 Readers specialize in parsing a specific kind of form.
 
-- Char - Reads character literals with specified prefix
+- Call - Reads call forms
+- Char - Reads character literals
 - Id - Reads identifiers
 - Int - Reads integer literals
+- Pair - Reads pair literals
+- Quote - Reads quoted forms
 - Space - Skips whitespace
-- Stack - Reads stack literals with specified delimiters
-- String - Reads string literals with specified quotes
+- Splice - Reads spliced expressions
+- Stack - Reads stack literals
+- String - Reads string literals
 
 It's trivial to extend the framework with custom readers. 
 Just make sure to return `nil` if you can't find what you're looking for, since each reader is tried in sequence for every new position.
