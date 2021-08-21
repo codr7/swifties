@@ -6,7 +6,7 @@ open class DoForm: Form {
         super.init(env: env, pos: pos)
     }
     
-    open override func dump() -> String { "(do \(_body.dump()))" }
+    open override func dump() -> String { "\(_body.dump())" }
 
     open override func expand() throws -> Form {
         let newBody = try _body.map {a in try a.expand()}
