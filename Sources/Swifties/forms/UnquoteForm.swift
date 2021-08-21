@@ -3,6 +3,7 @@ import Foundation
 open class UnquoteForm: Form {
     public init(env: Env, pos: Pos, form: Form) {
         _form = form
+        _scope = env.scope!
         super.init(env: env, pos: pos)
     }
     
@@ -20,7 +21,11 @@ open class UnquoteForm: Form {
     
     open override func unquote() throws -> Form {
         let startPc = env.pc
+        let prevScope = env._scope
+        env._scope = _scope
         try _form.emit()
+        env._scope = prevScope
+        env.end()
         env.emit(STOP)
         try env.eval(startPc)
         env._bin = env._bin.dropLast(env.pc-startPc)
@@ -28,4 +33,5 @@ open class UnquoteForm: Form {
     }
 
     private let _form: Form
+    private let _scope: Scope
 }
