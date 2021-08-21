@@ -123,9 +123,11 @@ open class Env {
         let n = _stack.count
         
         for i in 0..<count {
-            let tmp = _stack[n-i]
-            _stack[n-i] = _stack[n-count-i]
-            _stack[n-count-i] = tmp
+            let j = n-i-1
+            let k = j-count
+            let tmp = _stack[j]
+            _stack[j] = _stack[k]
+            _stack[k] = tmp
         }
     }
     
