@@ -1,10 +1,10 @@
 import Foundation
 
 open class Quote: Op {
-    public init(env: Env, pc: Pc, form: Form) {
+    public init(env: Env, pc: Pc, form: Form) throws {
         _env = env
         _pc = pc
-        _form = form
+        _form = try form.unquote(scope: env.scope!)
     }
 
     open func eval() throws -> Pc {
