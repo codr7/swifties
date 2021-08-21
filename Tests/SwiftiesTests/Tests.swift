@@ -146,4 +146,23 @@ final class Tests: XCTestCase {
         XCTAssertEqual(Slot(env.coreLib!.intType, 3), try it(pos))
         XCTAssertEqual(Slot(env.coreLib!.intType, 4), try it(pos))
     }
+    
+    func testQuote() throws {
+        let pos = Pos("testQuote")
+        let env = Env()
+        try env.initCoreLib(pos: pos)
+        env.begin()
+        try env.scope!.bind(pos: pos, id: "foo", env.coreLib!.intType, 42)
+        
+        let f = QuoteForm(env: env, pos: pos, form: StackForm(env: env, pos: pos, items: [UnquoteForm(env: env, pos: pos, form: IdForm(env: env, pos: pos, name: "foo"))]))
+        
+        try f.emit()
+        env.emit(STOP)
+        try env.eval(0)
+        
+        let s = try env.pop(pos: pos).value as! StackForm
+        let v = s.items[0] as! LiteralForm
+        XCTAssertEqual(Slot(env.coreLib!.intType, 42), v.slot)
+        XCTAssertEqual(nil, env.tryPeek())
+    }
 }
