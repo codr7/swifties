@@ -138,8 +138,8 @@ Code is parsed into forms, which is what primitives and macros operate on.
 - Literal - Emits code to push specified value
 - Pair - Emits code to push specified pair
 - Quote - Emits code to push quoted form
+- Splice - Emits result of evaluating form if quoted depth is `1`
 - Stack - Emits code to push a stack with specified items
-- Unquote - Emits result of evaluating form if quoted depth is `1`
 
 ### operations
 Forms emit operations, which are the basic building blocks that are eventually evaluated in sequence to get the desired result.
@@ -178,6 +178,8 @@ XCTAssertEqual(v, env.pop(pos: pos))
 ```
 
 ### todo
+- add cp prim
+    - add to readme/stack
 - add filter like map
     - add odd?/even? to math
 - add lambdas

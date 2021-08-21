@@ -154,7 +154,7 @@ final class Tests: XCTestCase {
         env.begin()
         try env.scope!.bind(pos: pos, id: "foo", env.coreLib!.intType, 42)
         
-        let f = QuoteForm(env: env, pos: pos, form: StackForm(env: env, pos: pos, items: [UnquoteForm(env: env, pos: pos, form: IdForm(env: env, pos: pos, name: "foo"))]))
+        let f = QuoteForm(env: env, pos: pos, form: StackForm(env: env, pos: pos, items: [SpliceForm(env: env, pos: pos, form: IdForm(env: env, pos: pos, name: "foo"))]))
         
         try f.emit()
         env.emit(STOP)

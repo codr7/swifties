@@ -1,6 +1,6 @@
 import Foundation
 
-open class UnquoteForm: Form {
+open class SpliceForm: Form {
     public init(env: Env, pos: Pos, form: Form) {
         _form = form
         super.init(env: env, pos: pos)
@@ -10,7 +10,7 @@ open class UnquoteForm: Form {
 
     open override func expand() throws -> Form {
         let newForm = try _form.expand()
-        if newForm != _form { return try UnquoteForm(env: env, pos: pos, form: newForm).expand() }
+        if newForm != _form { return try SpliceForm(env: env, pos: pos, form: newForm).expand() }
         return self
     }
 
